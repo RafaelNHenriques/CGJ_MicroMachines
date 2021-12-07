@@ -244,6 +244,8 @@ void renderScene(void) {
 	glutSwapBuffers();
 }
 
+void createCar(int objectID, float wheelRadius, int carLength, int carWidth, int carMidHeight, int carUpperHeight);
+
 // ------------------------------------------------------------
 //
 // Events from the Keyboard
