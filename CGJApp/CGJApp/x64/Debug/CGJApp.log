@@ -1,17 +1,11 @@
-﻿  basic_geometry.cpp
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(172,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(294,44): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(296,44): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(299,48): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(301,48): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(317,45): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(319,45): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(322,53): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(324,53): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(408,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(416,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(436,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(457,48): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rafae\source\repos\CGJApp\CGJApp\basic_geometry.cpp(458,48): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  CGJApp.vcxproj -> C:\Users\rafae\source\repos\CGJApp\x64\Debug\CGJApp.exe
+﻿  MainFile.cpp
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(304,103): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(304,70): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(304,53): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(304,20): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(306,99): warning C4305: 'argumento': truncamento de 'double' para 'float'
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(180,8): warning C4101: 'loc': variável local não referenciada
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(597,97): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(490,9): warning C4101: 'amesh': variável local não referenciada
+  CGJApp.vcxproj -> C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\x64\Debug\CGJApp.exe
   0 File(s) copied

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{f201b05f-fe5e-4b92-bdee-5a6eb4f28ca3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AVTmathLib.cpp">
@@ -27,11 +30,17 @@
     <ClCompile Include="Texture_Loader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lightDemo.cpp">
+    <ClCompile Include="MainFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="avtFreeType.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Table.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeUtil.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +66,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="avtFreeType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Table.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\GameObject3D.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
