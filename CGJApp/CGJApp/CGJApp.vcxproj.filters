@@ -16,6 +16,12 @@
     <Filter Include="GameObjects">
       <UniqueIdentifier>{f201b05f-fe5e-4b92-bdee-5a6eb4f28ca3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cameras">
+      <UniqueIdentifier>{2c8f512b-5704-4ac7-9047-80a4703691dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lights">
+      <UniqueIdentifier>{c1551edb-27ab-4895-a6d0-50177d4ab30b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AVTmathLib.cpp">
@@ -41,6 +47,33 @@
     </ClCompile>
     <ClCompile Include="TimeUtil.cpp">
       <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Cheerios.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Orange.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\Camera.cpp">
+      <Filter>Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\OrthographicCamera.cpp">
+      <Filter>Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\PerspectiveCamera.cpp">
+      <Filter>Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\DirectionalLight.cpp">
+      <Filter>Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\Light.cpp">
+      <Filter>Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\PointLight.cpp">
+      <Filter>Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\SpotLight.cpp">
+      <Filter>Lights</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +109,33 @@
     </ClInclude>
     <ClInclude Include="TimeUtil.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Cheerios.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Orange.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\Camera.h">
+      <Filter>Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\OrthographicCamera.h">
+      <Filter>Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\PerspectiveCamera.h">
+      <Filter>Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\DirectionalLight.h">
+      <Filter>Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\Light.h">
+      <Filter>Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\PointLight.h">
+      <Filter>Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\SpotLight.h">
+      <Filter>Lights</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
