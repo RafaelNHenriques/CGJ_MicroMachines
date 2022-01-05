@@ -37,6 +37,8 @@
 
 #include "avtFreeType.h"
 
+// Custom headers
+#include "TimeUtil.h" 
 #include "GameObjects/Table.h"
 #include "GameObjects/Cheerios.h"
 #include "GameObjects/Orange.h"
@@ -123,10 +125,10 @@ char s[32];
 
 Table t;
 Table t20, t21, t22, t23, t24, t25, t26, t27, t28;//Road
-Cheerios t111, t112, t113, t114, t115, t116, t117, t118, t119, t120, t121, t122, t123;
-Cheerios t211, t212, t213, t214, t215, t216, t217, t218, t219, t220, t221, t222, t223;
-Cheerios t311, t312, t313, t314, t315, t316, t317, t318, t319, t320, t321, t322, t323;
-Cheerios t411, t412, t413, t414, t415, t416, t417, t418, t419, t420, t421, t422, t423;
+Cheerios t111, t112, t113, t114, t115, t120, t121;
+Cheerios t211, t212, t213, t214, t215, t220, t221;
+Cheerios t311, t312, t313, t314, t315, t320, t321;
+Cheerios t411, t412, t413, t414, t415, t420, t421;
 Cheerios t511, t512, t513, t514, t515, t516, t517, t518, t519, t520, t521, t522, t523;
 Cheerios t611, t612, t613, t614, t615, t616, t617, t618, t619, t620, t621, t622, t623;
 Cheerios t711, t712, t713, t714, t715, t716, t717, t718, t719, t720, t721, t722, t723;
@@ -498,13 +500,17 @@ void drawObjects(bool isShadow) {
 
 void renderScene(void) {
 
+
+	TimeUtil::UpdateDeltaTime();
+
 	GLint loc;
 
 	FrameCount++;
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	// load identity matrices
 	loadIdentity(VIEW);
 	loadIdentity(MODEL);
+
 	// set the camera using a function similar to gluLookAt
 	lookAt(camX, camY, camZ, 0,0,0, 0,1,0);
 
@@ -797,7 +803,8 @@ GLuint setupShaders() {
 	glBindFragDataLocation(shader.getProgramIndex(), 0,"colorOut");
 	glBindAttribLocation(shader.getProgramIndex(), VERTEX_COORD_ATTRIB, "position");
 	glBindAttribLocation(shader.getProgramIndex(), NORMAL_ATTRIB, "normal");
-	//glBindAttribLocation(shader.getProgramIndex(), TEXTURE_COORD_ATTRIB, "texCoord");
+	glBindAttribLocation(shader.getProgramIndex(), TEXTURE_COORD_ATTRIB, "texCoord");
+	glBindAttribLocation(shader.getProgramIndex(), TANGENT_ATTRIB, "tangent");
 
 	glLinkProgram(shader.getProgramIndex());
 
@@ -954,16 +961,16 @@ void init()
 	m2.shininess = shininess2;
 	m2.texCount = texcount2;
 
-	float tPos20[3] = { 3.0f, -1.45f, -60.0f };
+	float tPos20[3] = { 3.0f, -1.45f, -65.0f };
 
-	t20 = Table(m2, &cubeMesh, tPos20, gameObjectsRef.size(), false, 15.0f, 1.5f, 130.0f);
+	t20 = Table(m2, &cubeMesh, tPos20, gameObjectsRef.size(), false, 15.0f, 1.5f, 140.0f);
 
 	t20.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t20);
 
-	float tPos21[3] = { -10.0f, -1.45f, 70.0f };
+	float tPos21[3] = { 0.0f, -1.45f, 75.0f };
 
-	t21 = Table(m2, &cubeMesh, tPos21, gameObjectsRef.size(), false, 40.0f, 1.5f, 40.0f);
+	t21 = Table(m2, &cubeMesh, tPos21, gameObjectsRef.size(), false, 30.0f, 1.5f, 30.0f);
 
 
 	t21.PrepareMeshMaterial();
@@ -971,28 +978,28 @@ void init()
 
 	float tPos22[3] = { 30.0f, -1.45f, 80.0f };
 
-	t22 = Table(m2, &cubeMesh, tPos22, gameObjectsRef.size(), false, 100.0f, 1.5f, 20.0f);
+	t22 = Table(m2, &cubeMesh, tPos22, gameObjectsRef.size(), false, 105.0f, 1.5f, 20.0f);
 
 	t22.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t22);
 
-	float tPos23[3] = { 130.0f, -1.45f, 70.0f };
+	float tPos23[3] = { 135.0f, -1.45f, 75.0f };
 
-	t23 = Table(m2, &cubeMesh, tPos23, gameObjectsRef.size(), false, 40.0f, 1.5f, 40.0f);
+	t23 = Table(m2, &cubeMesh, tPos23, gameObjectsRef.size(), false, 30.0f, 1.5f, 30.0f);
 
 	t23.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t23);
 
-	float tPos24[3] = { 145.0f, -1.45f, -60.0f };
+	float tPos24[3] = { 145.0f, -1.45f, -65.0f };
 
-	t24 = Table(m2, &cubeMesh, tPos24, gameObjectsRef.size(), false, 15.0f, 1.5f, 130.0f);
+	t24 = Table(m2, &cubeMesh, tPos24, gameObjectsRef.size(), false, 15.0f, 1.5f, 140.0f);
 
 	t24.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t24);
 
-	float tPos25[3] = { -10.0f, -1.45f, -100.0f };
+	float tPos25[3] = { 0.0f, -1.45f, -95.0f };
 
-	t25 = Table(m2, &cubeMesh, tPos25, gameObjectsRef.size(), false, 40.0f, 1.5f, 40.0f);
+	t25 = Table(m2, &cubeMesh, tPos25, gameObjectsRef.size(), false, 30.0f, 1.5f, 30.0f);
 
 
 	t25.PrepareMeshMaterial();
@@ -1000,14 +1007,14 @@ void init()
 
 	float tPos26[3] = { 30.0f, -1.45f, -90.0f };
 
-	t26 = Table(m2, &cubeMesh, tPos26, gameObjectsRef.size(), false, 100.0f, 1.5f, 20.0f);
+	t26 = Table(m2, &cubeMesh, tPos26, gameObjectsRef.size(), false, 105.0f, 1.5f, 20.0f);
 
 	t26.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t26);
 
-	float tPos27[3] = { 130.0f, -1.45f, -100.0f };
+	float tPos27[3] = { 135.0f, -1.45f, -95.0f };
 
-	t27 = Table(m2, &cubeMesh, tPos27, gameObjectsRef.size(), false, 40.0f, 1.5f, 40.0f);
+	t27 = Table(m2, &cubeMesh, tPos27, gameObjectsRef.size(), false, 30.0f, 1.5f, 30.0f);
 
 	t27.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t27);
@@ -1015,8 +1022,8 @@ void init()
 	Material m4;
 
 	float amb4[] = { 0.2f, 0.15f, 0.1f, 1.0f };
-	float diff4[] = { 0.8f, 0.6f, 0.4f, 1.0f };
-	float spec4[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	float diff4[] = { 0.545f, 0.27f, 0.255f, 1.0f };
+	float spec4[] = { 0.545f, 0.27f, 0.255f, 1.0f };
 
 	float emissive4[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	float shininess4 = 800.0f;
@@ -1036,55 +1043,30 @@ void init()
 	t111.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t111);
 
-	float tPos112[3] = { 4.0f, alt, 77.0f };
+	float tPos112[3] = { 6.0f, alt, 82.0f };
 	t112 = Cheerios(m4, &torusMesh, tPos112, gameObjectsRef.size(), rad);
 
 	t112.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t112);
 
-
-	float tPos113[3] = { 6.0f, alt, 82.0f };
+	float tPos113[3] = { 12.0f, alt, 90.0f };
 	t113 = Cheerios(m4, &torusMesh, tPos113, gameObjectsRef.size(), rad);
 
 	t113.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t113);
 
-
-	float tPos114[3] = { 9.0f, alt, 86.0f };
+	float tPos114[3] = { 19.0f, alt, 97.0f };
 	t114 = Cheerios(m4, &torusMesh, tPos114, gameObjectsRef.size(), rad);
 
 	t114.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t114);
 
-	float tPos115[3] = { 12.0f, alt, 90.0f };
+
+	float tPos115[3] = { 27.0f, alt, 101.0f };
 	t115 = Cheerios(m4, &torusMesh, tPos115, gameObjectsRef.size(), rad);
 
 	t115.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t115);
-
-	float tPos116[3] = { 15.0f, alt, 93.0f };
-	t116 = Cheerios(m4, &torusMesh, tPos116, gameObjectsRef.size(), rad);
-
-	t116.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t116);
-
-	float tPos117[3] = { 19.0f, alt, 97.0f };
-	t117 = Cheerios(m4, &torusMesh, tPos117, gameObjectsRef.size(), rad);
-
-	t117.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t117);
-
-	float tPos118[3] = { 23.0f, alt, 100.0f };
-	t118 = Cheerios(m4, &torusMesh, tPos118, gameObjectsRef.size(), rad);
-
-	t118.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t118);
-
-	float tPos119[3] = { 27.0f, alt, 101.0f };
-	t119 = Cheerios(m4, &torusMesh, tPos119, gameObjectsRef.size(), rad);
-
-	t119.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t119);
 
 	float tPos120[3] = { 19.0f, alt, 72.0f };
 	t120 = Cheerios(m4, &torusMesh, tPos120, gameObjectsRef.size(), rad);
@@ -1093,17 +1075,12 @@ void init()
 	gameObjectsRef.push_back(&t120);
 
 
-	float tPos121[3] = { 22.0f, alt, 76.0f };
+	float tPos121[3] = { 26.0f, alt, 79.0f };
 	t121 = Cheerios(m4, &torusMesh, tPos121, gameObjectsRef.size(), rad);
 
 	t121.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t121);
 
-	float tPos122[3] = { 26.0f, alt, 79.0f };
-	t122 = Cheerios(m4, &torusMesh, tPos122, gameObjectsRef.size(), rad);
-
-	t122.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t122);
 
 
 
@@ -1113,12 +1090,11 @@ void init()
 
 
 
+	float rPos1 = 2.0f;
+	float rPos2 = 19.0f;
 
-	float rPos1 = 1.0f;
-	float rPos2 = 18.0f;
-
-	float tPos11[3] = { rPos1, alt, -57.0f };
-	float tPos12[3] = { rPos2, alt, -57.0f };
+	float tPos11[3] = { rPos1, alt, -51.0f };
+	float tPos12[3] = { rPos2, alt, -51.0f };
 
 
 	t511 = Cheerios(m4, &torusMesh, tPos11, gameObjectsRef.size(), rad);
@@ -1251,19 +1227,6 @@ void init()
 	t621.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t621);
 
-	tPos11[2] = tPos12[2] += 11.0f;
-
-	t522 = Cheerios(m4, &torusMesh, tPos11, gameObjectsRef.size(), rad);
-
-	t522.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t522);
-
-	t622 = Cheerios(m4, &torusMesh, tPos12, gameObjectsRef.size(), rad);
-
-	t622.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t622);
-
-
 
 	float tPos211[3] = { 132.0f, alt, 101.0f };
 	t211 = Cheerios(m4, &torusMesh, tPos211, gameObjectsRef.size(), rad);
@@ -1271,54 +1234,29 @@ void init()
 	t211.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t211);
 
-	float tPos212[3] = { 136.0f, alt, 100.0f };
+	float tPos212[3] = { 140.0f, alt, 98.0f };
 	t212 = Cheerios(m4, &torusMesh, tPos212, gameObjectsRef.size(), rad);
 
 	t212.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t212);
 
-	float tPos213[3] = { 140.0f, alt, 98.0f };
+	float tPos213[3] = { 148.0f, alt, 91.0f };
 	t213 = Cheerios(m4, &torusMesh, tPos213, gameObjectsRef.size(), rad);
 
 	t213.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t213);
 
-	float tPos214[3] = { 144.0f, alt, 95.0f };
+	float tPos214[3] = { 155.0f, alt, 83.0f };
 	t214 = Cheerios(m4, &torusMesh, tPos214, gameObjectsRef.size(), rad);
 
 	t214.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t214);
 
-	float tPos215[3] = { 148.0f, alt, 91.0f };
+	float tPos215[3] = { 160.0f, alt, 73.0f };
 	t215 = Cheerios(m4, &torusMesh, tPos215, gameObjectsRef.size(), rad);
 
 	t215.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t215);
-
-	float tPos216[3] = { 152.0f, alt, 87.0f };
-	t216 = Cheerios(m4, &torusMesh, tPos216, gameObjectsRef.size(), rad);
-
-	t216.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t216);
-
-	float tPos217[3] = { 155.0f, alt, 83.0f };
-	t217 = Cheerios(m4, &torusMesh, tPos217, gameObjectsRef.size(), rad);
-
-	t217.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t217);
-
-
-	float tPos218[3] = { 158.0f, alt, 78.0f };
-	t218 = Cheerios(m4, &torusMesh, tPos218, gameObjectsRef.size(), rad);
-
-	t218.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t218);
-
-	float tPos219[3] = { 160.0f, alt, 73.0f };
-	t219 = Cheerios(m4, &torusMesh, tPos219, gameObjectsRef.size(), rad);
-
-	t219.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t219);
 
 	float tPos220[3] = { 133.0f, alt, 79.0f };
 	t220 = Cheerios(m4, &torusMesh, tPos220, gameObjectsRef.size(), rad);
@@ -1326,25 +1264,18 @@ void init()
 	t220.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t220);
 
-
-	float tPos221[3] = { 138.0f, alt, 76.0f };
+	float tPos221[3] = { 142.0f, alt, 72.0f };
 	t221 = Cheerios(m4, &torusMesh, tPos221, gameObjectsRef.size(), rad);
 
 	t221.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t221);
 
-	float tPos222[3] = { 142.0f, alt, 72.0f };
-	t222 = Cheerios(m4, &torusMesh, tPos222, gameObjectsRef.size(), rad);
-
-	t222.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t222);
-
 
 	float rPos3 = 80.0f;
 	float rPos4 = 102.0f;
 
-	float tPos13[3] = { 31.0f, alt, rPos3 };
-	float tPos14[3] = { 31.0f, alt, rPos4 };
+	float tPos13[3] = { 35.0f, alt, rPos3 };
+	float tPos14[3] = { 35.0f, alt, rPos4 };
 
 	t711 = Cheerios(m4, &torusMesh, tPos13, gameObjectsRef.size(), rad);
 
@@ -1452,17 +1383,6 @@ void init()
 	t819.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t819);
 
-	tPos13[0] = tPos14[0] += 9.0f;
-
-	t720 = Cheerios(m4, &torusMesh, tPos13, gameObjectsRef.size(), rad);
-
-	t720.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t720);
-
-	t820 = Cheerios(m4, &torusMesh, tPos14, gameObjectsRef.size(), rad);
-
-	t820.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t820);
 
 
 	float tPos311[3] = { 160.0f, alt, -62.0f };
@@ -1471,55 +1391,29 @@ void init()
 	t311.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t311);
 
-	float tPos312[3] = { 158.0f, alt, -67.0f };
+	float tPos312[3] = { 155.0f, alt, -72.0f };
 	t312 = Cheerios(m4, &torusMesh, tPos312, gameObjectsRef.size(), rad);
 
 	t312.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t312);
 
-
-	float tPos313[3] = { 155.0f, alt, -72.0f };
+	float tPos313[3] = { 148.0f, alt, -80.0f };
 	t313 = Cheerios(m4, &torusMesh, tPos313, gameObjectsRef.size(), rad);
 
 	t313.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t313);
 
-
-	float tPos314[3] = { 152.0f, alt, -76.0f };
+	float tPos314[3] = { 140.0f, alt, -88.0f };
 	t314 = Cheerios(m4, &torusMesh, tPos314, gameObjectsRef.size(), rad);
 
 	t314.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t314);
 
-	float tPos315[3] = { 148.0f, alt, -80.0f };
+	float tPos315[3] = { 132.0f, alt, -92.0f };
 	t315 = Cheerios(m4, &torusMesh, tPos315, gameObjectsRef.size(), rad);
 
 	t315.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t315);
-
-	float tPos316[3] = { 144.0f, alt, -84.0f };
-	t316 = Cheerios(m4, &torusMesh, tPos316, gameObjectsRef.size(), rad);
-
-	t316.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t316);
-
-	float tPos317[3] = { 140.0f, alt, -88.0f };
-	t317 = Cheerios(m4, &torusMesh, tPos317, gameObjectsRef.size(), rad);
-
-	t317.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t317);
-
-	float tPos318[3] = { 136.0f, alt, -91.0f };
-	t318 = Cheerios(m4, &torusMesh, tPos318, gameObjectsRef.size(), rad);
-
-	t318.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t318);
-
-	float tPos319[3] = { 132.0f, alt, -92.0f };
-	t319 = Cheerios(m4, &torusMesh, tPos319, gameObjectsRef.size(), rad);
-
-	t319.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t319);
 
 	float tPos320[3] = { 142.0f, alt, -62.0f };
 	t320 = Cheerios(m4, &torusMesh, tPos320, gameObjectsRef.size(), rad);
@@ -1527,22 +1421,15 @@ void init()
 	t320.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t320);
 
-
-	float tPos321[3] = { 138.0f, alt, -66.0f };
+	float tPos321[3] = { 133.0f, alt, -69.0f };
 	t321 = Cheerios(m4, &torusMesh, tPos321, gameObjectsRef.size(), rad);
 
 	t321.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t321);
 
-	float tPos322[3] = { 133.0f, alt, -69.0f };
-	t322 = Cheerios(m4, &torusMesh, tPos322, gameObjectsRef.size(), rad);
-
-	t322.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t322);
 
 
-
-	rPos1 = 144.0f;
+	rPos1 = 142.0f;
 	rPos2 = 162.0f;
 
 	tPos11[0] = rPos1;
@@ -1702,55 +1589,29 @@ void init()
 	t411.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t411);
 
-	float tPos412[3] = { 4.0f, alt, -67.0f };
+	float tPos412[3] = { 6.0f, alt, -72.0f };
 	t412 = Cheerios(m4, &torusMesh, tPos412, gameObjectsRef.size(), rad);
 
 	t412.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t412);
 
-
-	float tPos413[3] = { 6.0f, alt, -72.0f };
+	float tPos413[3] = { 12.0f, alt, -80.0f };
 	t413 = Cheerios(m4, &torusMesh, tPos413, gameObjectsRef.size(), rad);
 
 	t413.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t413);
 
-
-	float tPos414[3] = { 9.0f, alt, -76.0f };
+	float tPos414[3] = { 19.0f, alt, -88.0f };
 	t414 = Cheerios(m4, &torusMesh, tPos414, gameObjectsRef.size(), rad);
 
 	t414.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t414);
 
-	float tPos415[3] = { 12.0f, alt, -80.0f };
+	float tPos415[3] = { 27.0f, alt, -92.0f };
 	t415 = Cheerios(m4, &torusMesh, tPos415, gameObjectsRef.size(), rad);
 
 	t415.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t415);
-
-	float tPos416[3] = { 15.0f, alt, -84.0f };
-	t416 = Cheerios(m4, &torusMesh, tPos416, gameObjectsRef.size(), rad);
-
-	t416.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t416);
-
-	float tPos417[3] = { 19.0f, alt, -88.0f };
-	t417 = Cheerios(m4, &torusMesh, tPos417, gameObjectsRef.size(), rad);
-
-	t417.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t417);
-
-	float tPos418[3] = { 23.0f, alt, -91.0f };
-	t418 = Cheerios(m4, &torusMesh, tPos418, gameObjectsRef.size(), rad);
-
-	t418.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t418);
-
-	float tPos419[3] = { 27.0f, alt, -92.0f };
-	t419 = Cheerios(m4, &torusMesh, tPos419, gameObjectsRef.size(), rad);
-
-	t419.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t419);
 
 	float tPos420[3] = { 19.0f, alt, -62.0f };
 	t420 = Cheerios(m4, &torusMesh, tPos420, gameObjectsRef.size(), rad);
@@ -1759,26 +1620,20 @@ void init()
 	gameObjectsRef.push_back(&t420);
 
 
-	float tPos421[3] = { 22.0f, alt, -66.0f };
+	float tPos421[3] = { 26.0f, alt, -69.0f };
 	t421 = Cheerios(m4, &torusMesh, tPos421, gameObjectsRef.size(), rad);
 
 	t421.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t421);
-
-	float tPos422[3] = { 26.0f, alt, -69.0f };
-	t422 = Cheerios(m4, &torusMesh, tPos422, gameObjectsRef.size(), rad);
-
-	t422.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t422);
 
 
 
 	rPos3 = -93.0f;
 	rPos4 = -71.0f;
 
-	tPos13[0] = 31.0f;
+	tPos13[0] = 35.0f;
 	tPos13[2] = rPos3;
-	tPos14[0] = 31.0f;
+	tPos14[0] = 35.0f;
 	tPos14[2] = rPos4;
 
 	t1111 = Cheerios(m4, &torusMesh, tPos13, gameObjectsRef.size(), rad);
@@ -1887,17 +1742,6 @@ void init()
 	t1219.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t1219);
 
-	tPos13[0] = tPos14[0] += 9.0f;
-
-	t1120 = Cheerios(m4, &torusMesh, tPos13, gameObjectsRef.size(), rad);
-
-	t1120.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t1120);
-
-	t1220 = Cheerios(m4, &torusMesh, tPos14, gameObjectsRef.size(), rad);
-
-	t1220.PrepareMeshMaterial();
-	gameObjectsRef.push_back(&t1220);
 
 	Material m3;
 	float amb3[] = { 1.0f, 0.5f, 0.3f, 1.0f };
@@ -1977,17 +1821,17 @@ void init()
 
 	//Butters
 	float tPosButter1[3] = { 5.0f, 0.0f, 5.0f };
-	butter1 = Table(m1, &cubeMesh, tPosButter1, gameObjectsRef.size(), true, 4.0f, 1.5f, 4.0f);
+	butter1 = Table(m1, &cubeMesh, tPosButter1, gameObjectsRef.size(), true, 6.0f, 1.5f, 4.0f);
 	butter1.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&butter1);
 
-	float tPosButter2[3] = { 4.0f, 0.0f, 50.0f };
-	butter2 = Table(m1, &cubeMesh, tPosButter2, gameObjectsRef.size(), true, 4.0f, 1.5f, 4.0f);
+	float tPosButter2[3] = { 6.0f, 0.0f, 30.0f };
+	butter2 = Table(m1, &cubeMesh, tPosButter2, gameObjectsRef.size(), true, 6.0f, 1.5f, 4.0f);
 	butter2.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&butter2);
 
 	float tPosButter3[3] = { 50.0f, 0.0f, 87.0f };
-	butter3 = Table(m1, &cubeMesh, tPosButter3, gameObjectsRef.size(), true, 4.0f, 1.5f, 4.0f);
+	butter3 = Table(m1, &cubeMesh, tPosButter3, gameObjectsRef.size(), true, 6.0f, 1.5f, 4.0f);
 	butter3.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&butter3);
 
@@ -2002,12 +1846,12 @@ void init()
 	gameObjectsRef.push_back(&butter5);
 
 	float tPosButter6[3] = { 40.0f, 0.0f, -85.0f };
-	butter6 = Table(m1, &cubeMesh, tPosButter6, gameObjectsRef.size(), true, 4.0f, 1.5f, 4.0f);
+	butter6 = Table(m1, &cubeMesh, tPosButter6, gameObjectsRef.size(), true, 6.0f, 1.5f, 4.0f);
 	butter6.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&butter6);
 
 	float tPosButter7[3] = { 90.0f, 0.0f, -80.0f };
-	butter7 = Table(m1, &cubeMesh, tPosButter7, gameObjectsRef.size(), true, 4.0f, 1.5f, 4.0f);
+	butter7 = Table(m1, &cubeMesh, tPosButter7, gameObjectsRef.size(), true, 6.0f, 1.5f, 4.0f);
 	butter7.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&butter7);
 

@@ -174,7 +174,7 @@ void Orange::MoveOrange()
 }  
 
 void Orange::RespawnOrange()
-{
+{//Repõe a laranja caso saia da mesa
 	float min_x = bb_bounds[0], max_x = bb_bounds[1];
 	float min_y = bb_bounds[4], max_y = bb_bounds[5];
 
@@ -240,7 +240,7 @@ bool Orange::isOnTable() {
 	return  val < radius;
 }
 
-void Orange::StoreBounds(float *table_bounds) {
+void Orange::StoreBounds(float *table_bounds) {//Guarda os limites de onde as laranjas podem circular
 	std::copy(table_bounds, table_bounds + 6, bb_bounds);
 }
 
