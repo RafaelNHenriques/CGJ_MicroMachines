@@ -164,6 +164,7 @@
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Camera\OrthographicCamera.cpp" />
     <ClCompile Include="Camera\PerspectiveCamera.cpp" />
+    <ClCompile Include="GameObjects\Car.cpp" />
     <ClCompile Include="GameObjects\Cheerios.cpp" />
     <ClCompile Include="GameObjects\Orange.cpp" />
     <ClCompile Include="GameObjects\Table.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Camera\PerspectiveCamera.h" />
     <ClInclude Include="cube.h" />
     <ClInclude Include="ft2build.h" />
+    <ClInclude Include="GameObjects\Car.h" />
     <ClInclude Include="GameObjects\Cheerios.h" />
     <ClInclude Include="GameObjects\GameObject3D.h" />
     <ClInclude Include="GameObjects\Orange.h" />

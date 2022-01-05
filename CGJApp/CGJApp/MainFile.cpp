@@ -42,6 +42,7 @@
 #include "GameObjects/Table.h"
 #include "GameObjects/Cheerios.h"
 #include "GameObjects/Orange.h"
+#include "GameObjects/Car.h"
 #include "Camera/PerspectiveCamera.h"
 #include "Camera/OrthographicCamera.h"
 #include "Lights/PointLight.h"
@@ -139,11 +140,14 @@ Cheerios t1111, t1112, t1113, t1114, t1115, t1116, t1117, t1118, t1119, t1120, t
 Cheerios t1211, t1212, t1213, t1214, t1215, t1216, t1217, t1218, t1219, t1220, t1221, t1222, t1223;
 Orange o1, o2, o3, o4, o5, o6, o7, o8, o9, o10, o11, o12, o13, o14, o15;
 Table butter1, butter2, butter3, butter4, butter5, butter6, butter7, butter99;
-
+Car car;
 
 MyMesh cubeMesh;
 MyMesh torusMesh;
 MyMesh sphereMesh;
+
+MyMesh* bodyMesh;
+MyMesh* wheelsMesh;
 
 float o1Pos[3] = { 1.0f, -2.0f, 10.0f };
 
@@ -280,6 +284,7 @@ void SendLights(LightProperties* lProps, int lightId)
 
 	glUniform4fv(lPos_uniformId, 1, lightPos); //efeito capacete do mineiro, ou seja lighPos foi definido em eye coord 
 }
+
 
 // ------------------------------------------------------------
 //
@@ -496,6 +501,41 @@ void drawObjects(bool isShadow) {
 	}
 }
 
+void UpdateCarMeshes() {
+	pushMatrix(MODEL);
+	SendMeshMaterial(bodyMesh, 0);
+	car.UpdateBody();
+
+	computeDerivedMatrix(PROJ_VIEW_MODEL);
+	RenderMesh(bodyMesh);
+
+	SendMeshMaterial(wheelsMesh, 0);
+	car.UpdateWheelTopLeft();
+
+	computeDerivedMatrix(PROJ_VIEW_MODEL);
+	RenderMesh(wheelsMesh);
+
+	car.UpdateWheelTopRight();
+
+	computeDerivedMatrix(PROJ_VIEW_MODEL);
+	RenderMesh(wheelsMesh);
+
+	popMatrix(MODEL); // pop topleftwheel
+
+	car.UpdateWheelBotRight();
+	computeDerivedMatrix(PROJ_VIEW_MODEL);
+	RenderMesh(wheelsMesh);
+
+
+	popMatrix(MODEL);
+	car.UpdateWheelBotLeft();
+
+	computeDerivedMatrix(PROJ_VIEW_MODEL);
+	RenderMesh(wheelsMesh);
+
+	popMatrix(MODEL);
+
+}
 
 
 void renderScene(void) {
@@ -554,6 +594,8 @@ void renderScene(void) {
 	drawTable();
 
 	drawObjects(false);
+
+	UpdateCarMeshes();
 
 	for (int i = 0 ; i < 2; ++i) {
 		for (int j = 0; j < 2; ++j) {
@@ -901,6 +943,11 @@ void init()
 
 	initLights();
 	initMeshPrimitives();
+
+	//float carPos[3] = { 0.0f, 0.0f, 0.0f };
+	car = Car(&cubeMesh, &torusMesh, true, 1.0f);
+	bodyMesh = car.GetBodyMesh();
+	wheelsMesh = car.GetWheelMesh();
 
 
 	float alt = 0.35;

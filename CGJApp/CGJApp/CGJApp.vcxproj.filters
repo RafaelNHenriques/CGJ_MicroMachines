@@ -75,6 +75,9 @@
     <ClCompile Include="Lights\SpotLight.cpp">
       <Filter>Lights</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\Car.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AVTmathLib.h">
@@ -136,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="Lights\SpotLight.h">
       <Filter>Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Car.h">
+      <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
