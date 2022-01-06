@@ -801,7 +801,9 @@ void processMouseMotion(int xx, int yy)
 	float rAux;
 
 	deltaX =  - xx + startX;
+	deltaAlpha = deltaX;
 	deltaY =    yy - startY;
+	deltaBeta = deltaY;
 
 	// left mouse button: move camera
 	if (tracking == 1) {
@@ -844,6 +846,10 @@ void mouseWheel(int wheel, int direction, int x, int y) {
 	camX = r * sin(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camZ = r * cos(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camY = r *   						     sin(beta * 3.14f / 180.0f);
+
+
+	float pos[3] = { camX, camY, camZ };
+	activeCameraRef->SetPosition(pos);
 
 //  uncomment this if not using an idle or refresh func
 //	glutPostRedisplay();
@@ -1986,7 +1992,6 @@ int main(int argc, char **argv) {
 	glutInitWindowSize(WinX, WinY);
 	WindowHandle = glutCreateWindow(CAPTION);
 
-
 	initCameras();
 
 //  Callback Registration
@@ -2002,7 +2007,7 @@ int main(int argc, char **argv) {
 	glutMouseFunc(processMouseButtons);
 	glutMotionFunc(processMouseMotion);
 	glutMouseWheelFunc ( mouseWheel ) ;
-	
+	glutKeyboardUpFunc(processKeyUp);
 
 //	return from main loop
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
