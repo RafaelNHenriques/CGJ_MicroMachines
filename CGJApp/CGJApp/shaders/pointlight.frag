@@ -48,6 +48,8 @@ in Data {
 	vec3 lightDir;
 
 	vec4 position;
+
+	vec2 tex_coord;
 } DataIn;
 
 const float reflect_factor = 0.1;
@@ -76,9 +78,9 @@ void main() {
 	
 	vec3 lightDirection = vec3(-light.position); // luz direcional
 
-//	if(texMode == 6 || useNormalMap)  // lookup normal from normal map, move from [0,1] to [-1, 1] range, normalize
-//		n = normalize(2.0 * texture(normalMap, DataIn.tex_coord).rgb - 1.0);
-//	else
+	if(texMode == 6 || useNormalMap)  // lookup normal from normal map, move from [0,1] to [-1, 1] range, normalize
+		n = normalize(2.0 * texture(normalMap, DataIn.tex_coord).rgb - 1.0);
+	else
 		n = normalize(DataIn.normal);
 
 	vec3 l = normalize(vec3(light.position - DataIn.position));
@@ -149,12 +151,12 @@ void main() {
 //			texel = texture(texmap, DataIn.tex_coord);  // texel from stone.tga
 //			colorOut = max(totalIntensity*texel + totalSpec, 0.07*texel);
 //		}
-//		else if (texMode == 3) // multitexturing
-//		{
-//			texel = texture(texmap2, DataIn.tex_coord);  // texel from lighwood.tga
-//			texel1 = texture(texmap1, DataIn.tex_coord);  // texel from checker.tga
-//			colorOut = vec4(max(totalIntensity * texel.rgb * texel1.rgb + totalSpec.rgb, 0.07 * texel.rgb * texel1.rgb), 0.80);
-//		}
+		else if (texMode == 3) // multitexturing
+		{
+			texel = texture(texmap2, DataIn.tex_coord);  // texel from lighwood.tga
+			texel1 = texture(texmap1, DataIn.tex_coord);  // texel from checker.tga
+			colorOut = vec4(max(totalIntensity * texel.rgb * texel1.rgb + totalSpec.rgb, 0.07 * texel.rgb * texel1.rgb), 0.80);
+		}
 //		else if (texMode == 4) // billboards
 //		{
 //			texel = texture(texmap3, DataIn.tex_coord);  // texel from tree.tga

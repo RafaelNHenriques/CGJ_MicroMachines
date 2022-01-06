@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CGJApp", "CGJApp\CGJApp.vcxproj", "{5CC623FA-0E80-4C8B-9F33-7796975A5D56}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3ED781C2-9784-4E91-AB1A-023710491ADD}"
+	ProjectSection(SolutionItems) = preProject
+		CGJApp\lightwood.tga = CGJApp\lightwood.tga
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

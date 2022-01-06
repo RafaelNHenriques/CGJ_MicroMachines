@@ -411,9 +411,9 @@ void drawTable() {
 	pushMatrix(MODEL);
 
 	objRef->Update();
-	//glUniform1i(texMode_uniformId, 3); // multitexturing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	glUniform1i(texMode_uniformId, 3); // multitexturing
 	glUniform1i(tex_loc1, 1);
-	//glUniform1i(tex_loc2, 2);
+	glUniform1i(tex_loc2, 2);
 
 	if (objRef->GetIsEnabled()) {
 		glUniformMatrix4fv(view_uniformId, 1, GL_FALSE, mMatrix[VIEW]);
@@ -468,10 +468,10 @@ void drawObjects(bool isShadow) {
 		//	else
 		//		glUniform1i(texMode_uniformId, 0); //bump mapping: normal comes from normalMap
 		//}
-		//else
-		//{
-		//	glUniform1i(texMode_uniformId, 0);
-		//}
+		else
+		{
+			glUniform1i(texMode_uniformId, 0);
+		}
 
 		if (objRef->GetIsEnabled() && objId != 0) {
 			if ((objId == gameObjectsRef.size() - 2 || objRef->GetType() == GameObject3D::TYPE::Billboard) && !isShadow) {
@@ -587,12 +587,12 @@ void renderScene(void) {
 		SendLights(lights[i], i);
 	}
 
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, TextureArray[0]);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, TextureArray[0]);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, TextureArray[1]);
-	//glActiveTexture(GL_TEXTURE2);
-	//glBindTexture(GL_TEXTURE_2D, TextureArray[2]);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, TextureArray[2]);
 	//glActiveTexture(GL_TEXTURE3);
 	//glBindTexture(GL_TEXTURE_2D, TextureArray[3]);
 	//glActiveTexture(GL_TEXTURE4);
@@ -601,9 +601,9 @@ void renderScene(void) {
 	//glBindTexture(GL_TEXTURE_CUBE_MAP, TextureArray[5]);
 
 	//Indicar aos quais os Texture Units a serem usados
-	//glUniform1i(tex_loc, 0);
+	glUniform1i(tex_loc, 0);
 	glUniform1i(tex_loc1, 1);
-	//glUniform1i(tex_loc2, 2);
+	glUniform1i(tex_loc2, 2);
 	//glUniform1i(tex_loc3, 3);
 	//glUniform1i(tex_normalMap_loc, 4);
 	//glUniform1i(tex_cube_loc, 5);
@@ -619,6 +619,7 @@ void renderScene(void) {
 	}
 
 	car.MoveCar();
+	glUniform1i(texMode_uniformId, 0);
 	UpdateCarMeshes();
 
 
@@ -973,9 +974,10 @@ void initTextures()
 
 	glGenTextures(7, TextureArray);
 	//Texture2D_Loader(TextureArray, "orange_normal.tga", 0);
+	Texture2D_Loader(TextureArray, "Orange.jpg", 0);
 	//Texture2D_Loader(TextureArray, "checkers_pattern.png", 1);
-	Texture2D_Loader(TextureArray, "stone.tga", 1);
-	//Texture2D_Loader(TextureArray, "lightwood.tga", 2);
+	Texture2D_Loader(TextureArray, "Choco.jpg", 1);
+	Texture2D_Loader(TextureArray, "lightwood.tga", 2);
 	//Texture2D_Loader(TextureArray, "tree.tga", 3);
 	//Texture2D_Loader(TextureArray, "normal.tga", 4);
 

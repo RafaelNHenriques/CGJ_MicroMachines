@@ -18,23 +18,13 @@ in vec4 color;
 in vec4 texCoord;
 in vec4 tangent;
 
-struct Materials {
-	vec4 diffuse;
-	vec4 ambient;
-	vec4 specular;
-	vec4 emissive;
-	float shininess;
-	int texCount;
-};
-
-uniform Materials mat;
-
 out Data {
 	vec3 normal;
 	vec3 eye;
 	vec3 lightDir;
 
 	vec4 position;
+	vec2 tex_coord;
 } DataOut;
 
 void main () {
@@ -46,6 +36,8 @@ void main () {
     vec3 l_dir =  normalize(vec3(l_pos-pos));//Direção da luz
 
     vec3 e_dir = vec3(-pos); //Direção do eye
+
+	DataOut.tex_coord = texCoord.st;
 
 	DataOut.normal = n;
 	DataOut.lightDir = l_dir;
