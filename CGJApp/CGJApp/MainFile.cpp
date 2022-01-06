@@ -999,6 +999,7 @@ void init()
 {
 	MyMesh amesh;
 
+	initTextures();
 	initLights();
 	initMeshPrimitives();
 
