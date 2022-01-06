@@ -128,3 +128,56 @@ void Car::UpdateWheelBotLeft()
 	rotate(MODEL, wheel_rot_angle, 0.0f, 1.0f, 0.0f);
 }
 
+
+void Car::MoveLeft() {
+	float up[3] = { 0.0f, 1.0f, 0.0f };
+	rotationAngle -= rotationSpeed * 2 * TimeUtil::deltaTime;
+	float rotationRad = (float)(rotationAngle * (M_PI / 180.0f));
+	direction[0] = cos(rotationRad);
+	direction[2] = sin(rotationRad);
+	add(direction, direction, direction);
+	normalize(direction);
+	
+}
+void Car::MoveRight() {
+	float up[3] = { 0.0f, 1.0f, 0.0f };
+	rotationAngle += rotationSpeed * 2 * TimeUtil::deltaTime;
+	float rotationRad = (float)(rotationAngle * (M_PI / 180.0f));
+	direction[0] = cos(rotationRad);
+	direction[2] = sin(rotationRad);
+	add(direction, direction, direction);
+	normalize(direction);
+	
+}
+void Car::MoveForward() {
+	printf("%f",speed);
+	if (speed < maxSpeed)
+	{
+		speed += acceleration * TimeUtil::deltaTime;
+		accelerating = true;
+		wheel_rot_speed = speed / wheel_radius * 40.0f;
+	}
+}
+void Car::MoveBackward() {
+	if (speed > -maxSpeed)
+	{
+		speed -= acceleration * TimeUtil::deltaTime;
+		accelerating = true;
+		wheel_rot_speed = speed / wheel_radius * 40.0f;
+	}
+}
+
+
+void Car::MoveCar()
+{
+	float velocity[3];
+	constProduct(TimeUtil::deltaTime * speed, direction, velocity);
+	if (!length(velocity) == 0) {
+		std::copy(position, position + 3, old_position);
+		
+	}
+	add(position, velocity, position);
+
+	// rotate wheels TODO
+}
+

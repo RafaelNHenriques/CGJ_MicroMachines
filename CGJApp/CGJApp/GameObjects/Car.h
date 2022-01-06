@@ -1,4 +1,8 @@
 #include "GameObjects/GameObject3D.h"
+
+#define M_PI       3.14159265358979323846f
+
+
 using namespace std;
 
 #pragma once
@@ -29,7 +33,7 @@ private:
 	float position[3] = { 5.0f, 0.28f, 0.0f };
 	float old_position[3] = { 0.0f, 0.0f, 0.0f };
 	float direction[3] = { 1.0f, 0.0f, 0.0f };
-	float acceleration = 10.0f;
+	float acceleration = 20.0f;
 	float rotationAngle = 0.0f;
 	float wheel_rot_angle = 0.0f;
 	float wheel_rot_speed = 0.0f;
@@ -53,10 +57,19 @@ public:
 	Car() = default;
 	MyMesh* GetBodyMesh();
 	MyMesh* GetWheelMesh();
+	float* GetDirection() { return direction; }
+	float* GetPosition() { return position; }
 
 	void UpdateBody();
 	void UpdateWheelTopLeft();
 	void UpdateWheelTopRight();
 	void UpdateWheelBotLeft();
 	void UpdateWheelBotRight();
+
+
+	void MoveLeft();
+	void MoveRight();
+	void MoveForward();
+	void MoveBackward();
+	void MoveCar();
 };

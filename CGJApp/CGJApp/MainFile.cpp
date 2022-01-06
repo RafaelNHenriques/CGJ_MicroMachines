@@ -102,13 +102,9 @@ float camX, camY, camZ;
 int startX, startY, tracking = 0;
 
 // Camera Spherical Coordinates
-// 
-// Versão correta
-//float alpha = 0.0f, beta = 90.0f;
-//float deltaAlpha = 0.0f, deltaBeta = 0.0f;
-//float r = 10.0f;
-float alpha = 39.0f, beta = 51.0f;
-float r = 100.0f;
+float alpha = 0.0f, beta = 90.0f;
+float deltaAlpha = 0.0f, deltaBeta = 0.0f;
+float r = 10.0f;
 
 float lightPos[4] = { 40.0f, 50.0f, 0.0f, 1.0f };
 
@@ -558,11 +554,11 @@ void renderScene(void) {
 	{
 		//Modificar o quanto antes possível
 
-		//float* dir = car.GetDirection();
-		//float targetOffset[3] = { -dir[0], 0, -dir[2] };
-		//constProduct(7.0f, targetOffset, targetOffset);
-		//targetOffset[1] = 5.0f;
-		//activeCameraRef->FollowTarget(car.GetPosition(), targetOffset, deltaAlpha, deltaBeta);
+		float* dir = car.GetDirection();
+		float targetOffset[3] = { -dir[0], 0, -dir[2] };
+		constProduct(7.0f, targetOffset, targetOffset);
+		targetOffset[1] = 5.0f;
+		activeCameraRef->FollowTarget(car.GetPosition(), targetOffset, deltaAlpha, deltaBeta);
 	}
 	else
 	{
@@ -595,6 +591,8 @@ void renderScene(void) {
 
 	drawObjects(false);
 
+
+	car.MoveCar();
 	UpdateCarMeshes();
 
 	for (int i = 0 ; i < 2; ++i) {
@@ -727,6 +725,28 @@ void processKeys(unsigned char key, int xx, int yy)
 			pl4.ToggleLight();
 			pl5.ToggleLight();
 			pl6.ToggleLight();
+			break;
+		case 'p':
+			if (pause == false) {
+				car.MoveRight();
+			}
+			break;
+		case 'o':
+			if (pause == false) {
+				car.MoveLeft();
+			}
+			break;
+		case 'q':
+			if (pause == false) {
+//				car.IsStopping = false;
+				car.MoveForward();
+			}
+			break;
+		case 'a':
+			if (pause == false) {
+//				car.IsStopping = false;
+				car.MoveBackward();
+			}
 			break;
 		case 'm': glEnable(GL_MULTISAMPLE); break;
 		case 'n':
