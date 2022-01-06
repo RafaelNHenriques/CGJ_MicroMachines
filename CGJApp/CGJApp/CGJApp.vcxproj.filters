@@ -159,4 +159,7 @@
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="stone.tga" />
+  </ItemGroup>
 </Project>

@@ -48,13 +48,43 @@ Car::Car(MyMesh* cubeMesh, MyMesh* torusMesh, bool isCollisionEnabled_in, float 
 	wheel_radius = radius;
 	wheel_rot_speed = speed / wheel_radius * 40.0f;
 
-	float slPos[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	float slPos2[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float slLeftPos[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float slRightPos[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	float slDir[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	slLeft = SpotLight(slLeftPos, slDir);
+	slRight = SpotLight(slRightPos, slDir);
 }
 
 MyMesh* Car::GetWheelMesh() { return wheelMesh; }
 MyMesh* Car::GetBodyMesh() { return bodyMesh; }
+
+LightProperties* Car::GetSpotLightLeft() {
+	return slLeft.GetLightPtr();
+}
+LightProperties* Car::GetSpotLightRight() {
+	return slRight.GetLightPtr();
+}
+
+
+void Car::UpdateSpotLights()
+{
+	pushMatrix(MODEL);
+	slLeft.UpdateTransform(MODEL, slLeft_offset);
+	popMatrix(MODEL);
+
+	pushMatrix(MODEL);
+	slRight.UpdateTransform(MODEL, slRight_offset);
+	popMatrix(MODEL);
+
+	float dir[4];
+	dir[0] = direction[0];
+	dir[1] = direction[1];
+	dir[2] = direction[2];
+	dir[3] = 1.0f;
+	slLeft.SetConeDirection(dir);
+	slRight.SetConeDirection(dir);
+
+}
 
 void Car::UpdateBody() {
 	float offset[3] = { 0.0f, 0.0f, 0.0f };
@@ -68,7 +98,7 @@ void Car::UpdateBody() {
 	rotate(MODEL, -rotationAngle, 0.0f, 1.0f, 0.0f);
 	translate(MODEL, -0.2f, -0.5f, -0.5f);
 
-	//UpdateSpotLights();
+	UpdateSpotLights();
 
 	scale(MODEL, 5.0f, 1.0f, 3.0f); // tamanho do carro
 
@@ -150,7 +180,6 @@ void Car::MoveRight() {
 	
 }
 void Car::MoveForward() {
-	printf("%f",speed);
 	if (speed < maxSpeed)
 	{
 		speed += acceleration * TimeUtil::deltaTime;
@@ -179,5 +208,24 @@ void Car::MoveCar()
 	add(position, velocity, position);
 
 	// rotate wheels TODO
+}
+
+void Car::StopMovement()
+{
+	if (speed > 0.1f)
+	{
+		speed -= acceleration * TimeUtil::deltaTime;
+		wheel_rot_speed = speed / wheel_radius * 40.0f;
+	}
+	else if (speed < -0.1f)
+	{
+		speed += acceleration * TimeUtil::deltaTime;
+		wheel_rot_speed = speed / wheel_radius * 40.0f;
+	}
+	else
+	{
+		speed = 0;
+		wheel_rot_speed = 0;
+	}
 }
 

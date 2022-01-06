@@ -36,6 +36,7 @@
 
 
 #include "avtFreeType.h"
+#include "Texture_Loader.h"
 
 // Custom headers
 #include "TimeUtil.h" 
@@ -72,7 +73,7 @@ vector<GameObject3D*> gameObjectsRef;
 vector<Camera> cameras;
 vector<Camera*> camerasRef;
 Camera* activeCameraRef;
-int activeCameraId; // FIXME refactor
+int activeCameraId;
 
 //External array storage defined in AVTmathLib.cpp
 
@@ -87,7 +88,11 @@ GLint pvm_uniformId;
 GLint vm_uniformId;
 GLint normal_uniformId;
 GLint lPos_uniformId;
+GLint view_uniformId;
 GLint tex_loc, tex_loc1, tex_loc2;
+GLint texMode_uniformId, shadowMode_uniformId;
+
+GLuint TextureArray[7];
 
 //Flare effect
 //FLARE_DEF AVTflare;
@@ -387,9 +392,9 @@ void drawTable() {
 
 		objRef->Update();
 
-		//glUniform1i(texMode_uniformId, 0);
+		glUniform1i(texMode_uniformId, 0);
 		if (objRef->GetIsEnabled()) {
-			//glUniformMatrix4fv(view_uniformId, 1, GL_FALSE, mMatrix[VIEW]);
+			glUniformMatrix4fv(view_uniformId, 1, GL_FALSE, mMatrix[VIEW]);
 			computeDerivedMatrix(PROJ_VIEW_MODEL);
 			RenderMesh(mesh);
 		}
@@ -406,12 +411,12 @@ void drawTable() {
 	pushMatrix(MODEL);
 
 	objRef->Update();
-	//glUniform1i(texMode_uniformId, 3); // multitexturing
-	//glUniform1i(tex_loc1, 1);
+	//glUniform1i(texMode_uniformId, 3); // multitexturing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	glUniform1i(tex_loc1, 1);
 	//glUniform1i(tex_loc2, 2);
 
 	if (objRef->GetIsEnabled()) {
-		//glUniformMatrix4fv(view_uniformId, 1, GL_FALSE, mMatrix[VIEW]);
+		glUniformMatrix4fv(view_uniformId, 1, GL_FALSE, mMatrix[VIEW]);
 		computeDerivedMatrix(PROJ_VIEW_MODEL);
 		RenderMesh(mesh);
 	}
@@ -445,10 +450,10 @@ void drawObjects(bool isShadow) {
 			objRef->Paused();
 
 		// FIXME refactor
-		//if (objId == gameObjectsRef.size() - 1)
-		//{
-		//	glUniform1i(texMode_uniformId, 3); // multitexturing
-		//}
+		if (objId == gameObjectsRef.size() - 1)
+		{
+			glUniform1i(texMode_uniformId, 3); // multitexturing
+		}
 		//else if (objRef->GetType() == GameObject3D::TYPE::Billboard)
 		//{
 		//	//printf("Billboard in renderScene\n");
@@ -547,12 +552,9 @@ void renderScene(void) {
 	loadIdentity(VIEW);
 	loadIdentity(MODEL);
 
-	// set the camera using a function similar to gluLookAt
-	lookAt(camX, camY, camZ, 0,0,0, 0,1,0);
 
 	if (activeCameraId == 2)
 	{
-		//Modificar o quanto antes possível
 
 		float* dir = car.GetDirection();
 		float targetOffset[3] = { -dir[0], 0, -dir[2] };
@@ -580,57 +582,46 @@ void renderScene(void) {
 
 	int objId=0; //id of the object mesh - to be used as index of mesh: Mymeshes[objID] means the current mesh
 
-	//for (int i = 0; i < MAX_LIGHTS; i++)
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < MAX_LIGHTS; i++)
 	{
 		SendLights(lights[i], i);
 	}
 
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, TextureArray[0]);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, TextureArray[1]);
+	//glActiveTexture(GL_TEXTURE2);
+	//glBindTexture(GL_TEXTURE_2D, TextureArray[2]);
+	//glActiveTexture(GL_TEXTURE3);
+	//glBindTexture(GL_TEXTURE_2D, TextureArray[3]);
+	//glActiveTexture(GL_TEXTURE4);
+	//glBindTexture(GL_TEXTURE_2D, TextureArray[4]);
+	//glActiveTexture(GL_TEXTURE5);
+	//glBindTexture(GL_TEXTURE_CUBE_MAP, TextureArray[5]);
+
+	//Indicar aos quais os Texture Units a serem usados
+	//glUniform1i(tex_loc, 0);
+	glUniform1i(tex_loc1, 1);
+	//glUniform1i(tex_loc2, 2);
+	//glUniform1i(tex_loc3, 3);
+	//glUniform1i(tex_normalMap_loc, 4);
+	//glUniform1i(tex_cube_loc, 5);
+
+	glUniform1i(texMode_uniformId, 0); // FIXME refactor
 
 	drawTable();
 
 	drawObjects(false);
 
+	if (car.GetIsStopping()) {
+		car.StopMovement();
+	}
 
 	car.MoveCar();
 	UpdateCarMeshes();
 
-	for (int i = 0 ; i < 2; ++i) {
-		for (int j = 0; j < 2; ++j) {
 
-			// send the material
-			//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.ambient");
-			//glUniform4fv(loc, 1, myMeshes[objId].mat.ambient);
-			//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.diffuse");
-			//glUniform4fv(loc, 1, myMeshes[objId].mat.diffuse);
-			//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.specular");
-			//glUniform4fv(loc, 1, myMeshes[objId].mat.specular);
-			//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.shininess");
-			//glUniform1f(loc, myMeshes[objId].mat.shininess);
-			//pushMatrix(MODEL);
-			//translate(MODEL, i*2.0f, 0.0f, j*2.0f);
-
-			//// send matrices to OGL
-			//computeDerivedMatrix(PROJ_VIEW_MODEL);
-			//glUniformMatrix4fv(vm_uniformId, 1, GL_FALSE, mCompMatrix[VIEW_MODEL]);
-			//glUniformMatrix4fv(pvm_uniformId, 1, GL_FALSE, mCompMatrix[PROJ_VIEW_MODEL]);
-			//computeNormalMatrix3x3();
-			//glUniformMatrix3fv(normal_uniformId, 1, GL_FALSE, mNormal3x3);
-
-			//// Render mesh
-			//glBindVertexArray(myMeshes[objId].vao);
-			//
-			//if (!shader.isProgramValid()) {
-			//	printf("Program Not Valid!\n");
-			//	exit(1);	
-			//}
-			//glDrawElements(myMeshes[objId].type, myMeshes[objId].numIndexes, GL_UNSIGNED_INT, 0);
-			//glBindVertexArray(0);
-
-			//popMatrix(MODEL);
-			//objId++;
-		}
-	}
 	//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.ambient");
 	//glUniform4fv(loc, 1, myMeshes[objId].mat.ambient);
 	//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.diffuse");
@@ -738,17 +729,20 @@ void processKeys(unsigned char key, int xx, int yy)
 			break;
 		case 'q':
 			if (pause == false) {
-//				car.IsStopping = false;
+				car.SetIsStopping(false);
 				car.MoveForward();
 			}
 			break;
 		case 'a':
 			if (pause == false) {
-//				car.IsStopping = false;
+				car.SetIsStopping(false);
 				car.MoveBackward();
 			}
 			break;
-		case 'm': glEnable(GL_MULTISAMPLE); break;
+		case 'h':
+			car.GetSpotLightLeft()->isEnabled = car.GetSpotLightLeft()->isEnabled ? 0 : 1;
+			car.GetSpotLightRight()->isEnabled = car.GetSpotLightRight()->isEnabled ? 0 : 1;
+			break;
 		case 'n':
 			if (pause == false) {
 				dl.ToggleLight();
@@ -757,6 +751,13 @@ void processKeys(unsigned char key, int xx, int yy)
 	}
 }
 
+void processKeyUp(unsigned char key, int xx, int yy)
+{
+	if (key == 'a' || key == 'q')
+	{
+		car.SetIsStopping(true);
+	}
+}
 
 // ------------------------------------------------------------
 //
@@ -870,6 +871,9 @@ GLuint setupShaders() {
 
 	glLinkProgram(shader.getProgramIndex());
 
+	texMode_uniformId = glGetUniformLocation(shader.getProgramIndex(), "texMode"); // different modes of texturing
+	shadowMode_uniformId = glGetUniformLocation(shader.getProgramIndex(), "shadowMode");
+	
 	pvm_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_pvm");
 	vm_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_viewModel");
 	normal_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_normal");
@@ -947,8 +951,34 @@ void initLights()
 
 	dl = DirectionalLight();
 	lights[6] = dl.GetLightPtr();
-	//lights[7] = car.GetSpotLight1();
-	//lights[8] = car.GetSpotLight2();
+	lights[7] = car.GetSpotLightLeft();
+	lights[8] = car.GetSpotLightRight();
+}
+
+void initTextures()
+{
+	/* Initialization of DevIL */
+	if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION)
+	{
+		printf("wrong DevIL version \n");
+		exit(0);
+	}
+	ilInit();
+
+	glGenTextures(7, TextureArray);
+	//Texture2D_Loader(TextureArray, "orange_normal.tga", 0);
+	//Texture2D_Loader(TextureArray, "checkers_pattern.png", 1);
+	Texture2D_Loader(TextureArray, "stone.tga", 1);
+	//Texture2D_Loader(TextureArray, "lightwood.tga", 2);
+	//Texture2D_Loader(TextureArray, "tree.tga", 3);
+	//Texture2D_Loader(TextureArray, "normal.tga", 4);
+
+	//const char* filenames[] = { "posx.jpg", "negx.jpg", "posy.jpg", "negy.jpg", "posz.jpg", "negz.jpg" };
+
+	//TextureCubeMap_Loader(TextureArray, filenames, 5);
+
+
+	//Texture2D_Loader(TextureArray, "particle.tga", 6);
 }
 
 
