@@ -29,8 +29,8 @@ public:
 private:
 	float speed = 0.0f;
 	float maxSpeed = 20.0f;
-	float slLeft_offset[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
-	float slRight_offset[4] = { 1.0f, 0.0f, 1.0f, 1.0f };
+	float slLeft_offset[4] = { 2.0f, 2.0f, 0.0f, 1.0f };
+	float slRight_offset[4] = { 2.0f, 2.0f, 1.0f, 1.0f };
 	float position[3] = { 5.0f, 0.28f, 0.0f };
 	float old_position[3] = { 0.0f, 0.0f, 0.0f };
 	float direction[3] = { 1.0f, 0.0f, 0.0f };

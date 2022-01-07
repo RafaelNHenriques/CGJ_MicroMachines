@@ -47,12 +47,18 @@ Car::Car(MyMesh* cubeMesh, MyMesh* torusMesh, bool isCollisionEnabled_in, float 
 
 	wheel_radius = radius;
 	wheel_rot_speed = speed / wheel_radius * 40.0f;
-
-	float slLeftPos[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	float slRightPos[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	float slDir[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	float slLeftPos[4] = { 6.0f, 0.28f, 0.0f, 1.0f };
+	float slRightPos[4] = { 6.0f, 0.28f, 0.0f, 1.0f };
+	float slDir[4] = { 0.0f, 1.0f, 0.0f, 1.0f };
 	slLeft = SpotLight(slLeftPos, slDir);
 	slRight = SpotLight(slRightPos, slDir);
+	float dir[4];
+	dir[0] = position[0]+ direction[0];
+	dir[1] = position[1]+ direction[1];
+	dir[2] = position[2]+ direction[2];
+	dir[3] = 1.0f;
+	slLeft.SetConeDirection(dir);
+	slRight.SetConeDirection(dir);
 }
 
 MyMesh* Car::GetWheelMesh() { return wheelMesh; }
@@ -77,9 +83,9 @@ void Car::UpdateSpotLights()
 	popMatrix(MODEL);
 
 	float dir[4];
-	dir[0] = direction[0];
-	dir[1] = direction[1];
-	dir[2] = direction[2];
+	dir[0] = position[0]+direction[0];
+	dir[1] = position[1]+ direction[1];
+	dir[2] = position[2]+ direction[2];
 	dir[3] = 1.0f;
 	slLeft.SetConeDirection(dir);
 	slRight.SetConeDirection(dir);
@@ -100,7 +106,7 @@ void Car::UpdateBody() {
 
 	UpdateSpotLights();
 
-	scale(MODEL, 5.0f, 1.0f, 3.0f); // tamanho do carro
+	scale(MODEL, 2.0f, 0.5f, 1.0f); // tamanho do carro
 
 	for (int k = 0; k < 8; k++) {
 		std::copy(bb_identity[k], bb_identity[k] + 4, bb[k]);
