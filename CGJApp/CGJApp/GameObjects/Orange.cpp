@@ -197,7 +197,7 @@ void Orange::RespawnOrange()
 
 }
 
-bool Orange::DetectCollisionWithObject(GameObject3D* other)
+bool Orange::DetectCollision(GameObject3D* other)
 {
 
 	if (other->GetBBType() == GameObject3D::BB_TYPE::Spherical) {
@@ -219,7 +219,7 @@ bool Orange::DetectCollisionWithObject(GameObject3D* other)
 	return false;
 }
 
-void Orange::ResolveCollisionWithObject(GameObject3D* other)
+void Orange::ResolveCollision(GameObject3D* other)
 {
 }
 

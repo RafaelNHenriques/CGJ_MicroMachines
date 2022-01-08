@@ -38,8 +38,8 @@ public:
 	bool GetIsEnabled() { return isEnabled; }
 	bool GetIsCollisionEnabled() { return isCollisionEnabled; }
 
-	bool DetectCollisionWithObject(GameObject3D* other){ return false;}
-	void ResolveCollisionWithObject(GameObject3D* other){ }
+	bool DetectCollision(GameObject3D* other){ return false;}
+	void ResolveCollision(GameObject3D* other){ }
 
 	virtual void reset() { }
 

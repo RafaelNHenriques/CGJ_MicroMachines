@@ -42,8 +42,8 @@ public:
     void MoveOrange();
     void SetDirection(float newDirection[3]);
     void RespawnOrange();
-    bool DetectCollisionWithObject(GameObject3D* other);
-    void ResolveCollisionWithObject(GameObject3D* other);
+    bool DetectCollision(GameObject3D* other);
+    void ResolveCollision(GameObject3D* other);
 };
 
 #endif

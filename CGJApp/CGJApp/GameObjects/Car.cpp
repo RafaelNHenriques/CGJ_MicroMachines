@@ -1,4 +1,6 @@
 #include "Car.h"
+#define FLOAT_MAX_VALUE 99999999999999999999999999999999999.99
+#define FLOAT_MIN_VALUE -99999999999999999999999999999999999.99
 
 
 
@@ -235,3 +237,204 @@ void Car::StopMovement()
 	}
 }
 
+bool Car::DetectCollision(GameObject3D* other)
+{
+
+	if (other->GetBBType() == GameObject3D::BB_TYPE::Spherical && other->GetType() == GameObject3D::TYPE::Orange) {
+		// get box closest point to sphere center by clamping
+		float x = std::max(bb_bounds[0], std::min(other->GetPosition()[0], bb_bounds[1]));
+		float y = std::max(bb_bounds[2], std::min(other->GetPosition()[1], bb_bounds[3]));
+		float z = std::max(bb_bounds[4], std::min(other->GetPosition()[2], bb_bounds[5]));
+		float aux[3];
+		float distance[3] = { 0.0f, 0.0f, 0.0f };
+
+		aux[0] = x;
+		aux[1] = y;
+		aux[2] = z;
+
+		subtract(aux, other->GetPosition(), distance);
+
+		Orange* o = dynamic_cast<Orange*>(other);
+
+
+		return length(distance) < o->getRadius();
+	}
+	else if (other->GetBBType() == GameObject3D::BB_TYPE::Spherical && other->GetType() == GameObject3D::TYPE::Cheerio) {
+		// get box closest point to sphere center by clamping
+		float x = std::max(bb_bounds[0], std::min(other->GetPosition()[0], bb_bounds[1]));
+		float y = std::max(bb_bounds[2], std::min(other->GetPosition()[1], bb_bounds[3]));
+		float z = std::max(bb_bounds[4], std::min(other->GetPosition()[2], bb_bounds[5]));
+		float aux[3];
+		float distance[3] = { 0.0f, 0.0f, 0.0f };
+
+		aux[0] = x;
+		aux[1] = y;
+		aux[2] = z;
+
+		subtract(aux, other->GetPosition(), distance);
+
+		Cheerios* c = dynamic_cast<Cheerios*>(other);
+
+		return length(distance) < c->getRadius();
+	}
+	else {
+		Table* t = dynamic_cast<Table*>(other);
+		return (bb_bounds[0] <= t->GetBBBounds()[1] && bb_bounds[1] >= t->GetBBBounds()[0]) &&
+			(bb_bounds[2] <= t->GetBBBounds()[3] && bb_bounds[3] >= t->GetBBBounds()[2]) &&
+			(bb_bounds[4] <= t->GetBBBounds()[5] && bb_bounds[5] >= t->GetBBBounds()[4]);
+	}
+
+	return false;
+}
+
+void Car::ResolveCollision(GameObject3D* other)
+{
+	if (other->GetType() == GameObject3D::TYPE::Table) {
+		Table* t = dynamic_cast<Table*>(other);
+		t->SetSpeed(1.5f);
+		if (speed >= 0)
+			t->SetDirection(direction);
+		else {
+			float opositeDirection[3] = { 0.0f, 0.0f, 0.0f };
+			constProduct(-1, direction, opositeDirection);
+			t->SetDirection(opositeDirection);
+		}
+		speed = 0;
+		wheel_rot_speed = speed / wheel_radius * 40.0f;
+	}
+	if (other->GetType() == GameObject3D::TYPE::Cheerio) {
+		Cheerios* c = dynamic_cast<Cheerios*>(other);
+		c->SetSpeed(1.5f);
+		if (speed >= 0)
+			c->SetDirection(direction);
+		else {
+			float opositeDirection[3] = { 0.0f, 0.0f, 0.0f };
+			constProduct(-1, direction, opositeDirection);
+			c->SetDirection(opositeDirection);
+		}
+		speed = 0;
+		wheel_rot_speed = speed / wheel_radius * 40.0f;
+	}
+	if (other->GetType() == GameObject3D::TYPE::Orange) {
+		float new_pos[3] = { 5.0f, 0.3f, 0.0f };///!!!!!!!!!!!!!!!!!!!!!!!
+		std::copy(new_pos, new_pos + 3, position);
+	}
+}
+
+
+void Car::CalculateBoundingBox() {
+	float min_x = FLOAT_MAX_VALUE, max_x = FLOAT_MIN_VALUE, min_y = FLOAT_MAX_VALUE, max_y = FLOAT_MIN_VALUE, min_z = FLOAT_MAX_VALUE
+		, max_z = FLOAT_MIN_VALUE;
+
+	for (int k = 0; k < 8; k++) {
+		if (bb[k][0] < min_x) {
+			min_x = bb[k][0];
+		}
+
+		if (bb[k][0] > max_x) {
+			max_x = bb[k][0];
+		}
+		if (bb[k][1] < min_y) {
+			min_y = bb[k][1];
+		}
+		if (bb[k][1] > max_y) {
+			max_y = bb[k][1];
+		}
+		if (bb[k][2] < min_z) {
+			min_z = bb[k][2];
+		}
+		if (bb[k][2] > max_z) {
+			max_z = bb[k][2];
+		}
+
+	}
+
+	bb_bounds[0] = min_x;
+	bb_bounds[1] = max_x;
+	bb_bounds[2] = min_y;
+	bb_bounds[3] = max_y;
+	bb_bounds[4] = min_z;
+	bb_bounds[5] = max_z;
+}
+
+// v: a vector in 3D space
+// k: a unit vector describing the axis of rotation
+// theta: the angle (in radians) that v rotates around k
+float* Car::rotateBB(float* v, float* k, double theta)
+{
+	float rotated[3] = { 0.0f, 0.0f, 0.0f };
+	float aux1[3] = { 0.0f, 0.0f, 0.0f };
+	float aux2[3] = { 0.0f, 0.0f, 0.0f };
+	float aux3[3] = { 0.0f, 0.0f, 0.0f };
+	float aux4[3] = { 0.0f, 0.0f, 0.0f };
+
+	double cos_theta = cos(theta);
+	double sin_theta = sin(theta);
+
+	//v * cos_theta
+	for (int i = 0; i < 3; i++) {
+		aux1[i] = v[i] * cos_theta;
+	}
+
+	//crossProduct(k, v) * sin_theta
+	crossProduct(k, v, aux2);
+
+	for (int i = 0; i < 3; i++) {
+		aux3[i] = aux2[i] * sin_theta;
+	}
+
+	//k * dotProduct(k, v)
+	aux4[0] = dotProduct(k, v) * k[0] * (1 - cos_theta);
+	aux4[1] = dotProduct(k, v) * k[1] * (1 - cos_theta);
+	aux4[2] = dotProduct(k, v) * k[2] * (1 - cos_theta);
+
+
+	rotated[0] = aux1[0] + aux3[0] + aux4[0];
+	rotated[1] = aux1[1] + aux3[1] + aux4[1];
+	rotated[2] = aux1[2] + aux3[2] + aux4[2];
+
+
+	return rotated;
+}
+
+void Car::translate_bb(float offset[3]) {
+
+	for (int k = 0; k < 8; k++) {
+		for (int i = 0; i < 3; i++) {
+			bb[k][i] += offset[i];
+		}
+	}
+
+}
+
+void Car::scale_bb(float values[3])
+{
+	for (int k = 0; k < 8; k++) {
+		for (int i = 0; i < 3; i++) {
+			bb[k][i] *= values[i];
+		}
+	}
+}
+
+void Car::scale_bb_identity(float values[3])
+{
+	for (int k = 0; k < 8; k++) {
+		for (int i = 0; i < 3; i++) {
+			bb_identity[k][i] *= values[i];
+		}
+	}
+}
+
+
+void Car::PrintBB()
+{
+	printf("{\n");
+	for (int k = 0; k < 8; k++) {
+		printf("{");
+		for (int i = 0; i < 3; i++) {
+			printf("[%f] ", bb[k][i]);
+		}
+		printf("}\n");
+	}
+	printf("}\n");
+}

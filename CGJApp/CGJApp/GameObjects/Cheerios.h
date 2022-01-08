@@ -31,8 +31,8 @@ public:
 
     void MoveCheerio();
 
-    bool DetectCollisionWithObject(GameObject3D* other);
-    void ResolveCollisionWithObject(GameObject3D* other);
+    bool DetectCollision(GameObject3D* other);
+    void ResolveCollision(GameObject3D* other);
 };
 
 #endif

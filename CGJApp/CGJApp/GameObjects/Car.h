@@ -1,6 +1,14 @@
 #include "GameObjects/GameObject3D.h"
 #include <Lights/SpotLight.h>
 
+#include "../geometry.h"
+#include "../TimeUtil.h"
+#include "GameObject3D.h"
+#include "Orange.h"
+#include "Table.h"
+#include "Cheerios.h"
+#include "../AVTmathLib.h"
+
 #define M_PI       3.14159265358979323846f
 
 
@@ -58,9 +66,11 @@ private:
 
 	SpotLight slLeft;
 	SpotLight slRight;
+
 public:
 	Car(MyMesh* cubeMesh, MyMesh* torusMesh, bool isCollisionEnabled, float radius);
 	Car() = default;
+
 	MyMesh* GetBodyMesh();
 	MyMesh* GetWheelMesh();
 	float* GetDirection() { return direction; }
@@ -88,4 +98,19 @@ public:
 	void UpdateSpotLights();
 	LightProperties* GetSpotLightLeft();
 	LightProperties* GetSpotLightRight();
+
+	bool DetectCollision(GameObject3D* other);
+	void ResolveCollision(GameObject3D* other);
+
+	float* GetBBBounds() { return bb_bounds; }
+	bool GetIsCollisionEnabled() { return isCollisionEnabled; }
+
+
+
+	void CalculateBoundingBox();
+	void translate_bb(float offset[3]);
+	void scale_bb(float values[3]);
+	float* Car::rotateBB(float* v, float* k, double theta);
+	void scale_bb_identity(float values[3]);
+	void PrintBB();
 };

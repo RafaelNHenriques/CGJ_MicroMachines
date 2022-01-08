@@ -194,12 +194,12 @@ void Table::MoveTable()
 }
 
 
-bool Table::DetectCollisionWithObject(GameObject3D* other)
+bool Table::DetectCollision(GameObject3D* other)
 {
 	return false;
 }
 
-void Table::ResolveCollisionWithObject(GameObject3D* other)
+void Table::ResolveCollision(GameObject3D* other)
 {
 }
 

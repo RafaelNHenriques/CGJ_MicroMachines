@@ -91,6 +91,8 @@ GLint lPos_uniformId;
 GLint view_uniformId;
 GLint tex_loc, tex_loc1, tex_loc2;
 GLint texMode_uniformId, shadowMode_uniformId;
+GLint toggleFog_uniformId;
+int toggleFog;
 
 GLuint TextureArray[7];
 
@@ -319,19 +321,18 @@ void detectCollisions() {
 		GameObject3D* obj_a = gameObjectsRef[obj_index_1];
 		if (!obj_a->GetIsCollisionEnabled())
 			continue;
-
 		for (int obj_index_2 = 0; obj_index_2 < gameObjectsRef.size(); obj_index_2++)
 		{
 			bool result = false;
 			GameObject3D* obj_b = gameObjectsRef[obj_index_2];
 
 			if (obj_b->GetIsCollisionEnabled()) {
-				result = obj_a->DetectCollisionWithObject(obj_b);
+				result = obj_a->DetectCollision(obj_b);
 			}
 
 			if (result) {
-				//printf("object [%s] colided with object %s\n", obj_a->GetType(), obj_b->GetType());
-				obj_a->ResolveCollisionWithObject(obj_b);
+				printf("object [%s] colided with object %s\n", obj_a->GetType(), obj_b->GetType());
+				obj_a->ResolveCollision(obj_b);
 			}
 		}
 	}
@@ -358,13 +359,13 @@ void detectCollisions() {
 			//t->PrintBB();
 			//printf("bb bounds ( %f, %f, %f, %f, %f, %f)\n", t->GetBBBounds()[0], t->GetBBBounds()[1], t->GetBBBounds()[2], t->GetBBBounds()[3], t->GetBBBounds()[4], t->GetBBBounds()[5]);
 			if (obj_a->GetType() == GameObject3D::TYPE::Table || obj_a->GetType() == GameObject3D::TYPE::Orange || obj_a->GetType() == GameObject3D::TYPE::Cheerio) {
-				//result = car.DetectCollisionWithObject(obj_a);
+				result = car.DetectCollision(obj_a);
 			}
 		}
 
 		if (result) {
 			printf("car colided with object \n");
-			//car.ResolveCollisionWithObject(obj_a);
+			car.ResolveCollision(obj_a);
 			if (obj_a->GetType() == GameObject3D::TYPE::Orange) {
 				//
 				// 
@@ -435,16 +436,16 @@ void drawObjects(bool isShadow) {
 
 		objRef->PrepareMeshMaterial();
 		MyMesh* mesh = objRef->GetMesh();
-		if (objRef->GetType() == GameObject3D::TYPE::Billboard) {
-			SendMeshMaterial(mesh, 1);
-		}
-		else {
+		//if (objRef->GetType() == GameObject3D::TYPE::Billboard) {
+		//	SendMeshMaterial(mesh, 1);
+		//}
+		//else {
 			SendMeshMaterial(mesh, 0);
-		}
+		//}
 
 		pushMatrix(MODEL);
 
-		if (pause == false || objRef->GetType() == GameObject3D::TYPE::Billboard)
+		if (pause == false /* || objRef->GetType() == GameObject3D::TYPE::Billboard*/)
 			objRef->Update();
 		else
 			objRef->Paused();
@@ -474,7 +475,7 @@ void drawObjects(bool isShadow) {
 		}
 
 		if (objRef->GetIsEnabled() && objId != 0) {
-			if ((objId == gameObjectsRef.size() - 2 || objRef->GetType() == GameObject3D::TYPE::Billboard) && !isShadow) {
+			if ((gameObjectsRef.size() - 7 <= objId <= gameObjectsRef.size() - 3 || objRef->GetType() == GameObject3D::TYPE::Billboard) && !isShadow) {
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				glEnable(GL_BLEND);
 
@@ -487,7 +488,7 @@ void drawObjects(bool isShadow) {
 			{
 				RenderMesh(mesh);
 			}
-			if ((objId == gameObjectsRef.size() - 2 || objRef->GetType() == GameObject3D::TYPE::Billboard) && !isShadow) {
+			if ((gameObjectsRef.size() - 7 <= objId <= gameObjectsRef.size() - 3 || objRef->GetType() == GameObject3D::TYPE::Billboard) && !isShadow) {
 				glDisable(GL_BLEND);
 
 			}
@@ -613,6 +614,7 @@ void renderScene(void) {
 	drawTable();
 
 	drawObjects(false);
+	detectCollisions();
 
 	if (car.GetIsStopping()) {
 		car.StopMovement();
@@ -738,6 +740,12 @@ void processKeys(unsigned char key, int xx, int yy)
 			if (pause == false) {
 				car.SetIsStopping(false);
 				car.MoveBackward();
+			}
+			break;
+		case 'f':
+			if (pause == false) {
+				toggleFog = toggleFog == 0 ? 1 : 0;
+				glUniform1i(toggleFog_uniformId, toggleFog);
 			}
 			break;
 		case 'h':
@@ -884,6 +892,7 @@ GLuint setupShaders() {
 	pvm_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_pvm");
 	vm_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_viewModel");
 	normal_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_normal");
+	toggleFog_uniformId = glGetUniformLocation(shader.getProgramIndex(), "toggleFog");
 	lPos_uniformId = glGetUniformLocation(shader.getProgramIndex(), "l_pos");
 	tex_loc = glGetUniformLocation(shader.getProgramIndex(), "texmap");
 	tex_loc1 = glGetUniformLocation(shader.getProgramIndex(), "texmap1");
@@ -924,6 +933,11 @@ void initCameras()
 	LoadCamera(0);
 }
 
+void initFog()
+{
+	toggleFog = 0;
+	glUniform1i(toggleFog_uniformId, toggleFog);
+}
 
 
 void initMeshPrimitives()
@@ -1002,6 +1016,7 @@ void init()
 	initTextures();
 	initLights();
 	initMeshPrimitives();
+	initFog();
 
 	//float carPos[3] = { 0.0f, 0.0f, 0.0f };
 	car = Car(&cubeMesh, &torusMesh, true, 1.0f);
