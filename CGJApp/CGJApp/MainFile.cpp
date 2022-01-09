@@ -321,13 +321,13 @@ void detectCollisions() {
 		GameObject3D* obj_a = gameObjectsRef[obj_index_1];
 		if (!obj_a->GetIsCollisionEnabled())
 			continue;
-		for (int obj_index_2 = 0; obj_index_2 < gameObjectsRef.size(); obj_index_2++)
+		for (int obj_index_2 = 0; obj_index_2 < gameObjectsRef.size() && gameObjectsRef[obj_index_1] != gameObjectsRef[obj_index_2]; obj_index_2++)
 		{
 			bool result = false;
 			GameObject3D* obj_b = gameObjectsRef[obj_index_2];
 
 			if (obj_b->GetIsCollisionEnabled()) {
-				result = obj_a->DetectCollision(obj_b);
+			result = obj_a->DetectCollision(obj_b);
 			}
 
 			if (result) {
@@ -337,10 +337,7 @@ void detectCollisions() {
 		}
 	}
 
-	//car.PrintBB();
-	//printf("car position ( %f, %f, %f)\n", car.GetPosition()[0], car.GetPosition()[1], car.GetPosition()[2]);
-	//printf("bb bounds ( %f, %f, %f, %f, %f, %f)\n", car.GetBBBounds()[0], car.GetBBBounds()[1], car.GetBBBounds()[2], car.GetBBBounds()[3], car.GetBBBounds()[4], car.GetBBBounds()[5]);
-
+	car.CalculateBoundingBox();
 	for (int obj_index_1 = 0; obj_index_1 < gameObjectsRef.size(); obj_index_1++)
 	{
 		bool result = false;
@@ -358,7 +355,7 @@ void detectCollisions() {
 			//Table* t = dynamic_cast<Table*>(obj_a);
 			//t->PrintBB();
 			//printf("bb bounds ( %f, %f, %f, %f, %f, %f)\n", t->GetBBBounds()[0], t->GetBBBounds()[1], t->GetBBBounds()[2], t->GetBBBounds()[3], t->GetBBBounds()[4], t->GetBBBounds()[5]);
-			if (obj_a->GetType() == GameObject3D::TYPE::Table || obj_a->GetType() == GameObject3D::TYPE::Orange || obj_a->GetType() == GameObject3D::TYPE::Cheerio) {
+			if (obj_a->GetType() == GameObject3D::TYPE::Orange || obj_a->GetType() == GameObject3D::TYPE::Cheerio) {
 				result = car.DetectCollision(obj_a);
 			}
 		}
