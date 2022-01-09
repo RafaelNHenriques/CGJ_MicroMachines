@@ -343,19 +343,12 @@ void detectCollisions() {
 		bool result = false;
 		GameObject3D* obj_a = gameObjectsRef[obj_index_1];
 
-		if (obj_a->GetIsCollisionEnabled() /* && car.GetIsCollisionEnabled()*/) {// Resolver colisões com car<<<<<<<<<<<<<<<<<<!!!!!!!!!!!!!!!!!!
-			//printf("CAR    bb bounds ( %f, %f, %f, %f, %f, %f)\n", car.GetBBBounds()[0], car.GetBBBounds()[1], car.GetBBBounds()[2], car.GetBBBounds()[3], car.GetBBBounds()[4], car.GetBBBounds()[5]);
-			//car.PrintBB();
-			if (obj_a->GetType() == GameObject3D::TYPE::Table) {
-				//Table* t = dynamic_cast<Table*>(obj_a);
+		if (obj_a->GetIsCollisionEnabled() ) 
+		{
+		// Resolver colisões com car<<<<<<<<<<<<<<<<<<!!!!!!!!!!!!!!!!!!
 
-				//printf("BUTTER bb bounds ( %f, %f, %f, %f, %f, %f)\n", t->GetBBBounds()[0], t->GetBBBounds()[1], t->GetBBBounds()[2], t->GetBBBounds()[3], t->GetBBBounds()[4], t->GetBBBounds()[5]);
-				//printf("CAR    bb bounds ( %f, %f, %f, %f, %f, %f)\n", car.GetBBBounds()[0], car.GetBBBounds()[1], car.GetBBBounds()[2], car.GetBBBounds()[3], car.GetBBBounds()[4], car.GetBBBounds()[5]);
-			}
-			//Table* t = dynamic_cast<Table*>(obj_a);
-			//t->PrintBB();
 			//printf("bb bounds ( %f, %f, %f, %f, %f, %f)\n", t->GetBBBounds()[0], t->GetBBBounds()[1], t->GetBBBounds()[2], t->GetBBBounds()[3], t->GetBBBounds()[4], t->GetBBBounds()[5]);
-			if (obj_a->GetType() == GameObject3D::TYPE::Orange || obj_a->GetType() == GameObject3D::TYPE::Cheerio) {
+			if (obj_a->GetType() == GameObject3D::TYPE::Orange || obj_a->GetType() == GameObject3D::TYPE::Cheerio || obj_a->GetType() == GameObject3D::TYPE::Table) {
 				result = car.DetectCollision(obj_a);
 			}
 		}
@@ -1081,10 +1074,13 @@ void init()
 
 	float tPos20[3] = { 3.0f, -1.45f, -65.0f };
 
+
 	t20 = Table(m2, &cubeMesh, tPos20, gameObjectsRef.size(), false, 15.0f, 1.5f, 140.0f);
 
 	t20.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t20);
+
+	printf("%d\n", t20.GetMeshId());
 
 	float tPos21[3] = { 0.0f, -1.45f, 75.0f };
 
@@ -1133,6 +1129,8 @@ void init()
 	float tPos27[3] = { 135.0f, -1.45f, -95.0f };
 
 	t27 = Table(m2, &cubeMesh, tPos27, gameObjectsRef.size(), false, 30.0f, 1.5f, 30.0f);
+
+	printf("%d\n", t27.GetMeshId());
 
 	t27.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t27);
