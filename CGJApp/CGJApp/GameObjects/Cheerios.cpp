@@ -19,43 +19,12 @@ Cheerios::Cheerios(Material material_in, MyMesh* meshPtr, float startPosition[3]
 	memcpy(size, sizeVar, 3 * sizeof(float));
 }
 
-//void Cheerios::PrepareMeshMaterial()
-//{
-//	// shader info
-//	float amb[] = { 0.2f, 0.15f, 0.1f, 1.0f };
-//	float diff[] = { 0.8f, 0.6f, 0.4f, 1.0f };
-//	float spec[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-//
-//	float emissive[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-//	float shininess = 800.0f;
-//	int texcount = 0;
-//
-//	memcpy(mesh->mat.ambient, amb, 4 * sizeof(float));
-// 	memcpy(mesh->mat.diffuse, diff, 4 * sizeof(float));
-//	memcpy(mesh->mat.specular, spec, 4 * sizeof(float));
-//	memcpy(mesh->mat.emissive, emissive, 4 * sizeof(float));
-//	mesh->mat.shininess = shininess;
-//	mesh->mat.texCount = texcount;
-//}
-//
-//void Cheerios::PrepareMeshMaterial(Material m)
-//{
-//
-//	memcpy(mesh->mat.ambient, m.ambient, 4 * sizeof(float));
-//	memcpy(mesh->mat.diffuse, m.diffuse, 4 * sizeof(float));
-//	memcpy(mesh->mat.specular, m.specular, 4 * sizeof(float));
-//	memcpy(mesh->mat.emissive, m.emissive, 4 * sizeof(float));
-//	mesh->mat.shininess = m.shininess;
-//	mesh->mat.texCount = m.texCount;
-//}
-
 void Cheerios::Update()
 {
 	translate(MODEL, position[0], position[1], position[2]);
 	std::copy(position, position + 3, old_position);
 	scale(MODEL, size[0], size[1], size[2]);
 	MoveCheerio();
-	//glRotated(30.0f, 0.0f, 1.0f, 0.0f);
 }
 
 void Cheerios::Paused()

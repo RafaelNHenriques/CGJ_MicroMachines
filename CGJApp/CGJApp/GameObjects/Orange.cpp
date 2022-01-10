@@ -12,11 +12,9 @@ Orange::Orange(Material material_in, MyMesh* meshPtr, float startRadius, int lat
 	startPos[2] = position[2] = min_y + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (max_y - min_y)));
 
 	startSpeed=speed = 2 + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 3));
-	//std::copy(startPosition, startPosition + 3, position);
 	meshId = latestMeshId;
 	radius = startRadius;
 	table_position = table_pos_in;
-	//mesh = createSphere(startRadius, 5);
 	mesh = meshPtr;
 	table_length = table_lenght_in;
 	onTable = true;
@@ -31,59 +29,25 @@ Orange::Orange(Material material_in, MyMesh* meshPtr, float startRadius, int lat
 	float z = 5.0f - position[2];
 
 	float d[3] = { x, 0.0f, z};
-	//float d[3] = { 1.0f, 0.0f,  0.0f };
 	normalize(d);
 	SetDirection(d);
 
 	rotationAngle = 0.0f;
 	rotationSpeed = speed / radius * 40.0f;
-	//printf("Speed : %f \n", speed);
-	//rotationSpeed = 40.0f;
 }
 
 void Orange::SetDirection(float newDirection[3])
 {
-	/*bool dirNormalized = 1.0f - length(newDirection) < 1.0e-15;
-	if (!dirNormalized)
-	{
-		printf("Direction not normalized in object %d", meshId);
-	}
-	else
-	{
-		std::copy(newDirection, newDirection + 3, direction);
-	}*/
-
 	subtract(direction, direction, direction);
 	add(newDirection, direction, direction);
-
-	//std::copy(newDirection, newDirection + 3, direction);
 }
 
-//void Orange::PrepareMeshMaterial() 
-//{
-//	float amb[] = { 1.0f, 0.4f, 0.0f, 1.0f };
-//	float diff[] = { 0.8f, 0.7f, 0.5f, 1.0f };
-//	float spec[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-//	float emissive[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-//	float shininess = 0.0f;
-//	int texcount = 0;
-//
-//	memcpy(mesh->mat.ambient, amb, 4 * sizeof(float));
-//	memcpy(mesh->mat.diffuse, diff, 4 * sizeof(float));
-//	memcpy(mesh->mat.specular, spec, 4 * sizeof(float));
-//	memcpy(mesh->mat.emissive, emissive, 4 * sizeof(float));
-//	mesh->mat.shininess = shininess;
-//	mesh->mat.texCount = texcount;
-//}
 
 void Orange::Update()
 {
-	//printf("Speed : %f \n", speed);
 	if (!isOnTable()) {
-		//printf("Orange fell off \n");
 		int_time_respawn += TimeUtil::deltaTime;
 		isEnabled = false;
-		//RespawnOrange();
 	}
 	else {
 		isEnabled = true;
@@ -93,8 +57,6 @@ void Orange::Update()
 	if (isEnabled) {
 
 		MoveOrange();
-
-		// scale mesh to object size
 		scale(MODEL, radius, radius, radius);
 
 		if (int_time_updated >= 30) {
@@ -115,42 +77,8 @@ void Orange::Update()
 
 void Orange::Paused()
 {
-	////printf("Speed : %f \n", speed);
-	//if (!isOnTable()) {
-	//	//printf("Orange fell off \n");
-	//	int_time_respawn += Time::deltaTime;
-	//	isEnabled = false;
-	//	//RespawnOrange();
-	//}
-	//else {
-	//	isEnabled = true;
-	//}
-	//int_time_updated += Time::deltaTime;
-
-	//if (isEnabled) {
-
-		// translation
-		translate(MODEL, position[0], position[1], position[2]);
-
-		// scale mesh to object size
-		scale(MODEL, radius, radius, radius);
-
-		//if (int_time_updated >= 30) {
-		//	if (speed + 0.1 <= max_speed) {
-		//		speed += 5.0f;
-		//		rotationSpeed = speed / radius * 40.0f;
-		//	}
-		//	int_time_updated = 0;
-		//	printf("speed update : %f \n", speed);
-
-	//	}
-	//}
-	//else if (int_time_respawn >= 2) {
-	//	printf("respawn orange\n");
-	//	RespawnOrange();
-	//	int_time_respawn = 0;
-	//}
-
+	translate(MODEL, position[0], position[1], position[2]);
+	scale(MODEL, radius, radius, radius);
 }
 
 void Orange::MoveOrange()
@@ -180,10 +108,6 @@ void Orange::RespawnOrange()
 
 	position[0] = min_x + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (max_x - min_x)));
 	position[2] = min_y + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (max_y - min_y)));
-
-	//float x = table_position[0] - position[0];
-	//float y = table_position[2] - position[2];
-
 	float x = 75.0f - position[0];
 	float z = 5.0f - position[2];
 
@@ -205,10 +129,6 @@ bool Orange::DetectCollision(GameObject3D* other)
 		offset[0] = position[0] - other->GetPosition()[0];
 		offset[1] = position[1] - other->GetPosition()[1];
 		offset[2] = position[2] - other->GetPosition()[2];
-			
-		/*if (other->GetType() == GameObject3D::TYPE::Orange) {
-			
-		}*/
 		
 		Orange* o = dynamic_cast<Orange*>(other);
 		return length(offset) < (radius + o->radius);
@@ -254,7 +174,6 @@ void Orange::reset() {
 	float z = 5.0f - position[2];
 
 	float d[3] = { x, 0.0f, z };
-	//float d[3] = { 1.0f, 0.0f,  0.0f };
 	normalize(d);
 	SetDirection(d);
 

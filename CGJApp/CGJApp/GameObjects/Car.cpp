@@ -20,17 +20,6 @@ Car::Car(MyMesh* cubeMesh, MyMesh* torusMesh, bool isCollisionEnabled_in, float 
 	bodyMaterial.shininess = 0.0f;
 	bodyMaterial.texCount = 0;
 	bodyMesh->mat = bodyMaterial;
-	// top material
-	//float amb2[] = { 0.5f, 0.2f, 1.0f, 1.0f };
-	//float diff2[] = { 0.5f, 0.2f, 1.0f, 1.0f };
-	//float spec2[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	//float emissive2[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	//memcpy(topMaterial.ambient, amb2, 4 * sizeof(float));
-	//memcpy(topMaterial.diffuse, diff2, 4 * sizeof(float));
-	//memcpy(topMaterial.specular, spec2, 4 * sizeof(float));
-	//memcpy(topMaterial.emissive, emissive2, 4 * sizeof(float));
-	//topMaterial.shininess = 0.0f;
-	//topMaterial.texCount = 0;
 	// wheel material
 	float amb3[] = { 0.5f, 0.5f, 0.5f, 1.0f };
 	float diff3[] = { 0.5f, 0.5f, 0.5f, 1.0f };
@@ -316,7 +305,7 @@ void Car::ResolveCollision(GameObject3D* other)
 		wheel_rot_speed = speed / wheel_radius * 40.0f;
 	}
 	if (other->GetType() == GameObject3D::TYPE::Orange) {
-		float new_pos[3] = { 5.0f, 0.3f, 0.0f };///!!!!!!!!!!!!!!!!!!!!!!!
+		float new_pos[3] = { 5.0f, 0.3f, 0.0f };
 		std::copy(new_pos, new_pos + 3, position);
 	}
 }

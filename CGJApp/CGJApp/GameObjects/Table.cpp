@@ -15,10 +15,6 @@ Table::Table(Material material_in, MyMesh* meshPtr, float startPosition[3], int 
 	bb_type = GameObject3D::BB_TYPE::Cubic;
 	type = GameObject3D::TYPE::Table;
 
-	
-
-	//printf("position[0] - [%f], position[2] - [%f]\n", position[0], position[2]);
-
 	float sizeVar[] = { width, lenght, height };
 
 	memcpy(size, sizeVar, 3 * sizeof(float));
@@ -34,46 +30,12 @@ Table::Table(Material material_in, MyMesh* meshPtr, float startPosition[3], int 
 	
 }
 
-//void Table::PrepareMeshMaterial()
-//{
-//
-//	float amb[] = { 0.9f, 0.8f, 0.5f, 1.0f };
-//	float diff[] = { 0.9f, 0.8f, 0.5f, 1.0f };
-//	float spec[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-//	float emissive[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-//	float shininess = 800.0f;
-//	int texcount = 0;
-//
-//	memcpy(mesh->mat.ambient, amb, 4 * sizeof(float));
-//	memcpy(mesh->mat.diffuse, diff, 4 * sizeof(float));
-//	memcpy(mesh->mat.specular, spec, 4 * sizeof(float));
-//	memcpy(mesh->mat.emissive, emissive, 4 * sizeof(float));
-//	mesh->mat.shininess = shininess;
-//	mesh->mat.texCount = texcount;
-//
-//	
-//}
-
-//void Table::PrepareMeshMaterial(Material m)
-//{
-//
-//	memcpy(mesh->mat.ambient, m.ambient, 4 * sizeof(float));
-//	memcpy(mesh->mat.diffuse, m.diffuse, 4 * sizeof(float));
-//	memcpy(mesh->mat.specular, m.specular, 4 * sizeof(float));
-//	memcpy(mesh->mat.emissive, m.emissive, 4 * sizeof(float));
-//	mesh->mat.shininess = m.shininess;
-//	mesh->mat.texCount = m.texCount;
-//}
 
 void Table::Update()
 {
 
 	MoveTable();
 	float offset[3] = { 0.0f, 0.0f, 0.0f };
-
-	//if (!isCollisionEnabled) {
-	//	translate(MODEL, position[0] - table_length / 2, position[1], position[2] - table_length / 2);
-	//}
 	translate(MODEL, position[0], position[1], position[2]);
 	subtract(old_position, position, offset);
 	translate_bb(offset);
@@ -89,10 +51,6 @@ void Table::Paused()
 
 	MoveTable();
 	float offset[3] = { 0.0f, 0.0f, 0.0f };
-
-	//if (!isCollisionEnabled) {
-	//	translate(MODEL, position[0] - table_length / 2, position[1], position[2] - table_length / 2);
-	//}
 	translate(MODEL, position[0], position[1], position[2]);
 	subtract(old_position, position, offset);
 	translate_bb(offset);
@@ -188,7 +146,6 @@ void Table::MoveTable()
 	constProduct(TimeUtil::deltaTime * speed, direction, velocity);
 	if (!length(velocity) == 0) {
 		std::copy(position, position + 3, old_position);
-		//printf("velocity[0] - [%f], velocity[1] - [%f], velocity[2] - [%f]\n", velocity[0], velocity[1], velocity[2]);
 	}
 	add(position, velocity, position);
 }

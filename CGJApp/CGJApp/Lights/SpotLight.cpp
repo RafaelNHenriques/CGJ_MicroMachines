@@ -18,7 +18,5 @@ void SpotLight::SetConeDirection(float newDirection[4]) {
 }
 
 void SpotLight::UpdateTransform(MatrixTypes m, float translate[4]) {
-	//printf("updatetransform: %f %f %f %f\n", light.position[0], light.position[1], light.position[2], light.position[3]);
 	multMatrixPoint(m, translate, light.position);
-	//printf("updatetransform: %f %f %f %f\n", light.position[0], light.position[1], light.position[2], light.position[3]);
 }

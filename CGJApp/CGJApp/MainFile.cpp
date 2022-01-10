@@ -231,16 +231,10 @@ void SendMeshMaterial(MyMesh* mesh, int billboardType)
 
 void SendLights(LightProperties* lProps, int lightId)
 {
-	//printf("pos: %f %f %f \n", lProps->position[0], lProps->position[1], lProps->position[2]);
-	//printf("dir: %f %f %f \n", lProps->coneDirection[0], lProps->coneDirection[1], lProps->coneDirection[2]);
-
 	float lightPos[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 	float coneDir[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 	if (lProps->isSpot == 0)
 	{
-		//if (lProps->isLocal == 0) 
-			//printf("dir BEFORE VIEW: %f %f %f %f\n", lProps->position[0], lProps->position[1], lProps->position[2], lProps->position[3]);
-
 		multMatrixPoint(VIEW, lProps->position, lightPos);
 
 		if (lProps->isLocal == 0) {
@@ -345,9 +339,6 @@ void detectCollisions() {
 
 		if (obj_a->GetIsCollisionEnabled() ) 
 		{
-		// Resolver colisões com car<<<<<<<<<<<<<<<<<<!!!!!!!!!!!!!!!!!!
-
-			//printf("bb bounds ( %f, %f, %f, %f, %f, %f)\n", t->GetBBBounds()[0], t->GetBBBounds()[1], t->GetBBBounds()[2], t->GetBBBounds()[3], t->GetBBBounds()[4], t->GetBBBounds()[5]);
 			if (obj_a->GetType() == GameObject3D::TYPE::Orange || obj_a->GetType() == GameObject3D::TYPE::Cheerio || obj_a->GetType() == GameObject3D::TYPE::Table) {
 				result = car.DetectCollision(obj_a);
 			}
@@ -1137,7 +1128,7 @@ void init()
 
 	Material m4;
 
-	float amb4[] = { 0.2f, 0.15f, 0.1f, 1.0f };
+	float amb4[] = { 0.36f, 0.2f, 0.2f, 1.0f };
 	float diff4[] = { 0.545f, 0.27f, 0.255f, 1.0f };
 	float spec4[] = { 0.545f, 0.27f, 0.255f, 1.0f };
 
@@ -1196,13 +1187,6 @@ void init()
 
 	t121.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t121);
-
-
-
-
-
-
-
 
 
 
