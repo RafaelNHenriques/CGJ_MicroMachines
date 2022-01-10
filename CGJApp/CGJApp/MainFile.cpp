@@ -65,9 +65,6 @@ VSShaderLib shaderText;  //render bitmap text
 //File with the font
 const string font_name = "fonts/arial.ttf";
 
-//Vector with meshes
-//vector<MyMesh> myMeshes;
-
 vector<GameObject3D*> gameObjectsRef;
 
 vector<Camera> cameras;
@@ -347,12 +344,6 @@ void detectCollisions() {
 		if (result) {
 			printf("car colided with object \n");
 			car.ResolveCollision(obj_a);
-			if (obj_a->GetType() == GameObject3D::TYPE::Orange) {
-				//
-				// 
-				//gameManager.DecreaseLives();
-				//c1 = c2 = c3 = false;
-			}
 		}
 	}
 }
@@ -417,59 +408,30 @@ void drawObjects(bool isShadow) {
 
 		objRef->PrepareMeshMaterial();
 		MyMesh* mesh = objRef->GetMesh();
-		//if (objRef->GetType() == GameObject3D::TYPE::Billboard) {
-		//	SendMeshMaterial(mesh, 1);
-		//}
-		//else {
-			SendMeshMaterial(mesh, 0);
-		//}
+		SendMeshMaterial(mesh, 0);
 
 		pushMatrix(MODEL);
+		
+		objRef->Update();
 
-		if (pause == false /* || objRef->GetType() == GameObject3D::TYPE::Billboard*/)
-			objRef->Update();
-		else
-			objRef->Paused();
-
-		// FIXME refactor
 		if (objId == gameObjectsRef.size() - 1)
 		{
 			glUniform1i(texMode_uniformId, 3); // multitexturing
 		}
-		//else if (objRef->GetType() == GameObject3D::TYPE::Billboard)
-		//{
-		//	//printf("Billboard in renderScene\n");
-		//	Billboard* bb = dynamic_cast<Billboard*>(objRef);
-		//	bb->orientateBillboard(pCam2.GetPosition(), 3);
-
-		//	glUniform1i(texMode_uniformId, 4);
-		//}
-		//else if (objRef->GetType() == GameObject3D::TYPE::Orange) {
-		//	if (bumpmap)
-		//		glUniform1i(texMode_uniformId, 6);
-		//	else
-		//		glUniform1i(texMode_uniformId, 0); //bump mapping: normal comes from normalMap
-		//}
 		else
 		{
 			glUniform1i(texMode_uniformId, 0);
 		}
 
 		if (objRef->GetIsEnabled() && objId != 0) {
-			if ((gameObjectsRef.size() - 7 <= objId <= gameObjectsRef.size() - 3 || objRef->GetType() == GameObject3D::TYPE::Billboard) && !isShadow) {
+			if ((gameObjectsRef.size() - 7 <= objId <= gameObjectsRef.size() - 3) && !isShadow) {
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				glEnable(GL_BLEND);
 
 			}
-			if (objRef->GetType() != GameObject3D::TYPE::Billboard) {
-				//glUniformMatrix4fv(view_uniformId, 1, GL_FALSE, mMatrix[VIEW]);
-				computeDerivedMatrix(PROJ_VIEW_MODEL);
-			}
-			if (!(isShadow && objRef->GetType() == GameObject3D::TYPE::Billboard)) // don't draw billboard shadow
-			{
-				RenderMesh(mesh);
-			}
-			if ((gameObjectsRef.size() - 7 <= objId <= gameObjectsRef.size() - 3 || objRef->GetType() == GameObject3D::TYPE::Billboard) && !isShadow) {
+			computeDerivedMatrix(PROJ_VIEW_MODEL);
+			RenderMesh(mesh);
+			if ((gameObjectsRef.size() - 7 <= objId <= gameObjectsRef.size() - 3 ) && !isShadow) {
 				glDisable(GL_BLEND);
 
 			}
@@ -575,20 +537,11 @@ void renderScene(void) {
 	glBindTexture(GL_TEXTURE_2D, TextureArray[1]);
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, TextureArray[2]);
-	//glActiveTexture(GL_TEXTURE3);
-	//glBindTexture(GL_TEXTURE_2D, TextureArray[3]);
-	//glActiveTexture(GL_TEXTURE4);
-	//glBindTexture(GL_TEXTURE_2D, TextureArray[4]);
-	//glActiveTexture(GL_TEXTURE5);
-	//glBindTexture(GL_TEXTURE_CUBE_MAP, TextureArray[5]);
 
 	//Indicar aos quais os Texture Units a serem usados
 	glUniform1i(tex_loc, 0);
 	glUniform1i(tex_loc1, 1);
 	glUniform1i(tex_loc2, 2);
-	//glUniform1i(tex_loc3, 3);
-	//glUniform1i(tex_normalMap_loc, 4);
-	//glUniform1i(tex_cube_loc, 5);
 
 	glUniform1i(texMode_uniformId, 0); // FIXME refactor
 
@@ -605,36 +558,6 @@ void renderScene(void) {
 	glUniform1i(texMode_uniformId, 0);
 	UpdateCarMeshes();
 
-
-	//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.ambient");
-	//glUniform4fv(loc, 1, myMeshes[objId].mat.ambient);
-	//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.diffuse");
-	//glUniform4fv(loc, 1, myMeshes[objId].mat.diffuse);
-	//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.specular");
-	//glUniform4fv(loc, 1, myMeshes[objId].mat.specular);
-	//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.shininess");
-	//glUniform1f(loc, myMeshes[objId].mat.shininess);
-	//pushMatrix(MODEL);
-	//translate(MODEL, 1.5 * 2.0f, 0.0f, 1 * 2.0f);
-
-	// send matrices to OGL
-	//computeDerivedMatrix(PROJ_VIEW_MODEL);
-	//glUniformMatrix4fv(vm_uniformId, 1, GL_FALSE, mCompMatrix[VIEW_MODEL]);
-	//glUniformMatrix4fv(pvm_uniformId, 1, GL_FALSE, mCompMatrix[PROJ_VIEW_MODEL]);
-	//computeNormalMatrix3x3();
-	//glUniformMatrix3fv(normal_uniformId, 1, GL_FALSE, mNormal3x3);
-
-	// Render mesh
-	//glBindVertexArray(myMeshes[objId].vao);
-
-	//if (!shader.isProgramValid()) {
-	//	printf("Program Not Valid!\n");
-	//	exit(1);
-	//}
-	//glDrawElements(myMeshes[objId].type, myMeshes[objId].numIndexes, GL_UNSIGNED_INT, 0);
-	//glBindVertexArray(0);
-
-	//popMatrix(MODEL);
 	objId++;
 	//Render text (bitmap fonts) in screen coordinates. So use ortoghonal projection with viewport coordinates.
 	glDisable(GL_DEPTH_TEST);
@@ -652,8 +575,6 @@ void renderScene(void) {
 	pushMatrix(VIEW);
 	loadIdentity(VIEW);
 	ortho(m_viewport[0], m_viewport[0] + m_viewport[2] - 1, m_viewport[1], m_viewport[1] + m_viewport[3] - 1, -1, 1);
-	//RenderText(shaderText, "This is a sample text", 25.0f, 25.0f, 1.0f, 0.5f, 0.8f, 0.2f);
-	//RenderText(shaderText, "CGJ Light and Text Rendering Demo", 440.0f, 570.0f, 0.5f, 0.3, 0.7f, 0.9f);
 	popMatrix(PROJECTION);
 	popMatrix(VIEW);
 	popMatrix(MODEL);
@@ -926,8 +847,6 @@ void initMeshPrimitives()
 	cubeMesh = createCube();
 	sphereMesh = createSphere(1.0f, 10);
 	torusMesh = createTorus(0.5f, 1.0f, 10, 20);
-	//billboardMesh = createQuad(6, 6);
-	//quadMesh = createQuad(2, 2);
 }
 
 void initLights()
@@ -968,20 +887,9 @@ void initTextures()
 	ilInit();
 
 	glGenTextures(7, TextureArray);
-	//Texture2D_Loader(TextureArray, "orange_normal.tga", 0);
 	Texture2D_Loader(TextureArray, "Orange.jpg", 0);
-	//Texture2D_Loader(TextureArray, "checkers_pattern.png", 1);
 	Texture2D_Loader(TextureArray, "Choco.jpg", 1);
 	Texture2D_Loader(TextureArray, "lightwood.tga", 2);
-	//Texture2D_Loader(TextureArray, "tree.tga", 3);
-	//Texture2D_Loader(TextureArray, "normal.tga", 4);
-
-	//const char* filenames[] = { "posx.jpg", "negx.jpg", "posy.jpg", "negy.jpg", "posz.jpg", "negz.jpg" };
-
-	//TextureCubeMap_Loader(TextureArray, filenames, 5);
-
-
-	//Texture2D_Loader(TextureArray, "particle.tga", 6);
 }
 
 
@@ -999,7 +907,6 @@ void init()
 	initMeshPrimitives();
 	initFog();
 
-	//float carPos[3] = { 0.0f, 0.0f, 0.0f };
 	car = Car(&cubeMesh, &torusMesh, true, 1.0f);
 	bodyMesh = car.GetBodyMesh();
 	wheelsMesh = car.GetWheelMesh();

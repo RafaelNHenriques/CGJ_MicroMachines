@@ -137,85 +137,16 @@ void main() {
 	if(shadowMode)
 		colorOut = vec4(vec3(0.5), 1.0);
 	else {
-		if(texMode == 0 || texMode == 6) // no texture applied
+		if(texMode == 0) // no texture applied
 		{
 			colorOut = max(totalIntensity * mat.diffuse + totalSpec, mat.ambient);
 		}
-//		if(texMode == 1) // modulate diffuse color with texel color
-//		{
-//			texel = texture(texmap2, DataIn.tex_coord);  // texel from lighwood.tga
-//			colorOut = max(totalIntensity * mat.diffuse * texel + totalSpec,0.07 * texel);
-//		}
-//		else if (texMode == 2) // diffuse color is replaced by texel color, with specular area or ambient (0.1*texel)
-//		{
-//			texel = texture(texmap, DataIn.tex_coord);  // texel from stone.tga
-//			colorOut = max(totalIntensity*texel + totalSpec, 0.07*texel);
-//		}
 		else if (texMode == 3) // multitexturing
 		{
-			texel = texture(texmap2, DataIn.tex_coord);  // texel from lighwood.tga
-			texel1 = texture(texmap1, DataIn.tex_coord);  // texel from checker.tga
+			texel = texture(texmap2, DataIn.tex_coord);
+			texel1 = texture(texmap1, DataIn.tex_coord);
 			colorOut = vec4(max(totalIntensity * texel.rgb * texel1.rgb + totalSpec.rgb, 0.07 * texel.rgb * texel1.rgb), 0.80);
 		}
-//		else if (texMode == 4) // billboards
-//		{
-//			texel = texture(texmap3, DataIn.tex_coord);  // texel from tree.tga
-//
-//			if(texel.a == 0.0) discard;
-//			else
-//				colorOut = max(totalIntensity*texel + totalSpec, 0.1*texel);
-//		}
-//		else if (texMode == 5) // cubemap
-//		{
-//			colorOut = texture(cubeMap, DataIn.skyboxTexCoord);
-//		}
-//		else if(texMode == 7) // Environmental cube mapping
-//		{
-//			vec3 reflected1 = vec3 (transpose(m_View) * vec4 (vec3(reflect(-e, n)), 0.0)); //reflection vector in world coord
-//			reflected1.x = -reflected1.x;   
-//			cube_texel = texture(cubeMap, reflected1);
-//
-//			texel = texture(texmap2, DataIn.tex_coord);  // texel from lighwood.tga
-//			texel1 = texture(texmap1, DataIn.tex_coord);  // texel from checker.tga
-//
-//			vec4 aux_color = mix(texel, cube_texel, reflect_factor);
-//			vec4 aux_color1 = mix(texel1, cube_texel, reflect_factor);
-//
-//			aux_color = max(totalIntensity*aux_color*aux_color1 + totalSpec, 0.1*aux_color*aux_color1);
-//			colorOut = vec4(aux_color.rgb, 1.0);
-//		}
-//		else if (texMode == 8)
-//		{
-//			texel = texture(texmap, DataIn.tex_coord);  // texel from tree.tga
-//
-//			if(texel.a == 0.0 || (mat.diffuse.a == 0.0) ) discard;
-//			else
-//				colorOut = max(mat.diffuse*texel, 0.1*texel);
-//		}
-//		else if (texMode == 9) // obj from assimp
-//		{
-//			vec4 diff, auxSpec;
-//			vec4 c;
-//			if(mat.texCount == 0) {
-//				diff = mat.diffuse;
-//				auxSpec = mat.specular;
-//			}
-//			else {
-//				if(diffMapCount == 0)
-//					diff = mat.diffuse;
-//				else if(diffMapCount == 1) {
-//					diff = mat.diffuse * texture(texmap, DataIn.tex_coord);
-//				}
-//				else
-//					diff = mat.diffuse * texture(texmap, DataIn.tex_coord) * texture(texmap1, DataIn.tex_coord);
-//
-//				if(specularMap) 
-//					auxSpec = mat.specular * texture(texmap2, DataIn.tex_coord);
-//				else
-//					auxSpec = mat.specular;
-//			}
-//			colorOut = vec4((max(totalIntensity * diff, diff*0.15) + (totalSpec * auxSpec)).rgb, 1.0);
-//		}
 	}
 
 	//Efeito de nevoeiro
