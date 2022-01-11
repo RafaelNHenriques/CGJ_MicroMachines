@@ -164,9 +164,6 @@ PerspectiveCamera pCam2;
 OrthographicCamera oCam;
 bool flag = true;
 
-
-bool pause = false;
-
 void renderScene(void);
 
 
@@ -623,41 +620,29 @@ void processKeys(unsigned char key, int xx, int yy)
 			pl6.ToggleLight();
 			break;
 		case 'p':
-			if (pause == false) {
-				car.MoveRight();
-			}
+			car.MoveRight();
 			break;
 		case 'o':
-			if (pause == false) {
-				car.MoveLeft();
-			}
+			car.MoveLeft();
 			break;
 		case 'q':
-			if (pause == false) {
-				car.SetIsStopping(false);
-				car.MoveForward();
-			}
+			car.SetIsStopping(false);
+			car.MoveForward();
 			break;
 		case 'a':
-			if (pause == false) {
-				car.SetIsStopping(false);
-				car.MoveBackward();
-			}
+			car.SetIsStopping(false);
+			car.MoveBackward();
 			break;
 		case 'f':
-			if (pause == false) {
-				toggleFog = toggleFog == 0 ? 1 : 0;
-				glUniform1i(toggleFog_uniformId, toggleFog);
-			}
+			toggleFog = toggleFog == 0 ? 1 : 0;
+			glUniform1i(toggleFog_uniformId, toggleFog);
 			break;
 		case 'h':
 			car.GetSpotLightLeft()->isEnabled = car.GetSpotLightLeft()->isEnabled ? 0 : 1;
 			car.GetSpotLightRight()->isEnabled = car.GetSpotLightRight()->isEnabled ? 0 : 1;
 			break;
 		case 'n':
-			if (pause == false) {
-				dl.ToggleLight();
-			}
+			dl.ToggleLight();
 			break;
 	}
 }
