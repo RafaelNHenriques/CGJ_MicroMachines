@@ -157,5 +157,6 @@ C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(194
 C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1954,91): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
 C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1960,97): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
 C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(995,9): warning C4101: 'amesh': variável local não referenciada
+  LINK : C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\x64\Debug\CGJApp.exe não encontrado ou não compilado pelo o último link incremental; executando link completo
   CGJApp.vcxproj -> C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\x64\Debug\CGJApp.exe
   0 File(s) copied
