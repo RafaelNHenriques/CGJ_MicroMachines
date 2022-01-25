@@ -35,6 +35,7 @@
 #include "geometry.h"
 #include "flare.h"
 
+
 #include "avtFreeType.h"
 #include "Texture_Loader.h"
 
@@ -64,7 +65,8 @@ VSShaderLib shader;  //geometry
 VSShaderLib shaderText;  //render bitmap text
 
 //File with the font
-const string font_name = "fonts/arial.ttf";
+//const string font_name = "fonts/arial.ttf";
+const string font_name = "fonts/ariblk.ttf";
 
 //Vector with meshes
 //vector<MyMesh> myMeshes;
@@ -187,6 +189,20 @@ GameHudManager gameManager;
 
 void renderScene(void);
 
+#define frand()			((float)rand()/RAND_MAX)
+#define M_PI			3.14159265
+#define MAX_PARTICULAS  1500
+typedef struct {
+	float	life;		// vida
+	float	fade;		// fade
+	float	r, g, b;    // cor
+	GLfloat x, y, z;    // posiçcao
+	GLfloat vx, vy, vz; // velocidade 
+	GLfloat ax, ay, az; // aceleraçco
+} Particle;
+Particle particula[MAX_PARTICULAS];
+int dead_num_particles = 0;
+bool particlesActive;
 
 
 void timer(int value)
@@ -207,6 +223,39 @@ void refresh(int value)
 	renderScene();
 	glutTimerFunc(1000/60, refresh, 0);
 }
+
+
+void iniParticles(void)
+{
+	GLfloat v, theta, phi;
+	int i;
+
+	for (i = 0; i < MAX_PARTICULAS; i++)
+	{
+		v = 0.8 * frand() + 0.2;
+		phi = frand() * M_PI;
+		theta = 2.0 * frand() * M_PI;
+
+		particula[i].x = 0.0f;
+		particula[i].y = 10.0f;
+		particula[i].z = 0.0f;
+		particula[i].vx = v * cos(theta) * sin(phi);
+		particula[i].vy = v * cos(phi);
+		particula[i].vz = v * sin(theta) * sin(phi);
+		particula[i].ax = 0.1f; /* simular um pouco de vento */
+		particula[i].ay = -0.15f; /* simular a aceleraÁ„o da gravidade */
+		particula[i].az = 0.0f;
+
+		/* tom amarelado que vai ser multiplicado pela textura que varia entre branco e preto */
+		particula[i].r = 0.882f;
+		particula[i].g = 0.552f;
+		particula[i].b = 0.211f;
+
+		particula[i].life = 1.0f;		/* vida inicial */
+		particula[i].fade = 0.0025f;	    /* step de decrÈscimo da vida para cada iteraÁ„o */
+	}
+}
+
 // ------------------------------------------------------------
 //
 // Reshape Callback Function
@@ -389,6 +438,15 @@ void render_flare(FLARE_DEF* flare, int lx, int ly, int* m_viewport) {  //lx, ly
 	glDisable(GL_BLEND);
 }
 
+void restartObjects() {
+
+	for (int objId = 8; objId < gameObjectsRef.size() - 1; objId++) {
+		pushMatrix(MODEL);
+		gameObjectsRef[objId]->reset();
+		popMatrix(MODEL);
+	}
+}
+
 void RenderMesh(MyMesh* mesh)
 {
 	// send matrices to OGL
@@ -452,6 +510,31 @@ void detectCollisions() {
 				gameManager.DecreaseLives();
 				//c1 = c2 = c3 = false;
 			}
+		}
+	}
+}
+
+void updateParticles()
+{
+	int i;
+	float h;
+
+	/* MÈtodo de Euler de integraÁ„o de eq. diferenciais ordin·rias
+	h representa o step de tempo; dv/dt = a; dx/dt = v; e conhecem-se os valores iniciais de x e v */
+
+	//h = 0.125f;
+	h = 0.033;
+	if (particlesActive) {
+
+		for (i = 0; i < MAX_PARTICULAS; i++)
+		{
+			particula[i].x += (h * particula[i].vx);
+			particula[i].y += (h * particula[i].vy);
+			particula[i].z += (h * particula[i].vz);
+			particula[i].vx += (h * particula[i].ax);
+			particula[i].vy += (h * particula[i].ay);
+			particula[i].vz += (h * particula[i].az);
+			particula[i].life -= particula[i].fade;
 		}
 	}
 }
@@ -619,6 +702,75 @@ void UpdateCarMeshes() {
 
 }
 
+void RenderParticles()
+{
+	GLint loc;
+
+	float particle_color[4];
+
+	updateParticles();
+
+	// draw fireworks particles
+	//objId = 6;  //quad for particle
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, TextureArray[6]); //particle.tga associated to TU0 
+	glUniform1i(tex_loc, 0);  //use TU 0
+	glUniform1i(texMode_uniformId, 8); // draw modulated textured particles 
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glDepthMask(GL_FALSE);  //Depth Buffer Read Only
+
+
+	for (int i = 0; i < MAX_PARTICULAS; i++)
+	{
+		if (particula[i].life > 0.0f) /* sÛ desenha as que ainda est„o vivas */
+		{
+
+			/* A vida da partÌcula representa o canal alpha da cor. Como o blend est· activo a cor final È a soma da cor rgb do fragmento multiplicada pelo
+			alpha com a cor do pixel destino */
+
+			particle_color[0] = particula[i].r;
+			particle_color[1] = particula[i].g;
+			particle_color[2] = particula[i].b;
+			particle_color[3] = particula[i].life;
+
+			// send the material - diffuse color modulated with texture
+			loc = glGetUniformLocation(shader.getProgramIndex(), "mat.diffuse");
+			glUniform4fv(loc, 1, particle_color);
+
+			pushMatrix(MODEL);
+			translate(MODEL, particula[i].x, particula[i].y, particula[i].z);
+
+			// send matrices to OGL
+			float pos[3] = { (float)particula[i].x, (float)particula[i].y , (float)particula[i].z };
+//			l3dBillboardCylindricalBegin(pCam2.GetPosition(), pos);
+			computeDerivedMatrix(PROJ_VIEW_MODEL);
+			//printf("position of particle - (%f, %f, %f)\n", pos[0], pos[1], pos[2]);
+			glUniformMatrix4fv(vm_uniformId, 1, GL_FALSE, mCompMatrix[VIEW_MODEL]);
+			glUniformMatrix4fv(pvm_uniformId, 1, GL_FALSE, mCompMatrix[PROJ_VIEW_MODEL]);
+			computeNormalMatrix3x3();
+			glUniformMatrix3fv(normal_uniformId, 1, GL_FALSE, mNormal3x3);
+
+			glBindVertexArray(quadMesh.vao);
+			glDrawElements(quadMesh.type, quadMesh.numIndexes, GL_UNSIGNED_INT, 0);
+			popMatrix(MODEL);
+		}
+		else dead_num_particles++;
+	}
+
+	glDepthMask(GL_TRUE); //make depth buffer again writeable
+
+	if (dead_num_particles == MAX_PARTICULAS) {
+		particlesActive = false;
+//		c4 = false;
+		dead_num_particles = 0;
+		printf("All particles dead\n");
+	}
+
+}
 
 void renderScene(void) {
 
@@ -654,15 +806,6 @@ void renderScene(void) {
 	// use our shader
 	glUseProgram(shader.getProgramIndex());
 
-		//send the light position in eye coordinates
-		//glUniform4fv(lPos_uniformId, 1, lightPos); //efeito capacete do mineiro, ou seja lighPos foi definido em eye coord 
-
-		float res[4];
-		multMatrixPoint(VIEW, lightPos,res);   //lightPos definido em World Coord so is converted to eye space
-		glUniform4fv(lPos_uniformId, 1, res);
-
-	int objId=0; //id of the object mesh - to be used as index of mesh: Mymeshes[objID] means the current mesh
-
 	for (int i = 0; i < MAX_LIGHTS; i++)
 	{
 		SendLights(lights[i], i);
@@ -691,7 +834,40 @@ void renderScene(void) {
 
 	glUniform1i(texMode_uniformId, 0); // FIXME refactor
 
+	glEnable(GL_STENCIL_TEST);        // Escrever 1 no stencil buffer onde se for desenhar a reflex„o e a sombra
+	glStencilFunc(GL_NEVER, 0x1, 0x1);
+	glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+
 	drawTable();
+
+
+	glUniform1i(shadowMode_uniformId, 0);  //iluminaÁ„o phong
+
+	glStencilFunc(GL_EQUAL, 0x1, 0x1);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+
+
+
+	float res[4];
+	float mat[16];
+	GLfloat plano_chao[4] = { 0,1,0,0 };
+
+
+
+	// Render the reflected geometry
+	position[1] *= (-1.0f);  //mirror the position of light
+	multMatrixPoint(VIEW, position, res);
+
+	glUniform4fv(lPos_uniformId, 1, res);
+	pushMatrix(MODEL);
+
+	if (restart) {
+		restartObjects();
+		restart = false;
+	}
+
+	scale(MODEL, 1.0f, -1.0f, 1.0f);
+	glCullFace(GL_FRONT);
 
 	drawObjects(false);
 	detectCollisions();
@@ -704,60 +880,77 @@ void renderScene(void) {
 	glUniform1i(texMode_uniformId, 0);
 	UpdateCarMeshes();
 
-
-	//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.ambient");
-	//glUniform4fv(loc, 1, myMeshes[objId].mat.ambient);
-	//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.diffuse");
-	//glUniform4fv(loc, 1, myMeshes[objId].mat.diffuse);
-	//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.specular");
-	//glUniform4fv(loc, 1, myMeshes[objId].mat.specular);
-	//loc = glGetUniformLocation(shader.getProgramIndex(), "mat.shininess");
-	//glUniform1f(loc, myMeshes[objId].mat.shininess);
-	//pushMatrix(MODEL);
-	//translate(MODEL, 1.5 * 2.0f, 0.0f, 1 * 2.0f);
-
-	// send matrices to OGL
-	//computeDerivedMatrix(PROJ_VIEW_MODEL);
-	//glUniformMatrix4fv(vm_uniformId, 1, GL_FALSE, mCompMatrix[VIEW_MODEL]);
-	//glUniformMatrix4fv(pvm_uniformId, 1, GL_FALSE, mCompMatrix[PROJ_VIEW_MODEL]);
-	//computeNormalMatrix3x3();
-	//glUniformMatrix3fv(normal_uniformId, 1, GL_FALSE, mNormal3x3);
-
-	// Render mesh
-	//glBindVertexArray(myMeshes[objId].vao);
-
-	//if (!shader.isProgramValid()) {
-	//	printf("Program Not Valid!\n");
-	//	exit(1);
-	//}
-	//glDrawElements(myMeshes[objId].type, myMeshes[objId].numIndexes, GL_UNSIGNED_INT, 0);
-	//glBindVertexArray(0);
-
-	//popMatrix(MODEL);
-	objId++;
-	//Render text (bitmap fonts) in screen coordinates. So use ortoghonal projection with viewport coordinates.
-	glDisable(GL_DEPTH_TEST);
-	//the glyph contains background colors and non-transparent for the actual character pixels. So we use the blending
-	glEnable(GL_BLEND);  
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	int m_viewport[4];
-	glGetIntegerv(GL_VIEWPORT, m_viewport);
-
-	//viewer at origin looking down at  negative z direction
-	pushMatrix(MODEL);
-	loadIdentity(MODEL);
-	pushMatrix(PROJECTION);
-	loadIdentity(PROJECTION);
-	pushMatrix(VIEW);
-	loadIdentity(VIEW);
-	ortho(m_viewport[0], m_viewport[0] + m_viewport[2] - 1, m_viewport[1], m_viewport[1] + m_viewport[3] - 1, -1, 1);
-	//RenderText(shaderText, "This is a sample text", 25.0f, 25.0f, 1.0f, 0.5f, 0.8f, 0.2f);
-	//RenderText(shaderText, "CGJ Light and Text Rendering Demo", 440.0f, 570.0f, 0.5f, 0.3, 0.7f, 0.9f);
-	popMatrix(PROJECTION);
-	popMatrix(VIEW);
+	glCullFace(GL_BACK);
 	popMatrix(MODEL);
-	glEnable(GL_DEPTH_TEST);
+
+	position[1] *= (-1.0f);  //reset the light position
+	multMatrixPoint(VIEW, position, res);
+	glUniform4fv(lPos_uniformId, 1, res);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);		// Blend specular Ground with reflected geometry
+	drawTable();
+
+	// Render the Shadows
+	glUniform1i(shadowMode_uniformId, 1);  //Render with constant color
+	shadow_matrix(mat, plano_chao, position);
+
+	glDisable(GL_DEPTH_TEST); //To force the shadow geometry to be rendered even if behind the floor
+
+	////Dark the color stored in color buffer
+	glBlendFunc(GL_DST_COLOR, GL_ZERO);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_ZERO);
+
+	pushMatrix(MODEL);
+	multMatrix(MODEL, mat);
+	drawObjects(true);
+
+	//renderAssimpObjects();
+
+	// Render Car, FIXME Refactor gameObject3D
+	if (car.GetIsStopping())
+	{
+		car.StopMovement();
+	}
+
+	if (pause == false) {
+		car.MoveCar();
+	}
+	UpdateCarMeshes();
+	popMatrix(MODEL);
+
+
+	//	glEnable(GL_DEPTH_TEST);
+
+	glDisable(GL_STENCIL_TEST);
 	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+
+	//render the geometry
+	glUniform1i(shadowMode_uniformId, 0);
+	drawObjects(false);
+
+	//renderAssimpObjects();
+
+	// Render Car, FIXME Refactor gameObject3D
+	if (car.GetIsStopping())
+	{
+		car.StopMovement();
+	}
+
+	if (pause == false) {
+		car.MoveCar();
+	}
+	glUniform1i(texMode_uniformId, 0);
+	UpdateCarMeshes();
+	car.CalculateBoundingBox();
+
+	if (particlesActive)
+	{
+		RenderParticles();
+	}
+
+
 	// LENS FLARE
 
 	if (flareEffect) {
@@ -1173,6 +1366,7 @@ void init()
 	initLights();
 	initMeshPrimitives();
 	initFog();
+	initFlare();
 
 	gameManager = GameHudManager(&shaderText);
 

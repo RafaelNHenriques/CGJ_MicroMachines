@@ -71,33 +71,35 @@ void GameHudManager::RenderPointsText(int viewport[4])
 {
 	float posX = (viewport[0] + viewport[2] - 1) * 0.4f;
 	float posY = (viewport[1] + viewport[3] - 1) * 0.9f;
-	std::string t = "Points: " + std::to_string(points);
-	RenderText(*textShader, t, posX, posY, 0.5f, 0.0f, 0.0f, 0.0f);
+	std::string t = "POINTS: " + std::to_string(points);
+	RenderText(*textShader, t, posX, posY, 1.0f, 0.0f, 1.0f, 0.0f);
 }
 void GameHudManager::RenderLivesText(int viewport[4])
 {
 	float posX = (viewport[0] + viewport[2] - 1) * 0.05f;
 	float posY = (viewport[1] + viewport[3] - 1) * 0.9f;
-	std::string t = "Lives: " + std::to_string(lives);
-	RenderText(*textShader, t, posX, posY, 0.5f, 0.0f, 0.0f, 0.0f);
+	std::string t = "LIVES: " /* + std::to_string(lives)*/;
+	for(int i=0;i<lives;i++)
+		t += "I";
+	RenderText(*textShader, t, posX, posY, 1.0f, 0.0f, 1.0f, 0.0f);
 }
 void GameHudManager::RenderPauseText(int viewport[4])
 {
-	float posX = (viewport[0] + viewport[2] - 1) * 0.3f;
+	float posX = (viewport[0] + viewport[2] - 1) * 0.35f;
 	float posY = (viewport[1] + viewport[3] - 1) * 0.5f;
-	RenderText(*textShader, "Game paused", posX, posY, 0.5f, 0.0f, 0.0f, 0.0f);
-	posX = (viewport[0] + viewport[2] - 1) * 0.25f;
+	RenderText(*textShader, "GAME PAUSED", posX, posY, 1.0f, 0.0f, 0.0f, 1.0f);
+	posX = (viewport[0] + viewport[2] - 1) * 0.4f;
 	posY = (viewport[1] + viewport[3] - 1) * 0.4f;
-	RenderText(*textShader, "Press \"S\" to continue", posX, posY, 0.3f, 0.0f, 0.0f, 0.0f);
+	RenderText(*textShader, "Press \"S\" to continue", posX, posY, 0.5f, 0.0f, 0.0f, 1.0f);
 }
 
 void GameHudManager::RenderGameOverText(int viewport[4])
 {
-	float posX = (viewport[0] + viewport[2] - 1) * 0.3f;
+	float posX = (viewport[0] + viewport[2] - 1) * 0.35f;
 	float posY = (viewport[1] + viewport[3] - 1) * 0.5f;
-	RenderText(*textShader, "GAME OVER", posX, posY, 0.5f, 0.0f, 0.0f, 0.0f);
-	posX = (viewport[0] + viewport[2] - 1) * 0.25f;
+	RenderText(*textShader, "GAME OVER", posX, posY, 1.0f, 1.0f, 0.0f, 0.0f);
+	posX = (viewport[0] + viewport[2] - 1) * 0.4f;
 	posY = (viewport[1] + viewport[3] - 1) * 0.4f;
-	RenderText(*textShader, "Press \"R\" to continue", posX, posY, 0.3f, 0.0f, 0.0f, 0.0f);
+	RenderText(*textShader, "Press \"R\" to restart", posX, posY, 0.5f, 1.0f, 0.0f, 0.0f);
 }
 

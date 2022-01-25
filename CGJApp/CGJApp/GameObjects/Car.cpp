@@ -80,6 +80,7 @@ void Car::UpdateSpotLights()
 	dir[3] = 1.0f;
 	slLeft.SetConeDirection(dir);
 	slRight.SetConeDirection(dir);
+	printf("%f %f %f \n", position[0], position[1], position[2]);
 
 }
 

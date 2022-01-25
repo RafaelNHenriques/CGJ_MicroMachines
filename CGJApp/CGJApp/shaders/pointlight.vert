@@ -37,6 +37,27 @@ void main () {
 
     vec3 e_dir = vec3(-pos); //Direção do eye
 
+	vec3 aux;
+
+
+	if(texMode == 6 || useNormalMap)  {  //convert eye and light vectors to tangent space
+
+		//Calculate components of TBN basis in eye space
+		vec3 t = normalize(m_normal * tangent.xyz);  
+		vec3 b = tangent.w * cross(n, t);
+
+		aux.x = dot(l_dir, t);
+		aux.y = dot(l_dir, b);
+		aux.z = dot(l_dir, n);
+		l_dir = normalize(aux);
+
+		aux.x = dot(e_dir, t);
+		aux.y = dot(e_dir, b);
+		aux.z = dot(e_dir, n);
+		e_dir = normalize(aux);
+	}
+
+
 	DataOut.tex_coord = texCoord.st;
 
 	DataOut.normal = n;

@@ -170,5 +170,13 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="stone.tga" />
+    <Image Include="crcl.tga" />
+    <Image Include="flar.tga" />
+    <Image Include="hxgn.tga" />
+    <Image Include="ring.tga" />
+    <Image Include="sun.tga" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="flare.txt" />
   </ItemGroup>
 </Project>
