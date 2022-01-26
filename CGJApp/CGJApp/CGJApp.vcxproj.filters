@@ -81,6 +81,12 @@
     <ClCompile Include="GameHudManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\Billboard.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="l3dBillboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AVTmathLib.h">
@@ -150,6 +156,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="flare.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Billboard.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="l3DBillboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -34,13 +34,14 @@
 #include "VertexAttrDef.h"
 #include "geometry.h"
 #include "flare.h"
-
+#include "l3DBillboard.h"
 
 #include "avtFreeType.h"
 #include "Texture_Loader.h"
 
 // Custom headers
 #include "TimeUtil.h" 
+#include "GameObjects/Billboard.h"
 #include "GameObjects/Table.h"
 #include "GameObjects/Cheerios.h"
 #include "GameObjects/Orange.h"
@@ -134,6 +135,8 @@ char s[32];
 
 Table t;
 Table t20, t21, t22, t23, t24, t25, t26, t27, t28;//Road
+Billboard b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12;
+int billboardType = 0;
 Cheerios t111, t112, t113, t114, t115, t120, t121;
 Cheerios t211, t212, t213, t214, t215, t220, t221;
 Cheerios t311, t312, t313, t314, t315, t320, t321;
@@ -154,6 +157,7 @@ MyMesh cubeMesh;
 MyMesh torusMesh;
 MyMesh sphereMesh;
 MyMesh quadMesh;
+MyMesh billboardMesh;
 
 MyMesh* bodyMesh;
 MyMesh* wheelsMesh;
@@ -599,16 +603,16 @@ void drawObjects(bool isShadow) {
 
 		objRef->PrepareMeshMaterial();
 		MyMesh* mesh = objRef->GetMesh();
-		//if (objRef->GetType() == GameObject3D::TYPE::Billboard) {
-		//	SendMeshMaterial(mesh, 1);
-		//}
-		//else {
+		if (objRef->GetType() == GameObject3D::TYPE::Billboard) {
+			SendMeshMaterial(mesh, 1);
+		}
+		else {
 			SendMeshMaterial(mesh, 0);
-		//}
+		}
 
 		pushMatrix(MODEL);
 
-		if (pause == false /* || objRef->GetType() == GameObject3D::TYPE::Billboard*/)
+		if (pause == false || objRef->GetType() == GameObject3D::TYPE::Billboard)
 			objRef->Update();
 		else
 			objRef->Paused();
@@ -618,14 +622,14 @@ void drawObjects(bool isShadow) {
 		{
 			glUniform1i(texMode_uniformId, 3); // multitexturing
 		}
-		//else if (objRef->GetType() == GameObject3D::TYPE::Billboard)
-		//{
+		else if (objRef->GetType() == GameObject3D::TYPE::Billboard)
+		{
 		//	//printf("Billboard in renderScene\n");
-		//	Billboard* bb = dynamic_cast<Billboard*>(objRef);
-		//	bb->orientateBillboard(pCam2.GetPosition(), 3);
+			Billboard* bb = dynamic_cast<Billboard*>(objRef);
+			bb->orientateBillboard(pCam2.GetPosition(), 3);
 
-		//	glUniform1i(texMode_uniformId, 4);
-		//}
+			glUniform1i(texMode_uniformId, 4);
+		}
 		//else if (objRef->GetType() == GameObject3D::TYPE::Orange) {
 		//	if (bumpmap)
 		//		glUniform1i(texMode_uniformId, 6);
@@ -644,7 +648,7 @@ void drawObjects(bool isShadow) {
 
 			}
 			if (objRef->GetType() != GameObject3D::TYPE::Billboard) {
-				//glUniformMatrix4fv(view_uniformId, 1, GL_FALSE, mMatrix[VIEW]);
+				glUniformMatrix4fv(view_uniformId, 1, GL_FALSE, mMatrix[VIEW]);
 				computeDerivedMatrix(PROJ_VIEW_MODEL);
 			}
 			if (!(isShadow && objRef->GetType() == GameObject3D::TYPE::Billboard)) // don't draw billboard shadow
@@ -710,9 +714,6 @@ void RenderParticles()
 
 	updateParticles();
 
-	// draw fireworks particles
-	//objId = 6;  //quad for particle
-
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, TextureArray[6]); //particle.tga associated to TU0 
 	glUniform1i(tex_loc, 0);  //use TU 0
@@ -746,7 +747,7 @@ void RenderParticles()
 
 			// send matrices to OGL
 			float pos[3] = { (float)particula[i].x, (float)particula[i].y , (float)particula[i].z };
-//			l3dBillboardCylindricalBegin(pCam2.GetPosition(), pos);
+			l3dBillboardCylindricalBegin(pCam2.GetPosition(), pos);
 			computeDerivedMatrix(PROJ_VIEW_MODEL);
 			//printf("position of particle - (%f, %f, %f)\n", pos[0], pos[1], pos[2]);
 			glUniformMatrix4fv(vm_uniformId, 1, GL_FALSE, mCompMatrix[VIEW_MODEL]);
@@ -817,8 +818,8 @@ void renderScene(void) {
 	glBindTexture(GL_TEXTURE_2D, TextureArray[1]);
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, TextureArray[2]);
-	//glActiveTexture(GL_TEXTURE3);
-	//glBindTexture(GL_TEXTURE_2D, TextureArray[3]);
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, TextureArray[3]);
 	//glActiveTexture(GL_TEXTURE4);
 	//glBindTexture(GL_TEXTURE_2D, TextureArray[4]);
 	//glActiveTexture(GL_TEXTURE5);
@@ -828,7 +829,7 @@ void renderScene(void) {
 	glUniform1i(tex_loc, 0);
 	glUniform1i(tex_loc1, 1);
 	glUniform1i(tex_loc2, 2);
-	//glUniform1i(tex_loc3, 3);
+	glUniform1i(tex_loc3, 3);
 	//glUniform1i(tex_normalMap_loc, 4);
 	//glUniform1i(tex_cube_loc, 5);
 
@@ -1064,6 +1065,14 @@ void processKeys(unsigned char key, int xx, int yy)
 				dl.ToggleLight();
 			}
 			break;
+		case 'k': billboardType++; if (billboardType == 5) billboardType = 0;
+			switch (billboardType) {
+			case 0: printf("Cheating Spherical (matrix reset)\n"); break;
+			case 1: printf("Cheating Cylindrical (matrix reset)\n"); break;
+			case 2: printf("True Spherical\n"); break;
+			case 3: printf("True Cylindrical\n"); break;
+			case 4: printf("No billboarding\n"); break;
+			}
 		case 's':
 			if (gameManager.GetLives() != 0) {
 				printf("pause\n");
@@ -1224,6 +1233,7 @@ GLuint setupShaders() {
 	tex_loc = glGetUniformLocation(shader.getProgramIndex(), "texmap");
 	tex_loc1 = glGetUniformLocation(shader.getProgramIndex(), "texmap1");
 	tex_loc2 = glGetUniformLocation(shader.getProgramIndex(), "texmap2");
+	tex_loc3 = glGetUniformLocation(shader.getProgramIndex(), "texmap3");
 	
 	printf("InfoLog for Per Fragment Phong Lightning Shader\n%s\n\n", shader.getAllInfoLogs().c_str());
 
@@ -1272,7 +1282,7 @@ void initMeshPrimitives()
 	cubeMesh = createCube();
 	sphereMesh = createSphere(1.0f, 10);
 	torusMesh = createTorus(0.5f, 1.0f, 10, 20);
-	//billboardMesh = createQuad(6, 6);
+	billboardMesh = createQuad(6, 6);
 	quadMesh = createQuad(2, 2);
 }
 
@@ -1319,7 +1329,7 @@ void initTextures()
 	//Texture2D_Loader(TextureArray, "checkers_pattern.png", 1);
 	Texture2D_Loader(TextureArray, "Choco.jpg", 1);
 	Texture2D_Loader(TextureArray, "lightwood.tga", 2);
-	//Texture2D_Loader(TextureArray, "tree.tga", 3);
+	Texture2D_Loader(TextureArray, "tree.tga", 3);
 	//Texture2D_Loader(TextureArray, "normal.tga", 4);
 
 	//const char* filenames[] = { "posx.jpg", "negx.jpg", "posy.jpg", "negy.jpg", "posz.jpg", "negz.jpg" };
@@ -1327,7 +1337,7 @@ void initTextures()
 	//TextureCubeMap_Loader(TextureArray, filenames, 5);
 
 
-	//Texture2D_Loader(TextureArray, "particle.tga", 6);
+	Texture2D_Loader(TextureArray, "particle.tga", 6);
 }
 
 
@@ -1367,6 +1377,7 @@ void init()
 	initMeshPrimitives();
 	initFog();
 	initFlare();
+
 
 	gameManager = GameHudManager(&shaderText);
 
@@ -1497,6 +1508,84 @@ void init()
 
 	t27.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t27);
+
+	//Billboards
+
+	Material mtree;
+
+	float tree_spec[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	float tree_shininess = 10.0f;
+	float emissive_tree[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	int texcount_tree = 0;
+
+	//memcpy(mtree.ambient, amb3, 4 * sizeof(float));
+	//memcpy(mtree.diffuse, diff3, 4 * sizeof(float));
+	memcpy(mtree.specular, tree_spec, 4 * sizeof(float));
+	memcpy(mtree.emissive, emissive_tree, 4 * sizeof(float));
+	mtree.shininess = tree_shininess;
+	mtree.texCount = texcount_tree;
+
+	float tPosBillboard1[3] = { 0.0f, 3.0f, -10.0f };
+	b1 = Billboard(mtree, &billboardMesh, tPosBillboard1, gameObjectsRef.size(), false, 1.0f, 1.0f, 1.0f);
+	b1.PrepareMeshMaterial();
+	gameObjectsRef.push_back(&b1);
+
+	float tPosBillboard2[3] = { 0.0f, 3.0f, 25.0f };
+	b2 = Billboard(mtree, &billboardMesh, tPosBillboard2, gameObjectsRef.size(), false, 1.0f, 1.0f, 1.0f);
+	b2.PrepareMeshMaterial();
+	gameObjectsRef.push_back(&b2);
+
+	float tPosBillboard3[3] = { 20.0f, 3.0f, 25.0f };
+	b3 = Billboard(mtree, &billboardMesh, tPosBillboard3, gameObjectsRef.size(), false, 1.0f, 1.0f, 1.0f);
+	b3.PrepareMeshMaterial();
+	gameObjectsRef.push_back(&b3);
+
+	float tPosBillboard4[3] = { 0.0f, 3.0f, 45.0f };
+	b4 = Billboard(mtree, &billboardMesh, tPosBillboard4, gameObjectsRef.size(), false, 1.0f, 1.0f, 1.0f);
+	b4.PrepareMeshMaterial();
+	gameObjectsRef.push_back(&b4);
+
+	float tPosBillboard5[3] = { 50.0f, 3.0f, 103.0f };
+	b5 = Billboard(mtree, &billboardMesh, tPosBillboard5, gameObjectsRef.size(), false, 1.0f, 1.0f, 1.0f);
+	b5.PrepareMeshMaterial();
+	gameObjectsRef.push_back(&b5);
+
+	float tPosBillboard6[3] = { 120.0f, 3.0f, 103.0f };
+	b6 = Billboard(mtree, &billboardMesh, tPosBillboard6, gameObjectsRef.size(), false, 1.0f, 1.0f, 1.0f);
+	b6.PrepareMeshMaterial();
+	gameObjectsRef.push_back(&b6);
+
+	float tPosBillboard7[3] = { 50.0f, 3.0f, -97.0f };
+	b7 = Billboard(mtree, &billboardMesh, tPosBillboard7, gameObjectsRef.size(), false, 1.0f, 1.0f, 1.0f);
+	b7.PrepareMeshMaterial();
+	gameObjectsRef.push_back(&b7);
+
+	float tPosBillboard8[3] = { 120.0f, 3.0f, -97.0f };
+	b8 = Billboard(mtree, &billboardMesh, tPosBillboard8, gameObjectsRef.size(), false, 1.0f, 1.0f, 1.0f);
+	b8.PrepareMeshMaterial();
+	gameObjectsRef.push_back(&b8);
+
+	float tPosBillboard9[3] = { 163.0f, 3.0f, 0.0f };
+	b9 = Billboard(mtree, &billboardMesh, tPosBillboard9, gameObjectsRef.size(), false, 1.0f, 1.0f, 1.0f);
+	b9.PrepareMeshMaterial();
+	gameObjectsRef.push_back(&b9);
+
+
+	float tPosBillboard10[3] = { 163.0f, 3.0f, -60.0f };
+	b10 = Billboard(mtree, &billboardMesh, tPosBillboard10, gameObjectsRef.size(), false, 1.0f, 1.0f, 1.0f);
+	b10.PrepareMeshMaterial();
+	gameObjectsRef.push_back(&b10);
+
+	float tPosBillboard11[3] = { 163.0f, 3.0f, 60.0f };
+	b11 = Billboard(mtree, &billboardMesh, tPosBillboard11, gameObjectsRef.size(), false, 1.0f, 1.0f, 1.0f);
+	b11.PrepareMeshMaterial();
+	gameObjectsRef.push_back(&b11);
+
+	float tPosBillboard12[3] = { 20.0f, 3.0f, -50.0f };
+	b12 = Billboard(mtree, &billboardMesh, tPosBillboard12, gameObjectsRef.size(), false, 1.0f, 1.0f, 1.0f);
+	b12.PrepareMeshMaterial();
+	gameObjectsRef.push_back(&b12);
+
 
 	Material m4;
 

@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CGJApp", "CGJApp\CGJApp.vcx
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3ED781C2-9784-4E91-AB1A-023710491ADD}"
 	ProjectSection(SolutionItems) = preProject
+		CGJApp\l3dBillboard.cpp = CGJApp\l3dBillboard.cpp
+		CGJApp\l3DBillboard.h = CGJApp\l3DBillboard.h
 		CGJApp\lightwood.tga = CGJApp\lightwood.tga
 	EndProjectSection
 EndProject

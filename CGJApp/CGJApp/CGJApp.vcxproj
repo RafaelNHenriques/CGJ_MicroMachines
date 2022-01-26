@@ -165,10 +165,12 @@
     <ClCompile Include="Camera\OrthographicCamera.cpp" />
     <ClCompile Include="Camera\PerspectiveCamera.cpp" />
     <ClCompile Include="GameHudManager.cpp" />
+    <ClCompile Include="GameObjects\Billboard.cpp" />
     <ClCompile Include="GameObjects\Car.cpp" />
     <ClCompile Include="GameObjects\Cheerios.cpp" />
     <ClCompile Include="GameObjects\Orange.cpp" />
     <ClCompile Include="GameObjects\Table.cpp" />
+    <ClCompile Include="l3dBillboard.cpp" />
     <ClCompile Include="Lights\DirectionalLight.cpp" />
     <ClCompile Include="Lights\Light.cpp" />
     <ClCompile Include="Lights\PointLight.cpp" />
@@ -188,12 +190,14 @@
     <ClInclude Include="flare.h" />
     <ClInclude Include="ft2build.h" />
     <ClInclude Include="GameHudManager.h" />
+    <ClInclude Include="GameObjects\Billboard.h" />
     <ClInclude Include="GameObjects\Car.h" />
     <ClInclude Include="GameObjects\Cheerios.h" />
     <ClInclude Include="GameObjects\GameObject3D.h" />
     <ClInclude Include="GameObjects\Orange.h" />
     <ClInclude Include="GameObjects\Table.h" />
     <ClInclude Include="geometry.h" />
+    <ClInclude Include="l3DBillboard.h" />
     <ClInclude Include="Lights\DirectionalLight.h" />
     <ClInclude Include="Lights\Light.h" />
     <ClInclude Include="Lights\PointLight.h" />

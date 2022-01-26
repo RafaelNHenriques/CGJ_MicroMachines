@@ -157,14 +157,14 @@ void main() {
 			texel1 = texture(texmap1, DataIn.tex_coord);  // texel from checker.tga
 			colorOut = vec4(max(totalIntensity * texel.rgb * texel1.rgb + totalSpec.rgb, 0.07 * texel.rgb * texel1.rgb), 0.80);
 		}
-//		else if (texMode == 4) // billboards
-//		{
-//			texel = texture(texmap3, DataIn.tex_coord);  // texel from tree.tga
-//
-//			if(texel.a == 0.0) discard;
-//			else
-//				colorOut = max(totalIntensity*texel + totalSpec, 0.1*texel);
-//		}
+		else if (texMode == 4) // billboards
+		{
+			texel = texture(texmap3, DataIn.tex_coord);  // texel from tree.tga
+
+			if(texel.a == 0.0) discard;
+			else
+				colorOut = max(totalIntensity*texel + totalSpec, 0.1*texel);
+		}
 //		else if (texMode == 5) // cubemap
 //		{
 //			colorOut = texture(cubeMap, DataIn.skyboxTexCoord);
