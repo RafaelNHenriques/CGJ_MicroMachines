@@ -184,14 +184,14 @@ void main() {
 //			aux_color = max(totalIntensity*aux_color*aux_color1 + totalSpec, 0.1*aux_color*aux_color1);
 //			colorOut = vec4(aux_color.rgb, 1.0);
 //		}
-//		else if (texMode == 8)
-//		{
-//			texel = texture(texmap, DataIn.tex_coord);  // texel from tree.tga
-//
-//			if(texel.a == 0.0 || (mat.diffuse.a == 0.0) ) discard;
-//			else
-//				colorOut = max(mat.diffuse*texel, 0.1*texel);
-//		}
+		else if (texMode == 8)//Particles
+		{
+			texel = texture(texmap, DataIn.tex_coord);  // texel from paritcle.tga
+
+			if(texel.a == 0.0 || (mat.diffuse.a == 0.0) ) discard;
+			else
+				colorOut = max(mat.diffuse*texel, 0.1*texel);
+		}
 //		else if (texMode == 9) // obj from assimp
 //		{
 //			vec4 diff, auxSpec;

@@ -251,9 +251,9 @@ void iniParticles(void)
 		particula[i].az = 0.0f;
 
 		/* tom amarelado que vai ser multiplicado pela textura que varia entre branco e preto */
-		particula[i].r = 0.882f;
-		particula[i].g = 0.552f;
-		particula[i].b = 0.211f;
+		particula[i].r = 0.117f;
+		particula[i].g = 0.565f;
+		particula[i].b = 1.0;
 
 		particula[i].life = 1.0f;		/* vida inicial */
 		particula[i].fade = 0.0025f;	    /* step de decréscimo da vida para cada iteração */
@@ -526,7 +526,6 @@ void updateParticles()
 	/* Método de Euler de integração de eq. diferenciais ordinárias
 	h representa o step de tempo; dv/dt = a; dx/dt = v; e conhecem-se os valores iniciais de x e v */
 
-	//h = 0.125f;
 	h = 0.033;
 	if (particlesActive) {
 
@@ -749,7 +748,6 @@ void RenderParticles()
 			float pos[3] = { (float)particula[i].x, (float)particula[i].y , (float)particula[i].z };
 			l3dBillboardCylindricalBegin(pCam2.GetPosition(), pos);
 			computeDerivedMatrix(PROJ_VIEW_MODEL);
-			//printf("position of particle - (%f, %f, %f)\n", pos[0], pos[1], pos[2]);
 			glUniformMatrix4fv(vm_uniformId, 1, GL_FALSE, mCompMatrix[VIEW_MODEL]);
 			glUniformMatrix4fv(pvm_uniformId, 1, GL_FALSE, mCompMatrix[PROJ_VIEW_MODEL]);
 			computeNormalMatrix3x3();
@@ -1093,6 +1091,10 @@ void processKeys(unsigned char key, int xx, int yy)
 				//gameManager.TogglePause();
 				pause = false;
 			}
+		case 'e':
+			particlesActive = true;
+			iniParticles();
+			break;
 	}
 }
 

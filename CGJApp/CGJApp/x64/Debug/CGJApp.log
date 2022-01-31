@@ -1,2 +1,186 @@
-﻿  CGJApp.vcxproj -> C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\x64\Debug\CGJApp.exe
+﻿  MainFile.cpp
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(197,1): warning C4005: 'M_PI': redefinição de macro
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\GameObjects\Car.h(12): message : consulte a definição anterior de 'M_PI'
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(239,21): warning C4244: '=': conversão de 'double' para 'GLfloat', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(240,17): warning C4244: '=': conversão de 'double' para 'GLfloat', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(241,25): warning C4244: '=': conversão de 'double' para 'GLfloat', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(384,21): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(385,18): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(387,37): warning C4244: '=': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(388,35): warning C4244: '=': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(411,38): warning C4244: '=': conversão de 'float' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(365,25): warning C4101: 'alpha': variável local não referenciada
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(491,12): warning C4477: 'printf': a cadeia de formato '%s' requer um argumento do tipo 'char *', mas um argumento variadic 1 tem o tipo 'int'
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(491,12): warning C4313: 'printf': '%s' na cadeia de formato está em conflito com o argumento 1 do tipo 'int'
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(491,12): warning C4477: 'printf': a cadeia de formato '%s' requer um argumento do tipo 'char *', mas um argumento variadic 2 tem o tipo 'int'
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(491,12): warning C4313: 'printf': '%s' na cadeia de formato está em conflito com o argumento 2 do tipo 'int'
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(529,11): warning C4305: '=': truncamento de 'double' para 'float'
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(644,35): warning C4804: '<=': uso não seguro de tipo 'bool' em operação
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(657,35): warning C4804: '<=': uso não seguro de tipo 'bool' em operação
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(977,104): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(977,71): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(977,54): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(977,21): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(779,8): warning C4101: 'loc': variável local não referenciada
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1151,15): warning C4244: '=': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1153,14): warning C4244: '=': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1265,34): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1265,28): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1393,18): warning C4305: 'inicializando': truncamento de 'double' para 'float'
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1454,86): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1463,85): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1471,86): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1478,85): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1485,86): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1492,85): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1500,86): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1507,85): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1531,102): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1536,102): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1541,102): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1546,102): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1551,102): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1556,102): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1561,102): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1566,102): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1571,102): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1577,104): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1582,104): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1587,104): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1611,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1617,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1623,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1629,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1636,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1642,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1649,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1663,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1668,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1675,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1680,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1687,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1692,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1699,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1704,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1711,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1716,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1723,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1728,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1735,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1740,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1747,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1752,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1759,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1764,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1771,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1776,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1783,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1788,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1795,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1801,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1807,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1813,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1819,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1825,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1831,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1843,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1848,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1855,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1860,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1867,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1872,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1879,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1884,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1891,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1896,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1903,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1908,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1915,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1920,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1927,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1932,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1939,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1944,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1952,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1958,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1964,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1970,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1976,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1982,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1988,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2003,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2008,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2015,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2020,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2027,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2032,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2039,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2044,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2051,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2056,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2063,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2068,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2075,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2080,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2087,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2092,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2099,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2104,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2111,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2116,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2123,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2128,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2135,68): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2140,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2150,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2156,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2162,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2168,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2174,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2180,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2187,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2202,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2207,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2214,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2219,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2226,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2231,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2238,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2243,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2250,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2255,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2262,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2267,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2274,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2279,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2286,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2291,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2298,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2303,69): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2325,84): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2329,84): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2333,84): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2337,84): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2341,84): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2345,84): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2349,84): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2353,84): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2357,84): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2361,85): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2365,85): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2369,85): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2373,85): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2377,85): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2381,85): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2387,91): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2392,91): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2397,91): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2402,91): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2407,91): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2412,91): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2417,91): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2423,97): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(1375,9): warning C4101: 'amesh': variável local não referenciada
+C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\CGJApp\MainFile.cpp(2533,49): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+  CGJApp.vcxproj -> C:\Users\mario\Documents\GitHub\CGJ_MicroMachines\CGJApp\x64\Debug\CGJApp.exe
   0 File(s) copied
