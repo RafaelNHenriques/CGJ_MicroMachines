@@ -195,7 +195,7 @@ void renderScene(void);
 
 #define frand()			((float)rand()/RAND_MAX)
 #define M_PI			3.14159265
-#define MAX_PARTICULAS  1500
+#define MAX_PARTICULAS  6000
 typedef struct {
 	float	life;		// vida
 	float	fade;		// fade
@@ -234,15 +234,72 @@ void iniParticles(void)
 	GLfloat v, theta, phi;
 	int i;
 
+	for (i = 0; i < 500; i++)
+	{
+		particula[i].x = 0.0f;
+		particula[i].z = 0.0f;
+	}
+	for (i = 500; i < 1000; i++)
+	{
+		particula[i].x = 0.0f;
+		particula[i].z = 80.0f;
+	}
+	for (i = 1000; i < 1500; i++)
+	{
+		particula[i].x = 0.0f;
+		particula[i].z = -80.0f;
+	}
+
+	for (i = 1500; i < 2250; i++)
+	{
+		particula[i].x = 50.0f;
+		particula[i].z = 80.0f;
+	}
+	for (i = 2250; i < 3000; i++)
+	{
+		particula[i].x = 50.0f;
+		particula[i].z = -80.0f;
+	}
+
+	for (i = 3000; i < 3750; i++)
+	{
+		particula[i].x = 100.0f;
+		particula[i].z = 80.0f;
+	}
+	for (i = 3750; i < 4500; i++)
+	{
+		particula[i].x = 100.0f;
+		particula[i].z = -80.0f;
+	}
+	for (i = 4500; i < 5000; i++)
+	{
+
+		particula[i].x = 150.0f;
+		particula[i].z = 0.0f;
+
+	}
+	for (i = 5000; i < 5500; i++)
+	{
+
+		particula[i].x = 150.0f;
+		particula[i].z = 80.0f;
+
+	}
+	for (i = 5500; i < MAX_PARTICULAS; i++)
+	{
+
+		particula[i].x = 150.0f;
+		particula[i].z = -80.0f;
+
+	}
+
 	for (i = 0; i < MAX_PARTICULAS; i++)
 	{
 		v = 0.8 * frand() + 0.2;
 		phi = frand() * M_PI;
 		theta = 2.0 * frand() * M_PI;
 
-		particula[i].x = 0.0f;
 		particula[i].y = 10.0f;
-		particula[i].z = 0.0f;
 		particula[i].vx = v * cos(theta) * sin(phi);
 		particula[i].vy = v * cos(phi);
 		particula[i].vz = v * sin(theta) * sin(phi);
