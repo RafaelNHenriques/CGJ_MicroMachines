@@ -198,30 +198,30 @@ void main() {
 			else
 				colorOut = max(mat.diffuse*texel, 0.1*texel);
 		}
-//		else if (texMode == 9) // obj from assimp
-//		{
-//			vec4 diff, auxSpec;
-//			vec4 c;
-//			if(mat.texCount == 0) {
-//				diff = mat.diffuse;
-//				auxSpec = mat.specular;
-//			}
-//			else {
-//				if(diffMapCount == 0)
-//					diff = mat.diffuse;
-//				else if(diffMapCount == 1) {
-//					diff = mat.diffuse * texture(texmap, DataIn.tex_coord);
-//				}
-//				else
-//					diff = mat.diffuse * texture(texmap, DataIn.tex_coord) * texture(texmap1, DataIn.tex_coord);
-//
-//				if(specularMap) 
-//					auxSpec = mat.specular * texture(texmap2, DataIn.tex_coord);
-//				else
-//					auxSpec = mat.specular;
-//			}
-//			colorOut = vec4((max(totalIntensity * diff, diff*0.15) + (totalSpec * auxSpec)).rgb, 1.0);
-//		}
+		else if (texMode == 9) // obj from assimp
+		{
+			vec4 diff, auxSpec;
+			vec4 c;
+			if(mat.texCount == 0) {
+				diff = mat.diffuse;
+				auxSpec = mat.specular;
+			}
+			else {
+				if(diffMapCount == 0)
+					diff = mat.diffuse;
+				else if(diffMapCount == 1) {
+					diff = mat.diffuse * texture(texmap, DataIn.tex_coord);
+				}
+				else
+					diff = mat.diffuse * texture(texmap, DataIn.tex_coord) * texture(texmap1, DataIn.tex_coord);
+
+				if(specularMap) 
+					auxSpec = mat.specular * texture(texmap2, DataIn.tex_coord);
+				else
+					auxSpec = mat.specular;
+			}
+			colorOut = vec4((max(totalIntensity * diff, diff*0.15) + (totalSpec * auxSpec)).rgb, 1.0);
+		}
 	}
 
 	//Efeito de nevoeiro
