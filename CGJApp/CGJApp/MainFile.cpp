@@ -130,7 +130,7 @@ float r = 10.0f;
 
 float lightPos[4] = { 40.0f, 50.0f, 0.0f, 1.0f };
 
-float position[4] = { 20.0f, 10.0f, 0.0f, 1.0f };
+float position[4] = { 15.0f, 10.0f, 0.0f, 1.0f };
 float position1[4] = { 20.0f, 10.0f, 75.0f, 1.0f };
 float position2[4] = { 75.0f, 10.0f, 80.0f, 1.0f };
 float position3[4] = { 150.0f, 10.0f, 75.0f, 1.0f };
@@ -998,37 +998,31 @@ void renderAssimpObjects()
 
 	pushMatrix(MODEL);
 	translate(MODEL, position[0], 0.0f, position[2]);
-	scale(MODEL, 0.1f, 0.06f, 0.1f);
 	aiRecursive_render(scene, scene->mRootNode, lampMesh);
 	popMatrix(MODEL);
 
 	pushMatrix(MODEL);
 	translate(MODEL, position1[0], 0.0f, position1[2]);
-	scale(MODEL, 0.1f, 0.06f, 0.1f);
 	aiRecursive_render(scene, scene->mRootNode, lampMesh);
 	popMatrix(MODEL);
 
 	pushMatrix(MODEL);
 	translate(MODEL, position2[0], 0.0f, position2[2]);
-	scale(MODEL, 0.1f, 0.06f, 0.1f);
 	aiRecursive_render(scene, scene->mRootNode, lampMesh);
 	popMatrix(MODEL);
 
 	pushMatrix(MODEL);
 	translate(MODEL, position3[0], 0.0f, position3[2]);
-	scale(MODEL, 0.1f, 0.06f, 0.1f);
 	aiRecursive_render(scene, scene->mRootNode, lampMesh);
 	popMatrix(MODEL);
 
 	pushMatrix(MODEL);
 	translate(MODEL, position4[0], 0.0f, position4[2]);
-	scale(MODEL, 0.1f, 0.06f, 0.1f);
 	aiRecursive_render(scene, scene->mRootNode, lampMesh);
 	popMatrix(MODEL);
 
 	pushMatrix(MODEL);
 	translate(MODEL, position5[0], 0.0f, position5[2]);
-	scale(MODEL, 0.1f, 0.06f, 0.1f);
 	aiRecursive_render(scene, scene->mRootNode, lampMesh);
 	popMatrix(MODEL);
 
@@ -1680,7 +1674,7 @@ void init()
 	initMeshPrimitives();
 	initFog();
 	initFlare();
-	initObjectModels(&lampMesh, "lamp", false);
+	initObjectModels(&lampMesh, "cone", false);
 	//initObjectModels(&backpackMesh, "backpack", true);
 
 
