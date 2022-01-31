@@ -11,9 +11,13 @@
 // Author: João Madeiras Pereira
 //
 
+#pragma comment(lib, "DevIL.lib")
+#pragma comment(lib, "ILU.lib")
+
 #include <math.h>
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <string>
 
 // include GLEW to access OpenGL 3.3 functions
@@ -35,9 +39,12 @@
 #include "geometry.h"
 #include "flare.h"
 #include "l3DBillboard.h"
-
+#include "meshFromAssimp.h"
 #include "avtFreeType.h"
 #include "Texture_Loader.h"
+
+#include "assimp/include/assimp/Importer.hpp"	//OO version Header!
+#include "assimp/include/assimp/scene.h"
 
 // Custom headers
 #include "TimeUtil.h" 
@@ -93,10 +100,12 @@ GLint vm_uniformId;
 GLint normal_uniformId;
 GLint lPos_uniformId;
 GLint view_uniformId;
-GLint tex_loc, tex_loc1, tex_loc2, tex_loc3;
+GLint tex_loc, tex_loc1, tex_loc2, tex_loc3, tex_normalMap_loc, tex_cube_loc;
 GLint texMode_uniformId, shadowMode_uniformId;
 GLint toggleFog_uniformId;
 int toggleFog;
+
+GLint useNormalMap_loc, specularMap_loc, diffMapCount_loc;
 
 GLuint TextureArray[7];
 
@@ -166,8 +175,20 @@ MyMesh sphereMesh;
 MyMesh quadMesh;
 MyMesh billboardMesh;
 
+// Created an instance of the Importer class in the meshFromAssimp.cpp file
+extern Assimp::Importer importer;
+// the global Assimp scene object
+extern const aiScene* scene;
+vector<MyMesh> backpackMesh;
+vector<MyMesh> lampMesh;
+char model_dir[50];
+// scale factor for the Assimp model to fit in the window
+//extern float scaleFactor;
+
 MyMesh* bodyMesh;
 MyMesh* wheelsMesh;
+
+
 
 float o1Pos[3] = { 1.0f, -2.0f, 10.0f };
 
@@ -504,6 +525,107 @@ void render_flare(FLARE_DEF* flare, int lx, int ly, int* m_viewport) {  //lx, ly
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glDisable(GL_BLEND);
+}
+
+// Recursive render of the Assimp Scene Graph
+
+void aiRecursive_render(const aiScene* sc, const aiNode* nd, vector<MyMesh> mesh)
+{
+	GLint loc;
+
+	// Get node transformation matrix
+	aiMatrix4x4 m = nd->mTransformation;
+	// OpenGL matrices are column major
+	m.Transpose();
+
+	// save model matrix and apply node transformation
+	pushMatrix(MODEL);
+
+	float aux[16];
+	memcpy(aux, &m, sizeof(float) * 16);
+	multMatrix(MODEL, aux);
+
+
+	// draw all meshes assigned to this node
+	for (unsigned int n = 0; n < nd->mNumMeshes; ++n) {
+
+
+		// send the material
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.ambient");
+		glUniform4fv(loc, 1, mesh[nd->mMeshes[n]].mat.ambient);
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.diffuse");
+		glUniform4fv(loc, 1, mesh[nd->mMeshes[n]].mat.diffuse);
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.specular");
+		glUniform4fv(loc, 1, mesh[nd->mMeshes[n]].mat.specular);
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.emissive");
+		glUniform4fv(loc, 1, mesh[nd->mMeshes[n]].mat.emissive);
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.shininess");
+		glUniform1f(loc, mesh[nd->mMeshes[n]].mat.shininess);
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.texCount");
+		glUniform1i(loc, mesh[nd->mMeshes[n]].mat.texCount);
+
+		int  diffMapCount = 0;  //read 2 diffuse textures
+
+		//devido ao fragment shader suporta 2 texturas difusas simultaneas, 1 especular e 1 normal map
+
+
+		glUniform1i(useNormalMap_loc, false); //GLSL normalMap variable initialized to 0
+		glUniform1i(specularMap_loc, false);
+		glUniform1ui(diffMapCount_loc, 0);
+		glUniform1i(texMode_uniformId, 9);
+
+		if (mesh[nd->mMeshes[n]].mat.texCount != 0)
+			for (unsigned int i = 0; i < mesh[nd->mMeshes[n]].mat.texCount; ++i) {
+				if (mesh[nd->mMeshes[n]].texTypes[i] == DIFFUSE) {
+					if (diffMapCount == 0) {
+						diffMapCount++;
+						glUniform1i(diffMapCount_loc, diffMapCount);
+						glUniform1i(tex_loc, mesh[nd->mMeshes[n]].texUnits[i] + 6);
+					}
+					else if (diffMapCount == 1) {
+						diffMapCount++;
+						glUniform1i(diffMapCount_loc, diffMapCount);
+						glUniform1i(tex_loc1, mesh[nd->mMeshes[n]].texUnits[i] + 6);
+					}
+					else printf("Only supports a Material with a maximum of 2 diffuse textures\n");
+				}
+				else if (mesh[nd->mMeshes[n]].texTypes[i] == SPECULAR) {
+					glUniform1i(tex_loc2, mesh[nd->mMeshes[n]].texUnits[i] + 6);
+					glUniform1i(specularMap_loc, false);
+				}
+				else if (mesh[nd->mMeshes[n]].texTypes[i] == NORMALS) { //Normal map
+					glUniform1i(useNormalMap_loc, false);
+					glUniform1i(tex_normalMap_loc, mesh[nd->mMeshes[n]].texUnits[i] + 6);
+				}
+				else printf("Texture Map not supported\n");
+			}
+
+		// send matrices to OGL
+		computeDerivedMatrix(PROJ_VIEW_MODEL);
+		glUniformMatrix4fv(vm_uniformId, 1, GL_FALSE, mCompMatrix[VIEW_MODEL]);
+		glUniformMatrix4fv(pvm_uniformId, 1, GL_FALSE, mCompMatrix[PROJ_VIEW_MODEL]);
+		computeNormalMatrix3x3();
+		glUniformMatrix3fv(normal_uniformId, 1, GL_FALSE, mNormal3x3);
+
+		// bind VAO
+		glBindVertexArray(mesh[nd->mMeshes[n]].vao);
+
+		if (!shader.isProgramValid()) {
+			printf("Program Not Valid!\n");
+			exit(1);
+		}
+		// draw
+		glDrawElements(mesh[nd->mMeshes[n]].type, mesh[nd->mMeshes[n]].numIndexes, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
+	}
+
+	// draw all children
+	for (unsigned int n = 0; n < nd->mNumChildren; ++n) {
+		aiRecursive_render(sc, nd->mChildren[n], mesh);
+	}
+	popMatrix(MODEL);
+
+	glUniform1i(useNormalMap_loc, false);
 }
 
 void restartObjects() {
@@ -864,6 +986,52 @@ void RenderParticles()
 
 }
 
+void renderAssimpObjects()
+{
+	pushMatrix(MODEL);
+	translate(MODEL, 0.0f, 2.0f, 3.0f);
+	scale(MODEL, 1.0f, 1.0f, 1.0f);
+	aiRecursive_render(scene, scene->mRootNode, backpackMesh);
+	popMatrix(MODEL);
+
+	//pushMatrix(MODEL);
+	//translate(MODEL, position[0], 0.0f, position[2]);
+	//scale(MODEL, 0.1f, 0.06f, 0.1f);
+	//aiRecursive_render(scene, scene->mRootNode, lampMesh);
+	//popMatrix(MODEL);
+
+	//pushMatrix(MODEL);
+	//translate(MODEL, position1[0], 0.0f, position1[2]);
+	//scale(MODEL, 0.1f, 0.06f, 0.1f);
+	//aiRecursive_render(scene, scene->mRootNode, lampMesh);
+	//popMatrix(MODEL);
+
+	//pushMatrix(MODEL);
+	//translate(MODEL, position2[0], 0.0f, position2[2]);
+	//scale(MODEL, 0.1f, 0.06f, 0.1f);
+	//aiRecursive_render(scene, scene->mRootNode, lampMesh);
+	//popMatrix(MODEL);
+
+	//pushMatrix(MODEL);
+	//translate(MODEL, position3[0], 0.0f, position3[2]);
+	//scale(MODEL, 0.1f, 0.06f, 0.1f);
+	//aiRecursive_render(scene, scene->mRootNode, lampMesh);
+	//popMatrix(MODEL);
+
+	//pushMatrix(MODEL);
+	//translate(MODEL, position4[0], 0.0f, position4[2]);
+	//scale(MODEL, 0.1f, 0.06f, 0.1f);
+	//aiRecursive_render(scene, scene->mRootNode, lampMesh);
+	//popMatrix(MODEL);
+
+	//pushMatrix(MODEL);
+	//translate(MODEL, position5[0], 0.0f, position5[2]);
+	//scale(MODEL, 0.1f, 0.06f, 0.1f);
+	//aiRecursive_render(scene, scene->mRootNode, lampMesh);
+	//popMatrix(MODEL);
+
+}
+
 void renderScene(void) {
 
 
@@ -973,6 +1141,8 @@ void renderScene(void) {
 	glUniform1i(texMode_uniformId, 0);
 	UpdateCarMeshes();
 
+	renderAssimpObjects();
+
 	glCullFace(GL_BACK);
 	popMatrix(MODEL);
 
@@ -998,7 +1168,7 @@ void renderScene(void) {
 	multMatrix(MODEL, mat);
 	drawObjects(true);
 
-	//renderAssimpObjects();
+	renderAssimpObjects();
 
 	// Render Car, FIXME Refactor gameObject3D
 	if (car.GetIsStopping())
@@ -1023,7 +1193,7 @@ void renderScene(void) {
 	glUniform1i(shadowMode_uniformId, 0);
 	drawObjects(false);
 
-	//renderAssimpObjects();
+	renderAssimpObjects();
 
 	// Render Car, FIXME Refactor gameObject3D
 	if (car.GetIsStopping())
@@ -1332,6 +1502,15 @@ GLuint setupShaders() {
 	tex_loc2 = glGetUniformLocation(shader.getProgramIndex(), "texmap2");
 	tex_loc3 = glGetUniformLocation(shader.getProgramIndex(), "texmap3");
 	
+	tex_normalMap_loc = glGetUniformLocation(shader.getProgramIndex(), "normalMap");
+	tex_cube_loc = glGetUniformLocation(shader.getProgramIndex(), "cubeMap");
+
+
+	useNormalMap_loc = glGetUniformLocation(shader.getProgramIndex(), "useNormalMap");
+	specularMap_loc = glGetUniformLocation(shader.getProgramIndex(), "specularMap");
+	diffMapCount_loc = glGetUniformLocation(shader.getProgramIndex(), "diffMapCount");
+
+
 	printf("InfoLog for Per Fragment Phong Lightning Shader\n%s\n\n", shader.getAllInfoLogs().c_str());
 
 	// Shader for bitmap Text
@@ -1458,7 +1637,30 @@ void initFlare()
 	flareEffect = false;
 }
 
+int initObjectModels(vector<MyMesh>* objMesh, char* name, bool loadTextures) {
+	std::string filepath;
 
+	strcat(model_dir, name);
+	std::ostringstream oss;
+	oss << model_dir << "/" << model_dir << ".obj";
+	filepath = oss.str();   //path of OBJ file in the VS project
+
+	strcat(model_dir, "/");  //directory path in the VS project
+
+	//check if file exists
+	ifstream fin(filepath.c_str());
+	if (!fin.fail()) {
+		fin.close();
+		//break;
+	}
+	else
+		printf("Couldn't open file: %s\n", filepath.c_str());
+
+	if (!Import3DFromFile(filepath))
+		return(0);
+	*objMesh = createMeshFromAssimp(scene, loadTextures);
+	return(1);
+}
 
 // ------------------------------------------------------------
 //
@@ -1474,12 +1676,12 @@ void init()
 	initMeshPrimitives();
 	initFog();
 	initFlare();
+	//initObjectModels(&lampMesh, "lamp", false);
+	initObjectModels(&backpackMesh, "backpack", true);
 
 
 	gameManager = GameHudManager(&shaderText);
 
-
-	//float carPos[3] = { 0.0f, 0.0f, 0.0f };
 	car = Car(&cubeMesh, &torusMesh, true, 1.0f);
 	bodyMesh = car.GetBodyMesh();
 	wheelsMesh = car.GetWheelMesh();

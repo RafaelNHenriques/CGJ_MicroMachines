@@ -1,3 +1,5 @@
+#pragma once
+
 
 /// Types of Vertex Attributes
 	enum AttribType {
