@@ -796,6 +796,8 @@ void drawTable() {
 	glUniform1i(texMode_uniformId, 3); // multitexturing
 	glUniform1i(tex_loc1, 1);
 	glUniform1i(tex_loc2, 2);
+	glUniform1i(tex_normalMap_loc, 4);
+
 
 	if (objRef->GetIsEnabled()) {
 		glUniformMatrix4fv(view_uniformId, 1, GL_FALSE, mMatrix[VIEW]);
@@ -1079,8 +1081,9 @@ void renderScene(void) {
 	glBindTexture(GL_TEXTURE_2D, TextureArray[2]);
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, TextureArray[3]);
-	//glActiveTexture(GL_TEXTURE4);
-	//glBindTexture(GL_TEXTURE_2D, TextureArray[4]);
+
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, TextureArray[4]);
 	//glActiveTexture(GL_TEXTURE5);
 	//glBindTexture(GL_TEXTURE_CUBE_MAP, TextureArray[5]);
 
@@ -1091,6 +1094,8 @@ void renderScene(void) {
 	glUniform1i(tex_loc3, 3);
 	//glUniform1i(tex_normalMap_loc, 4);
 	//glUniform1i(tex_cube_loc, 5);
+	glUniform1i(tex_normalMap_loc, 4);
+
 
 	glUniform1i(texMode_uniformId, 0); // FIXME refactor
 
@@ -1606,7 +1611,7 @@ void initTextures()
 	Texture2D_Loader(TextureArray, "Choco.jpg", 1);
 	Texture2D_Loader(TextureArray, "lightwood.tga", 2);
 	Texture2D_Loader(TextureArray, "tree.tga", 3);
-	//Texture2D_Loader(TextureArray, "normal.tga", 4);
+	Texture2D_Loader(TextureArray, "ChocoNormal2.png", 4);
 
 	//const char* filenames[] = { "posx.jpg", "negx.jpg", "posy.jpg", "negy.jpg", "posz.jpg", "negz.jpg" };
 

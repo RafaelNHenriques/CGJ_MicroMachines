@@ -78,10 +78,15 @@ void main() {
 	
 	vec3 lightDirection = vec3(-light.position); // luz direcional
 
-	if(texMode == 6 || useNormalMap)  // lookup normal from normal map, move from [0,1] to [-1, 1] range, normalize
+	if(texMode == 3 || useNormalMap)  // lookup normal from normal map, move from [0,1] to [-1, 1] range, normalize
 		n = normalize(2.0 * texture(normalMap, DataIn.tex_coord).rgb - 1.0);
 	else
 		n = normalize(DataIn.normal);
+
+	if(texMode == 3){
+		vec3 l = normalize(DataIn.lightDir);
+		vec3 e = normalize(DataIn.eye);
+	}
 
 	vec3 l = normalize(vec3(light.position - DataIn.position));
 	float intensity = 0.0f;
