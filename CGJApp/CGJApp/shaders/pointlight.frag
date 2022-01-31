@@ -46,6 +46,7 @@ in Data {
 	vec3 normal;
 	vec3 eye;
 	vec3 lightDir;
+	vec3 skyboxTexCoord;
 
 	vec4 position;
 
@@ -170,10 +171,10 @@ void main() {
 			else
 				colorOut = max(totalIntensity*texel + totalSpec, 0.1*texel);
 		}
-//		else if (texMode == 5) // cubemap
-//		{
-//			colorOut = texture(cubeMap, DataIn.skyboxTexCoord);
-//		}
+		else if (texMode == 5) // cubemap
+		{
+			colorOut = texture(cubeMap, DataIn.skyboxTexCoord);
+		}
 //		else if(texMode == 7) // Environmental cube mapping
 //		{
 //			vec3 reflected1 = vec3 (transpose(m_View) * vec4 (vec3(reflect(-e, n)), 0.0)); //reflection vector in world coord

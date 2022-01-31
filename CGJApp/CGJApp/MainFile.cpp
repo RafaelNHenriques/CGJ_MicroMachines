@@ -97,6 +97,7 @@ extern float mNormal3x3[9];
 
 GLint pvm_uniformId;
 GLint vm_uniformId;
+GLint model_uniformId;
 GLint normal_uniformId;
 GLint lPos_uniformId;
 GLint view_uniformId;
@@ -149,7 +150,7 @@ long myTime,timebase = 0,frame = 0;
 char s[32];
 //float lightPos[4] = {4.0f, 6.0f, 2.0f, 1.0f};
 
-Table t;
+Table t ,skybox;
 Table t20, t21, t22, t23, t24, t25, t26, t27, t28;//Road
 Billboard b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12;
 int billboardType = 0;
@@ -1034,6 +1035,49 @@ void renderAssimpObjects()
 
 }
 
+
+
+void renderSkybox() {
+	// Render Sky Box
+	glUniform1i(texMode_uniformId, 5);
+
+	skybox.PrepareMeshMaterial();
+	SendMeshMaterial(skybox.GetMesh(), 0);
+
+	//it won't write anything to the zbuffer; all subsequently drawn scenery to be in front of the sky box. 
+	glDepthMask(GL_FALSE);
+	glFrontFace(GL_CW); // set clockwise vertex order to mean the front
+
+	pushMatrix(MODEL);
+	pushMatrix(VIEW);  //se quiser anular a translação
+
+	//  Fica mais realista se não anular a translação da câmara 
+	// Cancel the translation movement of the camera - de acordo com o tutorial do Antons
+	mMatrix[VIEW][12] = 0.0f;
+	mMatrix[VIEW][13] = 0.0f;
+	mMatrix[VIEW][14] = 0.0f;
+
+	//scale(MODEL, 100.0f, 100.0f, 100.0f);
+	//translate(MODEL, -0.5f, -0.5f, -0.5f);
+
+	skybox.Update();
+
+	// send matrices to OGL
+	glUniformMatrix4fv(model_uniformId, 1, GL_FALSE, mMatrix[MODEL]); //Transformação de modelação do cubo unitário para o "Big Cube"
+	computeDerivedMatrix(PROJ_VIEW_MODEL);
+	glUniformMatrix4fv(pvm_uniformId, 1, GL_FALSE, mCompMatrix[PROJ_VIEW_MODEL]);
+
+	glBindVertexArray(skybox.GetMesh()->vao);
+	glDrawElements(skybox.GetMesh()->type, skybox.GetMesh()->numIndexes, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+	popMatrix(MODEL);
+	popMatrix(VIEW);
+
+	glFrontFace(GL_CCW); // restore counter clockwise vertex order to mean the front
+	glDepthMask(GL_TRUE);
+}
+
 void renderScene(void) {
 
 
@@ -1084,24 +1128,25 @@ void renderScene(void) {
 
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, TextureArray[4]);
-	//glActiveTexture(GL_TEXTURE5);
-	//glBindTexture(GL_TEXTURE_CUBE_MAP, TextureArray[5]);
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, TextureArray[5]);
 
 	//Indicar aos quais os Texture Units a serem usados
 	glUniform1i(tex_loc, 0);
 	glUniform1i(tex_loc1, 1);
 	glUniform1i(tex_loc2, 2);
 	glUniform1i(tex_loc3, 3);
-	//glUniform1i(tex_normalMap_loc, 4);
-	//glUniform1i(tex_cube_loc, 5);
 	glUniform1i(tex_normalMap_loc, 4);
+	glUniform1i(tex_cube_loc, 5);
 
 
-	glUniform1i(texMode_uniformId, 0); // FIXME refactor
+	renderSkybox();
 
 	glEnable(GL_STENCIL_TEST);        // Escrever 1 no stencil buffer onde se for desenhar a reflexão e a sombra
 	glStencilFunc(GL_NEVER, 0x1, 0x1);
 	glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+
+	glUniform1i(texMode_uniformId, 0); // FIXME refactor
 
 	drawTable();
 
@@ -1496,7 +1541,8 @@ GLuint setupShaders() {
 
 	texMode_uniformId = glGetUniformLocation(shader.getProgramIndex(), "texMode"); // different modes of texturing
 	shadowMode_uniformId = glGetUniformLocation(shader.getProgramIndex(), "shadowMode");
-	
+	model_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_Model");
+
 	pvm_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_pvm");
 	vm_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_viewModel");
 	normal_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_normal");
@@ -1613,9 +1659,10 @@ void initTextures()
 	Texture2D_Loader(TextureArray, "tree.tga", 3);
 	Texture2D_Loader(TextureArray, "ChocoNormal2.png", 4);
 
-	//const char* filenames[] = { "posx.jpg", "negx.jpg", "posy.jpg", "negy.jpg", "posz.jpg", "negz.jpg" };
+	//const char* filenames[] = { "2ndright.png", "left.png", "1stright.png", "midle.png", "top.png", "bot.png" };
+	const char* filenames[] = { "skybox_px.jpg", "skybox_nx.jpg", "skybox_py.jpg", "skybox_ny.jpg", "skybox_pz.jpg", "skybox_nz.jpg" };
 
-	//TextureCubeMap_Loader(TextureArray, filenames, 5);
+	TextureCubeMap_Loader(TextureArray, filenames, 5);
 
 
 	Texture2D_Loader(TextureArray, "particle.tga", 6);
@@ -2720,11 +2767,32 @@ void init()
 	butter7.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&butter7);
 
+	Material m_skybox;
+
+	float ambSB[] = { 0.2f, 0.15f, 0.1f, 1.0f };
+	float diffSB[] = { 0.8f, 0.6f, 0.4f, 1.0f };
+	float specSB[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+
+	float emissiveSB[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float shininessSB = 100.0f;
+	int texcountSB = 0;
+
+	memcpy(m_skybox.ambient, ambSB, 4 * sizeof(float));
+	memcpy(m_skybox.diffuse, diffSB, 4 * sizeof(float));
+	memcpy(m_skybox.specular, specSB, 4 * sizeof(float));
+	memcpy(m_skybox.emissive, emissiveSB, 4 * sizeof(float));
+	m_skybox.shininess = shininessSB;
+	m_skybox.texCount = texcountSB;
+
+	float skybox_pos[3] = { -150.0f, -10.0f, -150.0f };
+	skybox = Table(m_skybox, &cubeMesh, skybox_pos, gameObjectsRef.size(), false, 300.0f, 300.0f, 300.0f);
+	skybox.PrepareMeshMaterial();
 
 
 	t = Table(m1, &cubeMesh, tPos, gameObjectsRef.size(), false, table_length, 0.001f, table_length);
 	t.PrepareMeshMaterial();
 	gameObjectsRef.push_back(&t);
+
 
 	// some GL settings
 	glEnable(GL_DEPTH_TEST);

@@ -22,7 +22,7 @@ out Data {
 	vec3 normal;
 	vec3 eye;
 	vec3 lightDir;
-
+	vec3 skyboxTexCoord;
 	vec4 position;
 	vec2 tex_coord;
 } DataOut;
@@ -57,7 +57,8 @@ void main () {
 		e_dir = normalize(aux);
 	}
 
-
+	DataOut.skyboxTexCoord = vec3(m_Model * position);	//Transformação de modelação do cubo unitário 
+	DataOut.skyboxTexCoord.x = - DataOut.skyboxTexCoord.x; //Texturas mapeadas no interior logo negar a coordenada x
 	DataOut.tex_coord = texCoord.st;
 
 	DataOut.normal = n;
