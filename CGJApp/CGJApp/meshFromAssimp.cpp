@@ -1,26 +1,26 @@
 /* --------------------------------------------------
 Functions to handle with struct MyMesh based meshes from Assimp meshes:
 	- import 3D files to Assimp meshes
-	- creation of Mymesh array with VAO/VBO Geometry and Material 
+	- creation of Mymesh array with VAO/VBO Geometry and Material
  * it supports 3D files with till 2 diffuse textures, 1 specular map and 1 normal map
  *
  João Madeiras Pereira
 ----------------------------------------------------*/
 
-//#include <assert.h>
-//#include <stdlib.h>
-//#include <unordered_map>
-//
-//// assimp include files. These three are usually needed.
-//#include "assimp/Importer.hpp"	
-//#include "assimp/postprocess.h"
-//#include "assimp/scene.h"
-//
-//#include "AVTmathLib.h"
-//#include "VertexAttrDef.h"
-//#include "geometry.h"
-//#include "Texture_Loader.h"
-#include "meshFromAssimp.h"
+#include <assert.h>
+#include <stdlib.h>
+#include <unordered_map>
+
+// assimp include files. These three are usually needed.
+#include "assimp/Importer.hpp"	
+#include "assimp/postprocess.h"
+#include "assimp/scene.h"
+
+#include "AVTmathLib.h"
+#include "VertexAttrDef.h"
+#include "geometry.h"
+#include "Texture_Loader.h"
+
 
 using namespace std;
 
@@ -33,6 +33,8 @@ float scaleFactor;
 
 /* Directory name containing the OBJ file. The OBJ filename should be the same*/
 extern char model_dir[50];
+
+
 
 
 // unordered map which maps image filenames to texture units TU. This map is filled in the  LoadGLTexturesTUs()
@@ -77,9 +79,11 @@ void get_bounding_box(aiVector3D* min, aiVector3D* max)
 	get_bounding_box_for_node(scene->mRootNode, min, max);
 }
 
+
+
 bool Import3DFromFile(const std::string& pFile)
 {
-	
+
 	scene = importer.ReadFile(pFile, aiProcessPreset_TargetRealtime_Quality);
 
 	// If the import failed, report it
@@ -136,31 +140,32 @@ bool LoadGLTexturesTUs(const aiScene* scene)  // Create OGL textures objects and
 			filename.append(path.data);
 			textureIdMap[filename] = 0;
 		}
+
 	}
 
 	int numTextures = textureIdMap.size();
 	printf("numeros de mapas %d\n", numTextures);
+	if (numTextures) {
+		GLuint* textureIds = new GLuint[numTextures];
+		glGenTextures(numTextures, textureIds); /* Texture name generation */
 
-	GLuint* textureIds = new GLuint[numTextures];
-	glGenTextures(numTextures, textureIds); /* Texture name generation */
-
-	/* get iterator */
-	unordered_map<std::string, GLuint>::iterator itr = textureIdMap.begin();
-	filename = (*itr).first;  // get filename
-
-	//create the texture objects array and asssociate them with TU and place the TU in the key value of the map
-	for (int i = 0; itr != textureIdMap.end(); ++i, ++itr)
-	{
+		/* get iterator */
+		unordered_map<std::string, GLuint>::iterator itr = textureIdMap.begin();
 		filename = (*itr).first;  // get filename
-		glActiveTexture(GL_TEXTURE0 + i + 6); // GL_TEXTUREID must start after other textures
-		Texture2D_Loader(textureIds, filename.c_str(), i);  //it already performs glBindTexture(GL_TEXTURE_2D, textureIds[i])
-		(*itr).second = i;	  // save texture unit for filename in map
-		//printf("textura = %s  TU = %d\n", filename.c_str(), i);
+
+		//create the texture objects array and asssociate them with TU and place the TU in the key value of the map
+		for (int i = 0; itr != textureIdMap.end(); ++i, ++itr)
+		{
+			filename = (*itr).first;  // get filename
+			glActiveTexture(GL_TEXTURE0 + i);
+			Texture2D_Loader(textureIds, filename.c_str(), i);  //it already performs glBindTexture(GL_TEXTURE_2D, textureIds[i])
+			(*itr).second = i;	  // save texture unit for filename in map
+			//printf("textura = %s  TU = %d\n", filename.c_str(), i);
+		}
+
+		//Cleanup
+		delete[] textureIds;
 	}
-
-	//Cleanup
-	delete[] textureIds;
-
 	return true;
 }
 
@@ -186,7 +191,7 @@ void color4_to_float4(const aiColor4D* c, float f[4])
 	f[3] = c->a;
 }
 
-vector<struct MyMesh> createMeshFromAssimp(const aiScene* sc, bool loadTextures) {
+vector<struct MyMesh> createMeshFromAssimp(const aiScene* sc) {
 
 	vector<struct MyMesh> myMeshes;
 	struct MyMesh aMesh;
@@ -194,10 +199,7 @@ vector<struct MyMesh> createMeshFromAssimp(const aiScene* sc, bool loadTextures)
 
 	printf("Cena: numero total de malhas = %d\n", sc->mNumMeshes);
 
-	if (loadTextures)
-	{
-		LoadGLTexturesTUs(sc); //it creates the unordered map which maps image filenames to texture units TU
-	}
+	LoadGLTexturesTUs(sc); //it creates the unordered map which maps image filenames to texture units TU
 
 	// For each mesh
 	for (unsigned int n = 0; n < sc->mNumMeshes; ++n)
@@ -329,7 +331,7 @@ vector<struct MyMesh> createMeshFromAssimp(const aiScene* sc, bool loadTextures)
 			TUcount++;
 		}
 
-	
+
 		float c[4];
 		set_float4(c, 0.8f, 0.8f, 0.8f, 1.0f);
 		aiColor4D diffuse;
@@ -359,11 +361,10 @@ vector<struct MyMesh> createMeshFromAssimp(const aiScene* sc, bool loadTextures)
 		unsigned int max;
 		aiGetMaterialFloatArray(mtl, AI_MATKEY_SHININESS, &shininess, &max);
 		aMesh.mat.shininess = shininess;
-
 		myMeshes.push_back(aMesh);
 	}
 	// cleaning up
 	textureIdMap.clear();
-	
+
 	return(myMeshes);
 }
