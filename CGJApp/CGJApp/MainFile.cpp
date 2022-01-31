@@ -990,47 +990,47 @@ void RenderParticles()
 
 void renderAssimpObjects()
 {
+	//pushMatrix(MODEL);
+	//translate(MODEL, 0.0f, 2.0f, 3.0f);
+	//scale(MODEL, 1.0f, 1.0f, 1.0f);
+	//aiRecursive_render(scene, scene->mRootNode, backpackMesh);
+	//popMatrix(MODEL);
+
 	pushMatrix(MODEL);
-	translate(MODEL, 0.0f, 2.0f, 3.0f);
-	scale(MODEL, 1.0f, 1.0f, 1.0f);
-	aiRecursive_render(scene, scene->mRootNode, backpackMesh);
+	translate(MODEL, position[0], 0.0f, position[2]);
+	scale(MODEL, 0.1f, 0.06f, 0.1f);
+	aiRecursive_render(scene, scene->mRootNode, lampMesh);
 	popMatrix(MODEL);
 
-	//pushMatrix(MODEL);
-	//translate(MODEL, position[0], 0.0f, position[2]);
-	//scale(MODEL, 0.1f, 0.06f, 0.1f);
-	//aiRecursive_render(scene, scene->mRootNode, lampMesh);
-	//popMatrix(MODEL);
+	pushMatrix(MODEL);
+	translate(MODEL, position1[0], 0.0f, position1[2]);
+	scale(MODEL, 0.1f, 0.06f, 0.1f);
+	aiRecursive_render(scene, scene->mRootNode, lampMesh);
+	popMatrix(MODEL);
 
-	//pushMatrix(MODEL);
-	//translate(MODEL, position1[0], 0.0f, position1[2]);
-	//scale(MODEL, 0.1f, 0.06f, 0.1f);
-	//aiRecursive_render(scene, scene->mRootNode, lampMesh);
-	//popMatrix(MODEL);
+	pushMatrix(MODEL);
+	translate(MODEL, position2[0], 0.0f, position2[2]);
+	scale(MODEL, 0.1f, 0.06f, 0.1f);
+	aiRecursive_render(scene, scene->mRootNode, lampMesh);
+	popMatrix(MODEL);
 
-	//pushMatrix(MODEL);
-	//translate(MODEL, position2[0], 0.0f, position2[2]);
-	//scale(MODEL, 0.1f, 0.06f, 0.1f);
-	//aiRecursive_render(scene, scene->mRootNode, lampMesh);
-	//popMatrix(MODEL);
+	pushMatrix(MODEL);
+	translate(MODEL, position3[0], 0.0f, position3[2]);
+	scale(MODEL, 0.1f, 0.06f, 0.1f);
+	aiRecursive_render(scene, scene->mRootNode, lampMesh);
+	popMatrix(MODEL);
 
-	//pushMatrix(MODEL);
-	//translate(MODEL, position3[0], 0.0f, position3[2]);
-	//scale(MODEL, 0.1f, 0.06f, 0.1f);
-	//aiRecursive_render(scene, scene->mRootNode, lampMesh);
-	//popMatrix(MODEL);
+	pushMatrix(MODEL);
+	translate(MODEL, position4[0], 0.0f, position4[2]);
+	scale(MODEL, 0.1f, 0.06f, 0.1f);
+	aiRecursive_render(scene, scene->mRootNode, lampMesh);
+	popMatrix(MODEL);
 
-	//pushMatrix(MODEL);
-	//translate(MODEL, position4[0], 0.0f, position4[2]);
-	//scale(MODEL, 0.1f, 0.06f, 0.1f);
-	//aiRecursive_render(scene, scene->mRootNode, lampMesh);
-	//popMatrix(MODEL);
-
-	//pushMatrix(MODEL);
-	//translate(MODEL, position5[0], 0.0f, position5[2]);
-	//scale(MODEL, 0.1f, 0.06f, 0.1f);
-	//aiRecursive_render(scene, scene->mRootNode, lampMesh);
-	//popMatrix(MODEL);
+	pushMatrix(MODEL);
+	translate(MODEL, position5[0], 0.0f, position5[2]);
+	scale(MODEL, 0.1f, 0.06f, 0.1f);
+	aiRecursive_render(scene, scene->mRootNode, lampMesh);
+	popMatrix(MODEL);
 
 }
 
@@ -1092,9 +1092,8 @@ void renderScene(void) {
 	glUniform1i(tex_loc1, 1);
 	glUniform1i(tex_loc2, 2);
 	glUniform1i(tex_loc3, 3);
-	//glUniform1i(tex_normalMap_loc, 4);
-	//glUniform1i(tex_cube_loc, 5);
 	glUniform1i(tex_normalMap_loc, 4);
+	//glUniform1i(tex_cube_loc, 5);
 
 
 	glUniform1i(texMode_uniformId, 0); // FIXME refactor
@@ -1681,8 +1680,8 @@ void init()
 	initMeshPrimitives();
 	initFog();
 	initFlare();
-	//initObjectModels(&lampMesh, "lamp", false);
-	initObjectModels(&backpackMesh, "backpack", true);
+	initObjectModels(&lampMesh, "lamp", false);
+	//initObjectModels(&backpackMesh, "backpack", true);
 
 
 	gameManager = GameHudManager(&shaderText);
