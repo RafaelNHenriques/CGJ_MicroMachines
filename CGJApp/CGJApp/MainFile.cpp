@@ -128,6 +128,13 @@ float position3[4] = { 150.0f, 10.0f, 75.0f, 1.0f };
 float position4[4] = { 150.0f, 10.0f, 0.0f, 1.0f };
 float position5[4] = { 75.0f, 10.0f, -75.0f, 1.0f };
 
+float checkpoint1[6] = { -10.0f, 30.0f, -10.0f, 10.0f, 70.0f, 110.0f };
+float checkpoint2[6] = { 130.0f, 170.0f, -10.0f, 10.0f, 70.0f, 110.0f };
+float checkpoint3[6] = { 130.0f, 170.0f, -10.0f, 10.0f, -100.0f, -60.0f };
+float checkpoint4[6] = { -10.0f, 30.0f, -10.0f, 10.0f, -100.0f, -60.0f };
+
+bool c1, c2, c3, c4;
+
 // Frame counting and FPS computation
 long myTime,timebase = 0,frame = 0;
 char s[32];
@@ -527,6 +534,35 @@ void RenderMesh(MyMesh* mesh)
 	glBindVertexArray(0);
 }
 
+void detectCheckpoints() {
+	if ((car.GetBBBounds()[0] <= checkpoint1[1] && car.GetBBBounds()[1] >= checkpoint1[0]) &&
+		(car.GetBBBounds()[2] <= checkpoint1[3] && car.GetBBBounds()[3] >= checkpoint1[2]) &&
+		(car.GetBBBounds()[4] <= checkpoint1[5] && car.GetBBBounds()[5] >= checkpoint1[4])) {
+		c1 = true;
+	}
+	else if ((car.GetBBBounds()[0] <= checkpoint2[1] && car.GetBBBounds()[1] >= checkpoint2[0]) &&
+		(car.GetBBBounds()[2] <= checkpoint2[3] && car.GetBBBounds()[3] >= checkpoint2[2]) &&
+		(car.GetBBBounds()[4] <= checkpoint2[5] && car.GetBBBounds()[5] >= checkpoint2[4]) && c1 == true) {
+		c2 = true;
+	}
+	else if ((car.GetBBBounds()[0] <= checkpoint3[1] && car.GetBBBounds()[1] >= checkpoint3[0]) &&
+		(car.GetBBBounds()[2] <= checkpoint3[3] && car.GetBBBounds()[3] >= checkpoint3[2]) &&
+		(car.GetBBBounds()[4] <= checkpoint3[5] && car.GetBBBounds()[5] >= checkpoint3[4]) && c1 == true && c2 == true) {
+		c3 = true;
+	}
+	else if ((car.GetBBBounds()[0] <= checkpoint4[1] && car.GetBBBounds()[1] >= checkpoint4[0]) &&
+		(car.GetBBBounds()[2] <= checkpoint4[3] && car.GetBBBounds()[3] >= checkpoint4[2]) &&
+		(car.GetBBBounds()[4] <= checkpoint4[5] && car.GetBBBounds()[5] >= checkpoint4[4]) && c1 == true && c2 == true && c3 == true) {
+		c1 = false;
+		c2 = false;
+		c3 = false;
+		particlesActive = true;
+		iniParticles();
+		gameManager.IncrementPoints(100);
+	}
+
+}
+
 
 void detectCollisions() {
 
@@ -569,7 +605,7 @@ void detectCollisions() {
 			car.ResolveCollision(obj_a);
 			if (obj_a->GetType() == GameObject3D::TYPE::Orange) {
 				gameManager.DecreaseLives();
-				//c1 = c2 = c3 = false;
+				c1 = c2 = c3 = false;
 			}
 		}
 	}
@@ -821,7 +857,7 @@ void RenderParticles()
 
 	if (dead_num_particles == MAX_PARTICULAS) {
 		particlesActive = false;
-//		c4 = false;
+		c4 = false;
 		dead_num_particles = 0;
 		printf("All particles dead\n");
 	}
@@ -927,6 +963,7 @@ void renderScene(void) {
 
 	drawObjects(false);
 	detectCollisions();
+	detectCheckpoints();
 
 	if (car.GetIsStopping()) {
 		car.StopMovement();
@@ -1148,6 +1185,7 @@ void processKeys(unsigned char key, int xx, int yy)
 				//gameManager.TogglePause();
 				pause = false;
 			}
+			break;
 		case 'e':
 			particlesActive = true;
 			iniParticles();
