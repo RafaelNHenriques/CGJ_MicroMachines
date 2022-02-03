@@ -104,7 +104,7 @@ GLint view_uniformId;
 GLint tex_loc, tex_loc1, tex_loc2, tex_loc3, tex_normalMap_loc, tex_cube_loc;
 GLint texMode_uniformId, shadowMode_uniformId;
 GLint toggleFog_uniformId;
-int toggleFog;
+int togleFog;
 
 GLint useNormalMap_loc, specularMap_loc, diffMapCount_loc;
 
@@ -1356,8 +1356,11 @@ void processKeys(unsigned char key, int xx, int yy)
 			break;
 		case 'f':
 			if (pause == false) {
-				toggleFog = toggleFog == 0 ? 1 : 0;
-				glUniform1i(toggleFog_uniformId, toggleFog);
+
+				togleFog = togleFog == 0 ? 1 : 0;
+				printf("%d", togleFog);
+				glProgramUniform1i(shader.getProgramIndex(), toggleFog_uniformId, togleFog);
+
 			}
 			break;
 		case 'h':
@@ -1594,8 +1597,10 @@ void initCameras()
 
 void initFog()
 {
-	toggleFog = 0;
-	glUniform1i(toggleFog_uniformId, toggleFog);
+	togleFog = 0;
+
+	glProgramUniform1i(shader.getProgramIndex(), toggleFog_uniformId, togleFog);
+
 }
 
 
